@@ -60,3 +60,9 @@ android/app/.project
 
 # Bundle artifact
 *.jsbundle
+
+# expo
+.expo
+
+# All snapshots
+**/__snapshots__

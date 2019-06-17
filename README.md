@@ -1,8 +1,10 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/8723f2d38cf544250591/maintainability)](https://codeclimate.com/repos/5d01ee02bad51c0163009ce3/maintainability)
+
 # Converge Companion App
 
 > This is a mobile application that acts as your virtual buddy that allows you book meeting rooms directly from your phone in Andela.
 
-### Product Road Map
+## Product Road Map
 
 Check the [product scope](https://docs.google.com/presentation/d/1IjvC1Y6Futdxc7jR43agokuKoU38iCMTvTyJOCBBH2c/edit#slide=id.g57b83b523f_0_666) and [road map](https://docs.google.com/spreadsheets/d/1P87qFWOfEdm5WjNHZ8D45KVL_MEg93clb-N9RLV-CDY/edit#gid=1024734751)
 
@@ -42,14 +44,16 @@ Ensure you have an emulator installed, the links below will help guide you throu
 
 1. Run the command below to start
 
-  `yarn start`
+`yarn start`
 
 ### Running tests
 
 `yarn test`
 
 ### Updating failing tests due to failed snapshots
+
 `yarn test:update`
 
 ### Wiki
+
 Here's a link to our [wiki](https://github.com/andela/converge-companion-app/wiki) page.
