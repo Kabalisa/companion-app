@@ -8,7 +8,12 @@
     "browser": true
   },
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
     "quotes": [
       "error",
       "single",
@@ -33,7 +38,14 @@
         "functions": "ignore"
       }
     ],
-    "max-len": "error",
+    "max-len": [
+      2,
+      {
+        "code": 80,
+        "tabWidth": 4,
+        "ignoreUrls": true
+      }
+    ],
     "valid-jsdoc": [
       "error",
       {

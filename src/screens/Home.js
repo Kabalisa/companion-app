@@ -19,7 +19,11 @@ const Home = () => (
         <Text style={styles.title}>Companion</Text>
       </View>
       <View style={styles.andelaLogoContainer}>
-        <Image source={AndelaLogo} style={styles.andelaLogo} resizeMode="contain" />
+        <Image
+          source={AndelaLogo}
+          style={styles.andelaLogo}
+          resizeMode="contain"
+        />
       </View>
     </View>
   </SafeAreaView>

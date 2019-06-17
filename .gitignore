@@ -66,3 +66,5 @@ android/app/.project
 
 # All snapshots
 **/__snapshots__
+.expo-shared/
+.env.config.json

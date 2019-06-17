@@ -20,5 +20,6 @@ module.exports = {
       lines: 80,
       statements: 80
     }
-  }
+  },
+  snapshotSerializers: ['enzyme-to-json/serializer']
 };

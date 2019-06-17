@@ -12,9 +12,8 @@
   },
   "dependencies": {
     "color": "3.1.2",
-    "expo": "33.0.0",
-    "expo-asset": "5.0.1",
-    "prop-types": "^15.7.2",
+    "expo": "^33.0.0",
+    "prop-types": "15.7.2",
     "react": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-size-matters": "0.2.1"
@@ -24,6 +23,7 @@
     "babel-preset-expo": "^5.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme-to-json": "^3.3.5",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-react-native-prettier": "^1.0.1",
