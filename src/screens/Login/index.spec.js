@@ -8,6 +8,7 @@ describe('Login Container', () => {
   test('should match snapshot', () => {
     expect(componentWrapper).toMatchSnapshot();
   });
+
   test('should respond to Google auth button onPress', () => {
     const instance = componentWrapper.instance();
     jest.spyOn(instance, 'signInWithGoogle');
