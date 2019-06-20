@@ -64,6 +64,7 @@
           "ClassDeclaration": false
         }
       }
-    ]
+    ],
+    "no-underscore-dangle": [{ "allow": ["foo_", "_bar"] }]
   }
 }

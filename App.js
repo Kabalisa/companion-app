@@ -1,3 +1,3 @@
-import App from './src';
+import Navigation from './src/navigation/index';
 
-export default App;
+export default Navigation;
