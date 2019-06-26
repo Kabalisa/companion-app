@@ -18,5 +18,12 @@ describe('Button', () => {
       componentWrapper.props().onPress();
       expect(onPress).toBeCalled();
     });
+    test('should be a loading button', () => {
+      componentWrapper.setProps({ loading: true });
+      const loadingIndicator = componentWrapper.find(
+        `[testId="activity-indicator"]`
+      );
+      expect(loadingIndicator).toBeTruthy();
+    });
   });
 });

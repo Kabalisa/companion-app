@@ -20,6 +20,10 @@ To download NodeJS and Npm [click here](https://nodejs.org/en/download/). OR To 
     # git clone [the url of the repository]
 ```
 
+### Environment Variables
+
+Creating a new file `.env.config.json` under root directory, and ensure you have all environment variables. The sample `.env` can be found [here](.env.example).
+
 #### Flow
 
 - Ensure you Install flow-bin globally

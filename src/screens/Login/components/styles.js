@@ -32,5 +32,14 @@ export default StyleSheet.create({
     width: scale(20),
     aspectRatio: 135 / 76,
     marginRight: scale(5)
+  },
+  loadingStyles: {
+    position: 'absolute'
+  },
+  toastStyles: {
+    backgroundColor: 'red',
+    width: '100%',
+    borderRadius: 0,
+    alignItems: 'center'
   }
 });

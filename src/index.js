@@ -1,5 +1,4 @@
 import React from 'react';
-import Home from './screens/Login';
-import OnBoarding from './screens/OnBoarding';
+import Navigation from './navigation';
 
-export default () => <OnBoarding />;
+export default () => <Navigation />;

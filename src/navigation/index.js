@@ -1,17 +1,39 @@
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import {
+  createStackNavigator,
+  createAppContainer,
+  createSwitchNavigator
+} from 'react-navigation';
 import GreetingScreen from '../screens/Greetings';
 import Login from '../screens/Login';
-
-const AppNavigator = createStackNavigator(
+import OnBoarding from '../screens/OnBoarding';
+import Loading from '../screens/Home';
+const Main = createStackNavigator(
   {
-    Login,
     Greetings: GreetingScreen
   },
   {
-    initialRouteName: 'Login'
+    headerMode: 'screen'
+  }
+);
+const Auth = createStackNavigator(
+  {
+    Login,
+    OnBoarding
+  },
+  {
+    initialRouteName: 'Login',
+    headerMode: 'none'
+  }
+);
+const AppNavigator = createSwitchNavigator(
+  {
+    Loading,
+    Auth,
+    Main
+  },
+  {
+    initialRouteName: 'Loading'
   }
 );
 
-const AppContainer = createAppContainer(AppNavigator);
-
-export default AppContainer;
+export default createAppContainer(AppNavigator);
