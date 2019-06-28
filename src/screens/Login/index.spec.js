@@ -62,11 +62,7 @@ describe('Login Container', () => {
     expect(instance.state.authenticating).toBe(false);
     await componentWrapper.props().handleLoginPress();
     expect(instance.signInWithGoogle).toHaveBeenCalled();
-    expect(AsyncStorage.setItem).toHaveBeenLastCalledWith(
-      'accessToken',
-      accessToken
-    );
-    expect(navigationProps.navigation.navigate).toBeCalled();
+    expect(AsyncStorage.setItem).toHaveBeenLastCalledWith('token', accessToken);
   });
 
   test('should respond to Google auth button onPress', async () => {

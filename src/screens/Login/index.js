@@ -25,11 +25,7 @@ export default class LoginContainer extends Component {
       const { accessToken } = await getAccessToken();
       const { token } = await getJwtToken(accessToken);
       await AsyncStorage.setItem('token', token);
-      await AsyncStorage.setItem('accessToken', accessToken);
-      this.setState({
-        authenticating: false
-      });
-      navigate('OnBoarding');
+      this.handleNavigate();
     } catch (error) {
       this.setState({
         authenticating: false,
@@ -37,6 +33,17 @@ export default class LoginContainer extends Component {
       });
       this.refs.toast.show(error.message);
     }
+  };
+
+  handleNavigate = async () => {
+    const {
+      navigation: { navigate }
+    } = this.props;
+    const onBoarded = await AsyncStorage.getItem('onBoard');
+    this.setState({
+      authenticating: false
+    });
+    navigate(onBoarded ? 'Main' : 'OnBoarding');
   };
 
   render() {
