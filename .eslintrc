@@ -65,6 +65,6 @@
         }
       }
     ],
-    "no-underscore-dangle": [{ "allow": ["foo_", "_bar"] }]
+    "no-underscore-dangle": 0
   }
 }
