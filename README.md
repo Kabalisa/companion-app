@@ -2,7 +2,7 @@
 
 # Converge Companion App
 
-> This is a mobile application that acts as your virtual buddy that allows you book meeting rooms directly from your phone in Andela.
+> This is a mobile application that acts as your virtual buddy that allows you to book meeting rooms directly from your phone in Andela.
 
 ## Product Road Map
 
@@ -17,23 +17,35 @@ To download NodeJS and Npm [click here](https://nodejs.org/en/download/). OR To 
 
 ```
 - Clone the repository to your computer ensure to run the command below in the directory you want to store the project.
-    # git clone [the url of the repository]
+    # git clone https://github.com/andela/converge-companion-app.git
 ```
 
-### Environment Variables
+
+#### Environment Variables
 
 Creating a new file `.env.config.json` under root directory, and ensure you have all environment variables. The sample `.env` can be found [here](.env.example).
 
+The environmental variables can be found [here](https://andela.slack.com/archives/GJZ2Z97UM/p1561993380003500?thread_ts=1561980575.000900&cid=GJZ2Z97UM)
+
+
 #### Flow
 
-- Ensure you Install flow-bin globally
+- Ensure you Install flow-bin globally - follow [instructions](https://flow.org/en/docs/install/)
 
 For Visual Studio Code
 
 - Ensure you install the Vs Code extension thats supports flow called Flow Language Support --> https://marketplace.visualstudio.com/items?itemName=flowtype.flow-for-vscode.
 - Then go to your editor user settings and add "javascript.validate.enable": false. On VScode, press CMD+SHIFT+P and then type in Preferences to open your settings in JSON. At this point you can add "javascript.validate.enable": false to your user settings
 
-#### Emulator
+#### Set-up Expo
+- Run `yarn global add expo-cli` in the terminal to install the expo-cli globally.
+- Install the Expo app in your iOS/Android phone (*`skip this step if you intend on using an emulator/simulator`*)
+   - For android - [link](https://play.google.com/store/apps/details?id=host.exp.exponent)
+   - For iPhone - [link](https://itunes.com/apps/exponent)
+
+   
+
+#### Emulator/Simulator
 
 Ensure you have an emulator installed, the links below will help guide you through the set up.
 
@@ -42,13 +54,12 @@ Ensure you have an emulator installed, the links below will help guide you throu
 
 ### Run in development
 
-```
-- After installing all the dependencies:
-```
+1. Run `yarn install` - To automatically install all dependencies.
+2. Run `yarn start` - To run the project.
+3. Scan the QR code the with the Expo app on your modile device or ensure that you're simulator/emulator is running, then press i or a to run the project on iOS or Android respectively.
 
-1. Run the command below to start
+   `Note:` For an iOS device open the phone camera app and scan the QR Code, you will then be prompted to open in expo, accept the prompt to start.
 
-`yarn start`
 
 ### Running tests
 
