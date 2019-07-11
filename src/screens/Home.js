@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { View, Image, SafeAreaView, Text, AsyncStorage } from 'react-native';
+import PropTypes from 'prop-types';
+import {
+  View, Image, SafeAreaView, Text, AsyncStorage
+} from 'react-native';
 import { AppLoading } from 'expo';
 import styles from '../shared/styles/splashLogin';
 import AndelaLogo from '../assets/andela.png';
@@ -9,6 +12,7 @@ class Home extends Component {
   state = {
     isLoading: true
   };
+
   bootstrapAsync = async () => {
     const {
       navigation: { navigate }
@@ -24,7 +28,6 @@ class Home extends Component {
         <AppLoading
           startAsync={this.bootstrapAsync}
           onFinish={() => this.setState({ isLoading: true })}
-          onError={console.warn}
         />
       );
     }
@@ -53,4 +56,9 @@ class Home extends Component {
   }
 }
 
+Home.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func
+  }).isRequired
+};
 export default Home;

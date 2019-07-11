@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AsyncStorage } from 'react-native';
+import Toast from 'react-native-easy-toast';
 import Login from './components/Login';
 import { getJwtToken, getAccessToken } from '../../services/AuthService';
-import Toast from 'react-native-easy-toast';
 import styles from './components/styles';
+
 export default class LoginContainer extends Component {
   state = {
     authenticating: false,
@@ -13,9 +14,6 @@ export default class LoginContainer extends Component {
 
   signInWithGoogle = async () => {
     const { authenticating } = this.state;
-    const {
-      navigation: { navigate }
-    } = this.props;
     if (authenticating) return;
     this.setState({
       authenticating: true,
@@ -68,5 +66,5 @@ export default class LoginContainer extends Component {
 }
 
 LoginContainer.propTypes = {
-  navigation: PropTypes.shape({}).isRequired
+  navigation: PropTypes.shape({ navigate: PropTypes.func }).isRequired
 };
