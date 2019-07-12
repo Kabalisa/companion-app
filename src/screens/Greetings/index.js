@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
-import { KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  AsyncStorage
+} from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { GiftedChat } from 'react-native-gifted-chat';
+import jwtDecode from 'jwt-decode';
+import PropTypes from 'prop-types';
 import initialMessage from './utils/initialMessage';
 import companionAppLogo from './components/icons/companion-logo.png';
 import Send from './components/Send';
@@ -12,10 +19,18 @@ import HeaderRight from './components/HeaderRight';
 import styles from './components/styles';
 
 export default class GreetingsScreen extends Component {
-  static navigationOptions = () => ({
-    headerRight: <HeaderRight />,
-    headerLeft: <HeaderLeft profileAvatar="https://placeimg.com/140/140/any" />
-  });
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    return {
+      headerRight: <HeaderRight />,
+      headerLeft: (
+        <HeaderLeft
+          onPress={navigation.toggleDrawer}
+          profileAvatar={params.picture}
+        />
+      )
+    };
+  };
 
   state = {
     messages: [
@@ -31,6 +46,17 @@ export default class GreetingsScreen extends Component {
       }
     ]
   };
+
+  componentDidMount() {
+    const { navigation: { setParams } } = this.props;
+    AsyncStorage.getItem('token').then((token) => {
+      const decoded = jwtDecode(token);
+      const {
+        UserInfo: { picture }
+      } = decoded;
+      setParams({ picture });
+    });
+  }
 
   onSend(messages = []) {
     this.setState(previousState => ({
@@ -66,3 +92,15 @@ export default class GreetingsScreen extends Component {
     );
   }
 }
+
+GreetingsScreen.propTypes = {
+  navigation: PropTypes.shape({
+    setParams: PropTypes.func
+  })
+};
+
+GreetingsScreen.defaultProps = {
+  navigation: {
+    setParams: () => {}
+  }
+};

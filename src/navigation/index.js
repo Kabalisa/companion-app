@@ -1,12 +1,15 @@
 import {
   createStackNavigator,
   createAppContainer,
-  createSwitchNavigator
+  createSwitchNavigator,
+  createDrawerNavigator
 } from 'react-navigation';
 import GreetingScreen from '../screens/Greetings';
 import Login from '../screens/Login';
+import DrawerScreen from '../screens/Drawer';
 import OnBoarding from '../screens/OnBoarding';
 import Loading from '../screens/Home';
+
 const Main = createStackNavigator(
   {
     Greetings: GreetingScreen
@@ -15,6 +18,12 @@ const Main = createStackNavigator(
     headerMode: 'screen'
   }
 );
+
+const Drawer = createDrawerNavigator(
+  { Main },
+  { contentComponent: DrawerScreen }
+);
+
 const Auth = createStackNavigator(
   {
     Login,
@@ -25,11 +34,12 @@ const Auth = createStackNavigator(
     headerMode: 'none'
   }
 );
+
 const AppNavigator = createSwitchNavigator(
   {
     Loading,
     Auth,
-    Main
+    Drawer
   },
   {
     initialRouteName: 'Loading'

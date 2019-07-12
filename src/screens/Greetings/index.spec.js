@@ -1,10 +1,17 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, AsyncStorage } from 'react-native';
 import { shallow } from 'enzyme';
 
 import GreetingsScreen from './index';
 
-const wrapper = shallow(<GreetingsScreen />);
+jest.mock('jwt-decode');
+
+const props = {
+  navigation: {
+    setParams: jest.fn()
+  }
+};
+const wrapper = shallow(<GreetingsScreen {...props} />);
 const wrapperInstance = wrapper.instance();
 
 describe('Greetings scree', () => {
@@ -29,7 +36,10 @@ describe('Greetings scree', () => {
   });
 
   test('should return the navigation options', () => {
-    const navigationOptions = GreetingsScreen.navigationOptions();
+    const naviProps = {
+      navigation: { state: { params: { picture: 'http://picurl' } } }
+    };
+    const navigationOptions = GreetingsScreen.navigationOptions(naviProps);
     expect(navigationOptions).toHaveProperty('headerLeft');
     expect(navigationOptions).toHaveProperty('headerRight');
   });
@@ -43,7 +53,20 @@ describe('Greetings scree', () => {
 
   test('should mount the keyboard spacer if the platform is not iOS', () => {
     Platform.OS = 'android';
-    const shallowComponent = shallow(<GreetingsScreen />);
+    const shallowComponent = shallow(<GreetingsScreen {...props} />);
     expect(shallowComponent).toMatchSnapshot();
+  });
+
+  test('componentDidMount', () => {
+    jest.mock('react-native', () => ({
+      AsyncStorage: {
+        getItem: jest.fn(() => new Promise((resolve) => {
+          resolve(null);
+        }))
+      }
+    }));
+    return AsyncStorage.getItem('token').then((token) => {
+      expect(token).toEqual(null);
+    });
   });
 });
