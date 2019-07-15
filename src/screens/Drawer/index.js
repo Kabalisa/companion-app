@@ -33,15 +33,23 @@ export default class Drawer extends Component {
   }
 
   logoutUser = () => {
-    const { navigation: { navigate } } = this.props;
+    const {
+      navigation: { navigate }
+    } = this.props;
     AsyncStorage.removeItem('token');
     navigate('Login');
   };
 
   render() {
+    const {
+      email, lastName, firstName, picture
+    } = this.state;
     return (
       <View style={styles.drawerContainer}>
-        <ProfileComponent userData={this.state} />
+        <ProfileComponent userData={{
+          email, firstName, lastName, picture
+        }}
+        />
         <LogoutButton onPress={this.logoutUser} />
       </View>
     );

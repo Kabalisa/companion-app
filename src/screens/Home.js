@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   View, Image, SafeAreaView, Text, AsyncStorage
 } from 'react-native';
+import PropTypes from 'prop-types';
 import { AppLoading } from 'expo';
+
 import styles from '../shared/styles/splashLogin';
 import AndelaLogo from '../assets/andela.png';
 import AppLogo from '../assets/icon.png';

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  KeyboardAvoidingView,
   Platform,
   SafeAreaView,
   AsyncStorage

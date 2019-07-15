@@ -16,8 +16,6 @@ const props = {
   }
 };
 
-console.error = jest.fn();
-
 const componentWrapper = shallow(<OnBoarding {...props} />);
 
 describe('Component Rendering', () => {

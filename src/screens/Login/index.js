@@ -29,6 +29,7 @@ export default class LoginContainer extends Component {
         authenticating: false,
         error: error.message
       });
+      // eslint-disable-next-line react/no-string-refs
       this.refs.toast.show(error.message);
     }
   };
@@ -54,7 +55,8 @@ export default class LoginContainer extends Component {
         error={error}
       >
         <Toast
-          ref="toast"
+          // eslint-disable-next-line react/no-string-refs
+          ref="test"
           style={styles.toastStyles}
           positionValue={37}
           position="bottom"
@@ -68,3 +70,5 @@ export default class LoginContainer extends Component {
 LoginContainer.propTypes = {
   navigation: PropTypes.shape({ navigate: PropTypes.func }).isRequired
 };
+
+LoginContainer.defaultProps = {};

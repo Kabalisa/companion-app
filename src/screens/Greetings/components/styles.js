@@ -1,6 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { scale, verticalScale } from 'react-native-size-matters';
 import color from 'color';
+
 const { width } = Dimensions.get('window');
 
 const container = {

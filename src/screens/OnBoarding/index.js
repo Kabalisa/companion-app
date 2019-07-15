@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Swiper from 'react-native-swiper';
 import { AsyncStorage } from 'react-native';
+import PropTypes from 'prop-types';
+
 import Slide from './components/Slide';
 import GreetingScreen from '../Greetings';
 import slideImage3 from './components/assets/swipper3.png';
@@ -16,6 +18,7 @@ class OnBoarding extends Component {
   onBoardingStatus = async () => {
     await AsyncStorage.setItem('onBoard', 'true');
   };
+
   goToGreetings = () => {
     const {
       navigation: { navigate }
@@ -63,4 +66,7 @@ class OnBoarding extends Component {
   }
 }
 
+OnBoarding.propTypes = {
+  navigation: PropTypes.shape({ navigate: PropTypes.func }).isRequired
+};
 export default OnBoarding;

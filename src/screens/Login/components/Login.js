@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, SafeAreaView, Text } from 'react-native';
+import {
+  View, Image, SafeAreaView, Text
+} from 'react-native';
 import styles from '../../../shared/styles/splashLogin';
 import buttonStyles from './styles';
 import GoogleButton from '../../../shared/components/Buttons/Button';
@@ -55,6 +57,7 @@ Login.propTypes = {
   children: PropTypes.element
 };
 Login.defaultProps = {
-  disabled: false
+  disabled: false,
+  children: <View />
 };
 export default Login;

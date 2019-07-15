@@ -4,7 +4,7 @@ import GreetingsMessage from './GreetingsMessage';
 import SystemMessage from './SystemMessage';
 import UserMessage from './UserMessage';
 
-const Message = props => {
+const Message = (props) => {
   const { currentMessage } = props;
 
   if (currentMessage._id === 1) {
@@ -17,7 +17,10 @@ const Message = props => {
 };
 
 Message.propTypes = {
-  currentMessage: PropTypes.shape({})
+  currentMessage: PropTypes.shape({
+    _id: PropTypes.number,
+    user: PropTypes.objectOf(PropTypes.any)
+  })
 };
 
 Message.defaultProps = {

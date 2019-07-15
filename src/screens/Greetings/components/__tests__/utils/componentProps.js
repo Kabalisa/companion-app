@@ -14,8 +14,8 @@ const props = {
           textColor: 'rgba(77,128,209,1)'
         }
       ],
-      title:
-        'Hi Ebun, Welcome to the Converge Companion App. What would you like to do?'
+      title: `Hi Ebun, Welcome to the Converge Companion App.
+         What would you like to do?`
     },
     user: {
       _id: 2,
