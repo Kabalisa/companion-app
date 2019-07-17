@@ -13,6 +13,7 @@ import settings from '../../constants/calendarSettings';
 
 const date = '2019-06-05';
 describe('Helper Functions', () => {
+  require.requireActual('moment-timezone').tz.setDefault('Africa/Kigali');
   test('should return data in YYY-MM-DD format', () => {
     expect(formatDate('2019-05-15T14:55:59.000Z')).toEqual('2019-05-15');
     expect(formatDate()).toBeUndefined();

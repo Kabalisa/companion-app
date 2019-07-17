@@ -46,6 +46,7 @@
     "jest": "^24.8.0",
     "jest-expo": "^33.0.2",
     "lint-staged": "^9.2.0",
+    "moment-timezone": "^0.5.26",
     "react-dom": "^16.8.6"
   },
   "lint-staged": {
