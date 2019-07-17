@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  SafeAreaView,
-  AsyncStorage
-} from 'react-native';
+import { Platform, SafeAreaView, AsyncStorage } from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { GiftedChat } from 'react-native-gifted-chat';
 import jwtDecode from 'jwt-decode';
@@ -21,7 +17,9 @@ export default class GreetingsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     return {
-      headerRight: <HeaderRight />,
+      headerRight: (
+        <HeaderRight onPress={() => navigation.navigate('UserCalendar')} />
+      ),
       headerLeft: (
         <HeaderLeft
           onPress={navigation.toggleDrawer}
@@ -47,7 +45,9 @@ export default class GreetingsScreen extends Component {
   };
 
   componentDidMount() {
-    const { navigation: { setParams } } = this.props;
+    const {
+      navigation: { setParams }
+    } = this.props;
     AsyncStorage.getItem('token').then((token) => {
       const decoded = jwtDecode(token);
       const {

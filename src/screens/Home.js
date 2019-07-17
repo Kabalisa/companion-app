@@ -24,11 +24,16 @@ class Home extends Component {
 
   render() {
     const { isLoading } = this.state;
+    const {
+      navigation: { navigate }
+    } = this.props;
     if (isLoading) {
       return (
         <AppLoading
           startAsync={this.bootstrapAsync}
-          onFinish={() => this.setState({ isLoading: true })}
+          onFinish={() => this.setState({ isLoading: false })}
+          onError={() => navigate('Auth')}
+          testId="app-loading"
         />
       );
     }

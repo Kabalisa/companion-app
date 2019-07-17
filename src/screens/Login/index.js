@@ -7,10 +7,14 @@ import { getJwtToken, getAccessToken } from '../../services/AuthService';
 import styles from './components/styles';
 
 export default class LoginContainer extends Component {
-  state = {
-    authenticating: false,
-    error: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      authenticating: false,
+      error: null
+    };
+    this.toast = null;
+  }
 
   signInWithGoogle = async () => {
     const { authenticating } = this.state;
@@ -29,8 +33,7 @@ export default class LoginContainer extends Component {
         authenticating: false,
         error: error.message
       });
-      // eslint-disable-next-line react/no-string-refs
-      this.refs.toast.show(error.message);
+      this.toast.show(error.message);
     }
   };
 
@@ -55,8 +58,9 @@ export default class LoginContainer extends Component {
         error={error}
       >
         <Toast
-          // eslint-disable-next-line react/no-string-refs
-          ref="test"
+          ref={(ref) => {
+            this.toast = ref;
+          }}
           style={styles.toastStyles}
           positionValue={37}
           position="bottom"

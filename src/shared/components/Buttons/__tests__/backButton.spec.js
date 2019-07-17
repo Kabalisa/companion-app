@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Button from './Button';
+import Button from '../BackButton';
 
 const [onPress] = Array(1).fill(jest.fn());
 const props = {
@@ -17,13 +17,6 @@ describe('Button', () => {
     test('should button respond to onPress', () => {
       componentWrapper.props().onPress();
       expect(onPress).toBeCalled();
-    });
-    test('should be a loading button', () => {
-      componentWrapper.setProps({ loading: true });
-      const loadingIndicator = componentWrapper.find(
-        `[testId="activity-indicator"]`
-      );
-      expect(loadingIndicator).toBeTruthy();
     });
   });
 });

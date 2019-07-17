@@ -1,15 +1,13 @@
 import React from 'react';
 import { Platform, AsyncStorage } from 'react-native';
 import { shallow } from 'enzyme';
-
 import GreetingsScreen from './index';
+import navigationProps from '../../../__tests__/helpers/navigationProps';
 
 jest.mock('jwt-decode');
 
 const props = {
-  navigation: {
-    setParams: jest.fn()
-  }
+  ...navigationProps
 };
 const wrapper = shallow(<GreetingsScreen {...props} />);
 const wrapperInstance = wrapper.instance();
@@ -60,9 +58,11 @@ describe('Greetings scree', () => {
   test('componentDidMount', () => {
     jest.mock('react-native', () => ({
       AsyncStorage: {
-        getItem: jest.fn(() => new Promise((resolve) => {
-          resolve(null);
-        }))
+        getItem: jest.fn(
+          () => new Promise((resolve) => {
+            resolve(null);
+          })
+        )
       }
     }));
     return AsyncStorage.getItem('token').then((token) => {

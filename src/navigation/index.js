@@ -4,15 +4,22 @@ import {
   createSwitchNavigator,
   createDrawerNavigator
 } from 'react-navigation';
-import GreetingScreen from '../screens/Greetings';
+import Greetings from '../screens/Greetings';
 import Login from '../screens/Login';
 import DrawerScreen from '../screens/Drawer';
 import OnBoarding from '../screens/OnBoarding';
 import Loading from '../screens/Home';
+import UserCalendar from '../screens/UserCalendar';
 
 const Main = createStackNavigator(
   {
-    Greetings: GreetingScreen
+    Greetings,
+    UserCalendar: {
+      screen: UserCalendar,
+      navigationOptions: () => ({
+        header: null
+      })
+    }
   },
   {
     headerMode: 'screen'

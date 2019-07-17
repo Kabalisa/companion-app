@@ -13,14 +13,13 @@ const props = {
     ...navigationProps.navigation
   }
 };
-const refs = {
-  toast: {
-    show
-  }
-};
+
 const componentWrapper = shallow(<LoginContainer {...props} />);
 const instance = componentWrapper.instance();
-instance.refs = refs;
+instance.toast = {
+  show
+};
+instance.forceUpdate();
 
 describe('Login Container', () => {
   beforeEach(() => {

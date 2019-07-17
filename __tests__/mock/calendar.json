@@ -1,0 +1,141 @@
+{
+  "kind": "calendar#events",
+  "etag": "\"p330c9un7qm5u60g\"",
+  "summary": "luc.abayo@andela.com",
+  "updated": "2019-06-28T07:38:23.592Z",
+  "timeZone": "Africa/Maputo",
+  "accessRole": "owner",
+  "defaultReminders": [
+    {
+      "method": "popup",
+      "minutes": 10
+    }
+  ],
+  "nextSyncToken": "CMDE-ufVi-MCEMDE-ufVi-MCGAU=",
+  "items": [
+    {
+      "kind": "calendar#event",
+      "etag": "\"3116032618510000\"",
+      "id": "iactmgkoagtg3mm40b5drn69o0",
+      "status": "cancelled",
+      "htmlLink": "https://www.google.com/calendar/event?eid=aWFjdG1na29hZ3RnM21tNDBiNWRybjY5bzBfMjAxOTA2MDVUMTQwMDAwWiBsdWMuYWJheW9AYW5kZWxhLmNvbQ",
+      "created": "2019-05-15T14:55:59.000Z",
+      "updated": "2019-05-16T14:18:29.255Z",
+      "summary": "Phoenix Monthly Sync",
+      "description": "Gideon Bamuleseyo is inviting you to a scheduled Zoom meeting.\n\nJoin Zoom Meeting\nhttps://andela.zoom.us/j/160402801\n\nOne tap mobile\n+16699006833,,160402801# US (San Jose)\n+16468769923,,160402801# US (New York)\n\nDial by your location\n        +1 669 900 6833 US (San Jose)\n        +1 646 876 9923 US (New York)\nMeeting ID: 160 402 801\nFind your local number: https://zoom.us/u/abbeXwQaLE\n",
+      "location": "https://andela.zoom.us/j/160402801",
+      "creator": {
+        "email": "gideon.bamuleseyo@andela.com"
+      },
+      "organizer": {
+        "email": "baasbank.akinmuleya@andela.com"
+      },
+      "start": {
+        "dateTime": "2019-06-05T16:00:00+02:00",
+        "timeZone": "Africa/Nairobi"
+      },
+      "end": {
+        "dateTime": "2019-06-05T17:00:00+02:00",
+        "timeZone": "Africa/Nairobi"
+      },
+      "recurrence": ["RRULE:FREQ=MONTHLY;UNTIL=20190604T205959Z;BYDAY=1WE"],
+      "iCalUID": "iactmgkoagtg3mm40b5drn69o0@google.com",
+      "sequence": 2,
+      "attendees": [
+        {
+          "email": "luc.abayo@andela.com",
+          "self": true,
+          "responseStatus": "tentative"
+        }
+      ],
+      "guestsCanInviteOthers": false,
+      "guestsCanSeeOtherGuests": false,
+      "reminders": {
+        "useDefault": true
+      }
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3116191308062000\"",
+      "id": "afhr80ocmc7nf6fktp7sef7b2o",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=YWZocjgwb2NtYzduZjZma3RwN3NlZjdiMm9fMjAxODA3MTJUMTQwMDAwWiBsdWMuYWJheW9AYW5kZWxhLmNvbQ",
+      "created": "2018-07-05T12:10:20.000Z",
+      "updated": "2019-05-17T12:20:54.031Z",
+      "summary": "Society Execs Sync",
+      "description": "A biweekly Society Executives meeting that should ideally outlive the current executives. Best if each society is represented by at least \u003cb\u003eone\u003c/b\u003e person.\u003cbr\u003e\u003cbr\u003eFill the specific date's agenda items in this agenda and minutes at least a day before the meeting and consolidate minutes in the same doc \u003ca href=\"https://goo.gl/pxiS8N\"\u003ehere\u003c/a\u003e.\u003cbr\u003e\u003cbr\u003eJoin from PC, Mac, Linux, iOS or Android: \u003ca href=\"https://andela.zoom.us/j/810293354\" target=\"_blank\"\u003ehttps://andela.zoom.us/j/810293354\u003c/a\u003e",
+      "location": "https://andela.zoom.us/j/160402801",
+      "creator": {
+        "email": "gideon.bamuleseyo@andela.com"
+      },
+      "organizer": {
+        "email": "baasbank.akinmuleya@andela.com"
+      },
+      "start": {
+        "dateTime": "2019-06-05T16:00:00+02:00",
+        "timeZone": "Africa/Nairobi"
+      },
+      "end": {
+        "dateTime": "2019-06-05T17:00:00+02:00",
+        "timeZone": "Africa/Nairobi"
+      },
+      "recurrence": ["RRULE:FREQ=MONTHLY;UNTIL=20190604T205959Z;BYDAY=1WE"],
+      "iCalUID": "iactmgkoagtg3mm40b5drn69o0@google.com",
+      "sequence": 2,
+      "attendees": [
+        {
+          "email": "luc.abayo@andela.com",
+          "self": true,
+          "responseStatus": "tentative"
+        }
+      ],
+      "guestsCanInviteOthers": false,
+      "guestsCanSeeOtherGuests": false,
+      "reminders": {
+        "useDefault": true
+      }
+    }
+  ],
+  "events": {
+    "2019-06-05": [
+      {
+        "id": "iactmgkoagtg3mm40b5drn69o0",
+        "sequence": 2,
+        "status": "cancelled",
+        "location": "https: //andela.zoom.us/j/160402801",
+        "creator": { "email": "gideon.bamuleseyo@andela.com" },
+        "organizer": { "email": "baasbank.akinmuleya@andela.com" },
+        "end": {
+          "dateTime": "2019-06-05T17:00:00+02:00",
+          "timeZone": "Africa/Nairobi"
+        },
+        "start": {
+          "dateTime": "2019-06-05T16:00:00+02:00",
+          "timeZone": "Africa/Nairobi"
+        },
+        "originalStartTime": "undefined",
+        "summary": "Phoenix Monthly Sync",
+        "color": "#825DDE"
+      },
+      {
+        "id": "afhr80ocmc7nf6fktp7sef7b2o",
+        "sequence": 2,
+        "status": "confirmed",
+        "location": "https: //andela.zoom.us/j/160402801",
+        "creator": { "email": "gideon.bamuleseyo@andela.com" },
+        "organizer": { "email": "baasbank.akinmuleya@andela.com" },
+        "end": {
+          "dateTime": "2019-06-05T17:00:00+02:00",
+          "timeZone": "Africa/Nairobi"
+        },
+        "start": {
+          "dateTime": "2019-06-05T16:00:00+02:00",
+          "timeZone": "Africa/Nairobi"
+        },
+        "originalStartTime": "undefined",
+        "summary": "Society Execs Sync",
+        "color": "#00A89D"
+      }
+    ]
+  }
+}
