@@ -6,7 +6,7 @@ import scheduleMeeting from '../components/icons/schedule-meeting.png';
 
 const options = [
   {
-    itemDescription: 'Schedule a Meeting',
+    itemDescription: 'Book a Meeting',
     itemColor: 'rgba(239,243,251,1)',
     itemIcon: scheduleMeeting,
     textColor: 'rgba(77,128,209,1)'

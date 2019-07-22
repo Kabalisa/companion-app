@@ -8,7 +8,7 @@ const props = {
       options: [
         {
           itemColor: 'rgba(239,243,251,1)',
-          itemDescription: 'Schedule a Meeting',
+          itemDescription: 'Book a Meeting',
           itemIcon: 3,
           onPress: jest.fn(),
           textColor: 'rgba(77,128,209,1)'
