@@ -22,10 +22,10 @@ const Message = (props) => {
 
 Message.propTypes = {
   currentMessage: PropTypes.shape({
-    _id: PropTypes.number,
     user: PropTypes.objectOf(PropTypes.any),
     type: PropTypes.string,
-    text: PropTypes.any.isRequired
+    text: PropTypes.any.isRequired,
+    _id: PropTypes.any
   })
 };
 

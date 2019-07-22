@@ -1,8 +1,8 @@
-import meetingTips from '../components/icons/meeting-tips.png';
-import bookMeeting from '../components/icons/book-meeting.png';
-import shareFeedback from '../components/icons/share-feedback.png';
-import roomDirections from '../components/icons/room-directions.png';
-import scheduleMeeting from '../components/icons/schedule-meeting.png';
+import meetingTips from '../assets/icons/meeting-tips.png';
+import bookMeeting from '../assets/icons/book-meeting.png';
+import shareFeedback from '../assets/icons/share-feedback.png';
+import roomDirections from '../assets/icons/room-directions.png';
+import scheduleMeeting from '../assets/icons/schedule-meeting.png';
 
 const options = [
   {
@@ -38,7 +38,7 @@ const options = [
 ];
 
 export default (name = 'Ebun') => {
-  const message = `Welcome to the Converge Companion App. 
+  const message = `Welcome to the Converge Companion App.
   What would you like to do?`;
   const text = {
     title: `Hi ${name}, ${message}`,

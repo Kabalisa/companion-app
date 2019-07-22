@@ -1,4 +1,4 @@
-import initialMessage from '../../../utils/initialMessage';
+import initialMessage from '../../../../../constants/initialMessage';
 
 describe('initial message', () => {
   test('should return the initial message with logged in user', () => {

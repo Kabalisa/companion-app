@@ -9,12 +9,14 @@
     "eject": "expo eject",
     "test": "jest --coverage -u",
     "lint": "eslint .",
-    "prettier": "eslint . --ignore-path .gitignore --fix"
+    "prettier": "eslint . --ignore-path .gitignore --fix",
+    "debug": "rndebugger-open --open --expo && expo start"
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.3",
     "color": "3.1.2",
     "expo": "33.0.6",
+    "jest-config": "^24.8.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.14",
     "moment": "^2.24.0",
@@ -29,7 +31,11 @@
     "react-native-size-matters": "0.2.1",
     "react-native-swiper": "1.5.14",
     "react-native-web": "^0.11.4",
-    "react-navigation": "3.11.0"
+    "react-navigation": "3.11.0",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
@@ -48,7 +54,8 @@
     "jest-expo": "^33.0.2",
     "lint-staged": "^9.2.0",
     "moment-timezone": "^0.5.26",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-native-debugger-open": "^0.3.19"
   },
   "lint-staged": {
     "*.js": [

@@ -1,3 +1,5 @@
+const { defaults } = require('jest-config');
+
 module.exports = {
   displayName: 'Companion',
   verbose: true,
@@ -21,5 +23,14 @@ module.exports = {
       statements: 80
     }
   },
-  snapshotSerializers: ['enzyme-to-json/serializer']
+  snapshotSerializers: ['enzyme-to-json/serializer'],
+  moduleFileExtensions: [
+    ...defaults.moduleFileExtensions,
+    'js',
+    'json',
+    'jsx',
+    'ts',
+    'tsx',
+    'node'
+  ]
 };

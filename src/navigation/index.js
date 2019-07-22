@@ -4,7 +4,7 @@ import {
   createSwitchNavigator,
   createDrawerNavigator
 } from 'react-navigation';
-import Greetings from '../screens/Greetings';
+import { ConnectedGreetingsScreen } from '../screens/Greetings';
 import Login from '../screens/Login';
 import DrawerScreen from '../screens/Drawer';
 import OnBoarding from '../screens/OnBoarding';
@@ -13,7 +13,7 @@ import UserCalendar from '../screens/UserCalendar';
 
 const Main = createStackNavigator(
   {
-    Greetings,
+    Greetings: ConnectedGreetingsScreen,
     UserCalendar: {
       screen: UserCalendar,
       navigationOptions: () => ({

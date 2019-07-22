@@ -1,24 +1,28 @@
 import React from 'react';
 import { Platform, AsyncStorage } from 'react-native';
 import { shallow } from 'enzyme';
-import GreetingsScreen from './index';
 import navigationProps from '../../../__tests__/helpers/navigationProps';
+import { GreetingsScreen } from './index';
+
 
 jest.mock('jwt-decode');
 
 const props = {
-  ...navigationProps
+  ...navigationProps,
+  sendMessages: jest.fn()
+
 };
+
 const wrapper = shallow(<GreetingsScreen {...props} />);
 const wrapperInstance = wrapper.instance();
 
-describe('Greetings scree', () => {
+describe('Greetings screen', () => {
   test('should render greetings screen', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
   test('should simulate the onSend message method', () => {
-    expect(wrapperInstance.onSend()).toMatchSnapshot();
+    expect(wrapperInstance._onSend()).toMatchSnapshot();
   });
 
   test('should render the input toolbar correctly', () => {
@@ -43,7 +47,7 @@ describe('Greetings scree', () => {
   });
 
   test('should return the navigation options', () => {
-    const sendMessage = jest.spyOn(wrapperInstance, 'onSend');
+    const sendMessage = jest.spyOn(wrapperInstance, '_onSend');
     const Chat = wrapper.find('[testID="GiftedChat"]').at(0);
     Chat.props().onSend({ text: 'hello world' });
     expect(sendMessage).toHaveBeenCalled();
