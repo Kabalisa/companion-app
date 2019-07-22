@@ -4,26 +4,21 @@ import { AsyncStorage } from 'react-native';
 import Drawer from '../../index';
 
 jest.mock('jwt-decode');
-jest.mock('react-native', () => ({
-  StyleSheet: {
-    create: () => ({})
-  },
-  AsyncStorage: {
-    setItem: jest.fn(() => new Promise((resolve) => {
-      resolve(null);
-    })),
-    getItem: jest.fn(() => new Promise((resolve) => {
-      resolve('ThisIsMyAuthenticationToken');
-    })),
-    removeItem: jest.fn(() => new Promise((resolve) => {
-      resolve(null);
-    }))
-  }
-}));
+
+Object.defineProperty(AsyncStorage, 'getItem', {
+  value: _value => new Promise((resolve) => {
+    resolve('ThisIsMyAuthenticationToken');
+  })
+});
+
+Object.defineProperty(AsyncStorage, 'removeItem', {
+  value: _value => null
+});
 
 describe('Drawer', () => {
   let mountedComponent;
   let props;
+  let instance;
 
   beforeEach(() => {
     props = {
@@ -32,6 +27,7 @@ describe('Drawer', () => {
       }
     };
     mountedComponent = shallow(<Drawer {...props} />);
+    instance = mountedComponent.instance();
   });
 
   it('renders Components in Drawer Container', () => {
@@ -42,23 +38,20 @@ describe('Drawer', () => {
   });
 
   it('call function when logout button is clicked', () => {
-    const instance = mountedComponent.instance();
     instance.logoutUser();
     expect(instance.props.navigation.navigate.mock.calls.length).toEqual(1);
   });
 
   it('call AsyncStorage.get in #componentDidMount', () => {
-    const instance = mountedComponent.instance();
+    jest.spyOn(AsyncStorage, 'getItem');
     instance.componentDidMount();
     expect(AsyncStorage.getItem).toHaveBeenCalled();
   });
 
-  it('call AsyncStorage to return a token in #componentDidMount', () => {
-    const instance = mountedComponent.instance();
-    instance.componentDidMount();
-    return AsyncStorage.getItem('token').then((token) => {
+  it('call AsyncStorage to return a token in #componentDidMount', () => (
+    AsyncStorage.getItem('token').then((token) => {
       instance.componentDidMount();
       expect(token).toEqual('ThisIsMyAuthenticationToken');
-    });
-  });
+    })
+  ));
 });

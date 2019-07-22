@@ -65,6 +65,13 @@ class Home extends Component {
 Home.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func
-  }).isRequired
+  })
 };
+
+Home.defaultProps = {
+  navigation: {
+    navigate: () => {}
+  }
+};
+
 export default Home;
