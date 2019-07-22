@@ -32,6 +32,17 @@ export default class GreetingsScreen extends Component {
   state = {
     messages: [
       {
+        _id: 2,
+        text: 'I\'m currently at the first floor',
+        createdAt: new Date(),
+        type: 'suggestion',
+        user: {
+          _id: 2,
+          name: 'Companion App',
+          avatar: companionAppLogo
+        }
+      },
+      {
         _id: 1,
         text: initialMessage('Ebun'),
         createdAt: new Date(),
@@ -42,6 +53,14 @@ export default class GreetingsScreen extends Component {
         }
       }
     ]
+  };
+
+  listViewProps = {
+    contentInset: { bottom: 40 },
+    style: {
+      padding: 20,
+      paddingLeft: 0
+    }
   };
 
   componentDidMount() {
@@ -80,11 +99,13 @@ export default class GreetingsScreen extends Component {
           renderMessage={this.renderMessage}
           renderInputToolbar={this.renderInputToolbar}
           renderSend={this.renderSend}
+          listViewProps={this.listViewProps}
           user={{
             _id: 1,
             name: 'Ebun',
             avatar: 'https://placeimg.com/140/140/any'
           }}
+          alignTop
         />
         {Platform.OS === 'ios' ? null : <KeyboardSpacer />}
       </SafeAreaView>

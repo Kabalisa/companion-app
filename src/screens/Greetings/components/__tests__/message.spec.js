@@ -46,4 +46,10 @@ describe('Gifted chat message', () => {
     const wrapper = shallow(<Message {...props2} />);
     expect(wrapper).toMatchSnapshot();
   });
+
+  test('should render a location suggestion message', () => {
+    props2.currentMessage.type = 'suggestion';
+    const wrapper = shallow(<Message {...props2} />);
+    expect(wrapper).toMatchSnapshot();
+  });
 });

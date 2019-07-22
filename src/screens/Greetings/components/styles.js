@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 14,
     borderBottomLeftRadius: 14,
     justifyContent: 'flex-end',
-    marginBottom: scale(30)
+    marginBottom: scale(20)
   },
   userMessageTitle: {
     color: 'rgba(255,255,255,1)',
@@ -142,7 +142,39 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 20
   },
-  greetingsContainer: { flexDirection: 'row', marginRight: 30 }
+  greetingsContainer: { flexDirection: 'row', marginRight: 30 },
+  suggestionContainer: {
+    marginBottom: scale(20)
+  },
+  suggestionContent: {
+    padding: scale(20),
+    ...container,
+    borderWidth: 1,
+    borderColor: '#10a36d',
+    backgroundColor: '#ecfaee',
+    flexDirection: 'row',
+    borderRadius: 19,
+    maxWidth: scale(227),
+    paddingVertical: scale(10),
+    marginRight: scale(20)
+  },
+  suggestionText: {
+    ...textStyles,
+    fontWeight: '500'
+  },
+  suggestionHr: {
+    justifyContent: 'center',
+    flex: 1
+  },
+  suggestionHrLine: {
+    backgroundColor: '#ecf1fa',
+    height: 1,
+    marginLeft: 11,
+    marginRight: 7
+  },
+  suggestionIcon: {
+    marginRight: 15
+  }
 });
 
 export default styles;
