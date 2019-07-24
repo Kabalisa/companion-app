@@ -4,7 +4,7 @@ import companionAppLogo from '../../assets/icons/companion-logo.png';
 export default {
   messages: [
     {
-      _id: '1',
+      _id: 1,
       text: initialMessage('Ebun'),
       createdAt: new Date(),
       user: {

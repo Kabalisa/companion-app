@@ -74,7 +74,7 @@ export class GreetingsScreen extends Component {
           renderSend={this.renderSend}
           listViewProps={this.listViewProps}
           user={{
-            _id: '1',
+            _id: 1,
             name: 'Ebun',
             avatar: 'https://placeimg.com/140/140/any'
           }}

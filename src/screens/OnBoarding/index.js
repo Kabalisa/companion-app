@@ -4,7 +4,7 @@ import { AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Slide from './components/Slide';
-import GreetingScreen from '../Greetings';
+import { ConnectedGreetingsScreen } from '../Greetings';
 import slideImage3 from './components/assets/swipper3.png';
 import slideImage2 from './components/assets/swipper2.png';
 import slideImage1 from './components/assets/swipper1.png';
@@ -59,7 +59,7 @@ class OnBoarding extends Component {
             page2="pages"
             page3="currentPage"
           />
-          <GreetingScreen />
+          <ConnectedGreetingsScreen />
         </Swiper>
       </Swiper>
     );
