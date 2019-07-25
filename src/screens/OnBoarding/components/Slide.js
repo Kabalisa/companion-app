@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Image, SafeAreaView, Text, View
+  Image, SafeAreaView, Text, View, TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
@@ -12,7 +12,8 @@ const Slide = ({
   page3,
   slideTitle,
   bodyText,
-  subBody
+  subBody,
+  skipOnBoarding
 }) => (
   <SafeAreaView style={styles.container}>
     <View style={styles.containerFlex}>
@@ -30,6 +31,21 @@ const Slide = ({
         <Text style={styles.boldText}>{subBody}</Text>
       </View>
       <Text style={styles.buttomText}>Swipe right to continue</Text>
+      <TouchableOpacity
+        onPress={skipOnBoarding}
+        style={{ marginTop: 10 }}
+      >
+        <View style={{ paddingLeft: 5, paddingRight: 5 }}>
+          <Text
+            style={{
+              ...styles.buttomText,
+              textDecorationLine: 'underline'
+            }}
+          >
+            Skip
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   </SafeAreaView>
 );
@@ -41,7 +57,8 @@ Slide.propTypes = {
   page3: PropTypes.string.isRequired,
   slideTitle: PropTypes.string.isRequired,
   bodyText: PropTypes.string.isRequired,
-  subBody: PropTypes.string
+  subBody: PropTypes.string,
+  skipOnBoarding: PropTypes.func.isRequired
 };
 
 Slide.defaultProps = {

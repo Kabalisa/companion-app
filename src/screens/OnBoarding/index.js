@@ -33,6 +33,7 @@ class OnBoarding extends Component {
           slideTitle={content.slideTitle1}
           bodyText={content.slideBody1}
           slideImg={slideImage1}
+          skipOnBoarding={this.goToGreetings}
           page1="currentPage"
           page2="pages"
           page3="pages"
@@ -41,6 +42,7 @@ class OnBoarding extends Component {
           slideTitle={content.slideTitle2}
           bodyText={content.slideBody2}
           slideImg={slideImage2}
+          skipOnBoarding={this.goToGreetings}
           page1="pages"
           page2="currentPage"
           page3="pages"
@@ -55,6 +57,7 @@ class OnBoarding extends Component {
             bodyText={content.slideBody3}
             subBody={content.subBody3}
             slideImg={slideImage3}
+            skipOnBoarding={this.goToGreetings}
             page1="pages"
             page2="pages"
             page3="currentPage"
