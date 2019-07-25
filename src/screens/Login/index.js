@@ -33,9 +33,12 @@ export default class LoginContainer extends Component {
       const {
         UserInfo: { email }
       } = decoded;
-      await axios.post('https://soft-pug-40.localtunnel.me/tokens', {
-        accessToken: { [email]: accessToken }
-      });
+      await axios.post(
+        'https://dialogflow-service-companion.herokuapp.com/tokens',
+        {
+          accessToken: { [email]: accessToken }
+        }
+      );
       this.handleNavigate();
     } catch (error) {
       this.setState({

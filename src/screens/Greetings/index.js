@@ -126,7 +126,7 @@ export class GreetingsScreen extends Component {
     return (
       <Message
         {...props}
-        onPress={text => this.onSend([
+        onPress={text => this._onSend(
           {
             _id: messages.length + 1,
             text,
@@ -138,7 +138,7 @@ export class GreetingsScreen extends Component {
                   'https://pbs.twimg.com/profile_images/1072108932661952512/4xjLHcQO_400x400.jpg'
             }
           }
-        ])
+        )
         }
       />
     );
@@ -159,7 +159,7 @@ export class GreetingsScreen extends Component {
           user={{
             _id: 1,
             name: 'Ebun',
-            avatar: 'https://placeimg.com/140/140/any'
+            avatar: 'https://pbs.twimg.com/profile_images/1072108932661952512/4xjLHcQO_400x400.jpg'
           }}
           alignTop
         />
