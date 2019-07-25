@@ -75,7 +75,7 @@ describe('Login Container', () => {
     }));
     expect(instance.state.authenticating).toBe(false);
     await componentWrapper.props().handleLoginPress();
-    expect(AsyncStorage.setItem).not.toHaveBeenCalled();
+    expect(AsyncStorage.setItem).toHaveBeenCalled();
     expect(instance.state.error).toBe('Invalid email');
     expect(show).toBeCalledWith('Invalid email');
   });
@@ -91,7 +91,7 @@ describe('Login Container', () => {
     }));
     expect(instance.state.authenticating).toBe(false);
     await componentWrapper.props().handleLoginPress();
-    expect(AsyncStorage.setItem).not.toHaveBeenCalled();
+    expect(AsyncStorage.setItem).toHaveBeenCalled();
     expect(instance.state.error).toBe('Something went wrong');
   });
   test('should button not respond if authenticating', () => {

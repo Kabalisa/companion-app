@@ -1,16 +1,15 @@
 import React from 'react';
-import { Platform, AsyncStorage } from 'react-native';
+import { Platform, Alert, AsyncStorage } from 'react-native';
 import { shallow } from 'enzyme';
+import moxios from 'moxios';
 import navigationProps from '../../../__tests__/helpers/navigationProps';
 import { GreetingsScreen } from './index';
-
 
 jest.mock('jwt-decode');
 
 const props = {
   ...navigationProps,
   sendMessages: jest.fn()
-
 };
 
 const wrapper = shallow(<GreetingsScreen {...props} />);
@@ -22,7 +21,8 @@ describe('Greetings screen', () => {
   });
 
   test('should simulate the onSend message method', () => {
-    expect(wrapperInstance._onSend()).toMatchSnapshot();
+    const text = { text: 'hello companion' };
+    expect(wrapperInstance._onSend(text)).toMatchSnapshot();
   });
 
   test('should render the input toolbar correctly', () => {
@@ -46,16 +46,9 @@ describe('Greetings screen', () => {
     expect(navigationOptions).toHaveProperty('headerRight');
   });
 
-  test('should return the navigation options', () => {
-    const sendMessage = jest.spyOn(wrapperInstance, '_onSend');
-    const Chat = wrapper.find('[testID="GiftedChat"]').at(0);
-    Chat.props().onSend({ text: 'hello world' });
-    expect(sendMessage).toHaveBeenCalled();
-  });
-
   test('should mount the keyboard spacer if the platform is not iOS', () => {
     Platform.OS = 'android';
-    const shallowComponent = shallow(<GreetingsScreen {...props} />);
+    const shallowComponent = shallow(<GreetingsScreen />);
     expect(shallowComponent).toMatchSnapshot();
   });
 
@@ -72,5 +65,48 @@ describe('Greetings screen', () => {
     return AsyncStorage.getItem('token').then((token) => {
       expect(token).toEqual(null);
     });
+  });
+});
+
+describe('Interactions with the bot', () => {
+  const result = {
+    queryResult: {
+      fulfillmentMessages: [
+        {
+          text: 'here is your message',
+          payload: { botEmail: 'hello@hello.com' }
+        }
+      ]
+    }
+  };
+  beforeEach(() => {
+    moxios.install();
+  });
+
+  afterEach(() => {
+    moxios.uninstall();
+  });
+
+  it('should handle google DialogFlow response with response ', () => {
+    wrapper.instance().handleGoogleResponse(result);
+  });
+
+  it('should handle google DialogFlow response with error ', () => {
+    jest.mock('Alert', () => ({
+      alert: jest.fn()
+    }));
+    const spy = jest.spyOn(Alert, 'alert');
+    wrapper.instance().handleGoogleResponse({
+      error: {
+        code: 403,
+        status: 'Permission denied',
+        message: 'something went wrong'
+      }
+    });
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should handle bot response ', async () => {
+    wrapper.instance().sendBotResponse('Hello world');
   });
 });

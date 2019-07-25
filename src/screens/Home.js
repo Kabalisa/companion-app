@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import {
   View, Image, SafeAreaView, Text, AsyncStorage
 } from 'react-native';
-import PropTypes from 'prop-types';
 import { AppLoading } from 'expo';
-
+import PropTypes from 'prop-types';
 import styles from '../shared/styles/splashLogin';
 import AndelaLogo from '../assets/andela.png';
 import AppLogo from '../assets/icon.png';
 
 class Home extends Component {
-  state = {
-    isLoading: true
-  };
+  state = { isLoading: true };
 
   bootstrapAsync = async () => {
     const {

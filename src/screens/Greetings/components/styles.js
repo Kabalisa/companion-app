@@ -136,11 +136,30 @@ const styles = StyleSheet.create({
   },
   systemMessageContainer: { alignSelf: 'flex-start', flexDirection: 'row' },
   userMessageContainer: { alignSelf: 'flex-end', flexDirection: 'row' },
-  messageContainer: { flexDirection: 'column', marginRight: 0 },
+  messageContainer: {
+    flexDirection: 'column',
+    marginRight: 0,
+    marginBottom: 40,
+    paddingVertical: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  timeStampContainer: {
+    alignSelf: 'flex-end',
+    marginRight: 52,
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  checkMark: {
+    marginLeft: 3,
+    alignSelf: 'center',
+    marginTop: -5
+  },
   messageAvatar: {
     marginLeft: '3%',
-    justifyContent: 'center',
-    marginBottom: 20
+    justifyContent: 'center'
+    // marginBottom: 20
   },
   greetingsContainer: { flexDirection: 'row', marginRight: 30 },
   suggestionContainer: {

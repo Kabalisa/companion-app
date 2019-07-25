@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AsyncStorage } from 'react-native';
+import jwtDecode from 'jwt-decode';
 import Toast from 'react-native-easy-toast';
+import axios from 'axios';
 import Login from './components/Login';
 import { getJwtToken, getAccessToken } from '../../services/AuthService';
 import styles from './components/styles';
@@ -27,6 +29,13 @@ export default class LoginContainer extends Component {
       const { accessToken } = await getAccessToken();
       const { token } = await getJwtToken(accessToken);
       await AsyncStorage.setItem('token', token);
+      const decoded = jwtDecode(token);
+      const {
+        UserInfo: { email }
+      } = decoded;
+      await axios.post('https://soft-pug-40.localtunnel.me/tokens', {
+        accessToken: { [email]: accessToken }
+      });
       this.handleNavigate();
     } catch (error) {
       this.setState({

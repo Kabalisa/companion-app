@@ -12,7 +12,8 @@ export default class GreetingsMessage extends Component {
     const {
       currentMessage: {
         text: { title, options }
-      }
+      },
+      onPress
     } = this.props;
 
     return (
@@ -28,7 +29,7 @@ export default class GreetingsMessage extends Component {
           <View style={styles.menuContainer}>
             {options.map(option => (
               <View key={`${option.itemDescription}`}>
-                <MenuItem {...option} />
+                <MenuItem {...option} onPress={onPress} />
               </View>
             ))}
           </View>
@@ -44,7 +45,8 @@ GreetingsMessage.propTypes = {
       title: PropTypes.string,
       options: PropTypes.arrayOf(PropTypes.shape({}))
     })
-  })
+  }),
+  onPress: PropTypes.func.isRequired
 };
 
 GreetingsMessage.defaultProps = {
