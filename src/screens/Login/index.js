@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AsyncStorage } from 'react-native';
 import Toast from 'react-native-easy-toast';
+import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 import Login from './components/Login';
 import { getJwtToken, getAccessToken } from '../../services/AuthService';
 import styles from './components/styles';
@@ -37,6 +39,14 @@ export default class LoginContainer extends Component {
         () => {
           this.handleNavigate();
         }
+      );
+      const decoded = jwtDecode(token);
+      const {
+        UserInfo: { email }
+      } = decoded;
+      await axios.post(
+        'https://dialogflow-service-companion.herokuapp.com/tokens',
+        { accessToken: { [email]: accessToken } }
       );
     } catch (error) {
       this.setState({

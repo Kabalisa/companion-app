@@ -37,7 +37,7 @@ export class GreetingsScreen extends Component {
     };
   };
 
-  state = {};
+  state = { email: null };
 
   listViewProps = {
     contentInset: { bottom: 40 },
@@ -48,40 +48,31 @@ export class GreetingsScreen extends Component {
   };
 
   componentDidMount() {
-    const {
-      navigation: { setParams }
-    } = this.props;
+    const { navigation: { setParams } = {} } = this.props;
     AsyncStorage.getItem('token').then((token) => {
       const decoded = jwtDecode(token);
       const {
         UserInfo: { picture, email, firstName }
       } = decoded;
       setParams({ picture });
-      this.setState({ userAvatar: picture, firstName });
+      this.setState({ userAvatar: picture, email, firstName });
       DialogFlow.setConfiguration(
         CLIENT_EMAIL,
         PRIVATE_KEY,
         DialogFlow.LANG_ENGLISH_US,
         PROJECT_ID
       );
-      DialogFlow.requestQuery(
-        email,
-        () => Alert.alert('CompanionApp has access to your calendar'),
-        () => this.sendBotResponse('What was that?')
-      );
     });
   }
 
   sendBotResponse = (text) => {
     const { sendMessages, messages } = this.props;
-
     const message = {
       _id: messages.length + 1,
       text,
       createdAt: new Date(),
       user: BOT_USER
     };
-
     sendMessages(message);
   };
 
@@ -92,24 +83,40 @@ export class GreetingsScreen extends Component {
       const { text = {} } = firstFulfillment;
       const { text: messages = [] } = text;
       const [message = ''] = messages;
-      this.sendBotResponse(message);
+      if (message.toLowerCase().includes('email')) this.sendUserEmail();
+      else this.sendBotResponse(message);
     } else {
       const { code, status, message } = result.error;
-
       Alert.alert(
         `${status} ${code}`,
         message,
         [{ text: 'CANCEL' }, { text: 'OK' }],
-        {
-          cancelable: false
-        }
+        { cancelable: false }
       );
     }
   };
 
-  _onSend(message) {
+  sendUserEmail = async () => {
+    const { email } = this.state;
+    const wasShown = await AsyncStorage.getItem('isPermitted');
+    if (wasShown) this._onSend({ text: email }, false);
+    else {
+      Alert.alert(
+        'CALENDAR PERMISSION',
+        `Allow Companion to have access to your ${email} calendar`,
+        [
+          { text: 'CANCEL' },
+          { text: 'OK', onPress: () => this._onSend({ text: email }, false) }
+        ],
+        { cancelable: false }
+      );
+      await AsyncStorage.setItem('isPermitted', 'true');
+    }
+  };
+
+  _onSend(message, printMessage = true) {
     const { sendMessages } = this.props;
-    sendMessages(message);
+    if (printMessage) sendMessages(message);
     const { text = '' } = message;
     DialogFlow.requestQuery(
       text,

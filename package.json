@@ -9,7 +9,7 @@
     "eject": "expo eject",
     "test": "jest --coverage -u",
     "lint": "eslint .",
-    "prettier": "eslint . --ignore-path .gitignore --fix",
+    "prettier": "eslint . --fix",
     "debug": "rndebugger-open --open --expo && expo start"
   },
   "dependencies": {
