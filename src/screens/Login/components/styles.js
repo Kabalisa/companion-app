@@ -25,7 +25,8 @@ export default StyleSheet.create({
   btnTitle: {
     fontSize: scale(16),
     lineHeight: scale(40),
-    color: '#344C5A'
+    color: '#344C5A',
+    fontFamily: 'DINPro'
   },
   gIcon: {
     height: undefined,

@@ -6,10 +6,12 @@ const styles = StyleSheet.create({
     marginTop: 14,
     letterSpacing: 1.5,
     color: 'rgb(57, 75, 89)',
-    marginBottom: 5
+    marginBottom: 5,
+    fontFamily: 'DINPro'
   },
   profileEmail: {
-    color: 'rgb(57, 75, 89)'
+    color: 'rgb(57, 75, 89)',
+    fontFamily: 'DINPro'
   },
   drawerContainer: {
     flex: 1,
@@ -38,7 +40,8 @@ const styles = StyleSheet.create({
   logoutButtonText: {
     fontSize: 20,
     color: 'rgb(200, 73, 104)',
-    letterSpacing: 1.8
+    letterSpacing: 1.8,
+    fontFamily: 'DINPro'
   }
 });
 

@@ -11,7 +11,8 @@ const container = {
 const textStyles = {
   fontSize: 12,
   lineHeight: 15,
-  fontWeight: '500'
+  fontWeight: '500',
+  fontFamily: 'DINPro'
 };
 
 const shadowStyles = {

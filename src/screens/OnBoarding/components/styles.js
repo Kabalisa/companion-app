@@ -24,25 +24,29 @@ export default StyleSheet.create({
     color: 'rgba(52,76,90,1)',
     opacity: 1.0,
     marginTop: scale(35),
-    marginBottom: scale(20)
+    marginBottom: scale(20),
+    fontFamily: 'DINPro'
   },
   bodyText: {
     fontSize: 14,
     textAlign: 'center',
     color: 'rgba(52,76,90,1)',
     opacity: 0.8,
-    marginBottom: scale(5)
+    marginBottom: scale(5),
+    fontFamily: 'DINPro'
   },
   boldText: {
     fontSize: 14,
     textAlign: 'center',
     color: 'rgba(52,76,90,1)',
-    marginBottom: scale(30)
+    marginBottom: scale(30),
+    fontFamily: 'DINPro'
   },
   buttomText: {
     color: 'rgba(52,76,90,0.34)',
     fontSize: 14,
-    opacity: 1.0
+    opacity: 1.0,
+    fontFamily: 'DINPro'
   },
   container: {
     alignItems: 'center',

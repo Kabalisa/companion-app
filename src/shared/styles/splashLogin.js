@@ -31,13 +31,15 @@ export default StyleSheet.create({
     fontSize: scale(24),
     lineHeight: scale(31),
     color: '#344C5A',
-    letterSpacing: 1
+    letterSpacing: 1,
+    fontFamily: 'DINPro'
   },
   subTitle: {
     color: '#344C5A',
     fontSize: scale(12),
     lineHeight: scale(15),
-    letterSpacing: 0
+    letterSpacing: 0,
+    fontFamily: 'DINPro'
   },
   andelaLogo: {
     width: scale(75),

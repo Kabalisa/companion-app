@@ -4,15 +4,23 @@ import {
   View, Image, SafeAreaView, Text
 } from 'react-native';
 import { AppLoading } from 'expo';
+
+import * as Font from 'expo-font';
+import { refreshAuth } from '../services/AuthService';
 import styles from '../shared/styles/splashLogin';
 import AndelaLogo from '../assets/andela.png';
 import AppLogo from '../assets/icon.png';
-import { refreshAuth } from '../services/AuthService';
+import DINPro from '../assets/fonts/DINPro-Regular.ttf';
+import DINProBold from '../assets/fonts/DINPro-Bold.ttf';
 
 class Home extends Component {
   state = { isLoading: true };
 
   bootstrapAsync = async () => {
+    await Font.loadAsync({
+      DINPro,
+      DINProBold
+    });
     const {
       navigation: { navigate }
     } = this.props;

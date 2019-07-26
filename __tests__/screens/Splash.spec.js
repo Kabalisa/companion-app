@@ -4,6 +4,8 @@ import { shallow } from 'enzyme';
 import Home from '../../src/screens/Home';
 import navProps from '../helpers/navigationProps';
 
+jest.mock('expo-font');
+
 const token = 'some-token-to-be-used';
 const [navigate] = Array(1).fill(jest.fn());
 const props = {
