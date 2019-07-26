@@ -37,6 +37,8 @@ export class GreetingsScreen extends Component {
     };
   };
 
+  state = {};
+
   listViewProps = {
     contentInset: { bottom: 40 },
     style: {
@@ -52,9 +54,10 @@ export class GreetingsScreen extends Component {
     AsyncStorage.getItem('token').then((token) => {
       const decoded = jwtDecode(token);
       const {
-        UserInfo: { picture, email }
+        UserInfo: { picture, email, firstName }
       } = decoded;
       setParams({ picture });
+      this.setState({ userAvatar: picture, firstName });
       DialogFlow.setConfiguration(
         CLIENT_EMAIL,
         PRIVATE_KEY,
@@ -123,22 +126,20 @@ export class GreetingsScreen extends Component {
 
   renderMessage = (props) => {
     const { messages } = this.props;
+    const { userAvatar, firstName } = this.state;
     return (
       <Message
         {...props}
-        onPress={text => this._onSend(
-          {
-            _id: messages.length + 1,
-            text,
-            createdAt: new Date(),
-            user: {
-              _id: 1,
-              name: 'Musigwa',
-              avatar:
-                  'https://pbs.twimg.com/profile_images/1072108932661952512/4xjLHcQO_400x400.jpg'
-            }
+        onPress={text => this._onSend({
+          _id: messages.length + 1,
+          text,
+          createdAt: new Date(),
+          user: {
+            _id: 1,
+            name: firstName,
+            avatar: userAvatar
           }
-        )
+        })
         }
       />
     );
@@ -146,6 +147,8 @@ export class GreetingsScreen extends Component {
 
   render() {
     const { messages } = this.props;
+    const { userAvatar, firstName } = this.state;
+
     return (
       <SafeAreaView style={[styles.container]}>
         <GiftedChat
@@ -158,8 +161,8 @@ export class GreetingsScreen extends Component {
           listViewProps={this.listViewProps}
           user={{
             _id: 1,
-            name: 'Ebun',
-            avatar: 'https://pbs.twimg.com/profile_images/1072108932661952512/4xjLHcQO_400x400.jpg'
+            name: firstName,
+            avatar: userAvatar
           }}
           alignTop
         />

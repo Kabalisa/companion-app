@@ -4,7 +4,7 @@ import shareFeedback from '../assets/icons/share-feedback.png';
 import roomDirections from '../assets/icons/room-directions.png';
 import scheduleMeeting from '../assets/icons/schedule-meeting.png';
 
-const options = [
+export default [
   {
     itemDescription: 'Book a Meeting',
     itemColor: 'rgba(239,243,251,1)',
@@ -36,13 +36,3 @@ const options = [
     itemIcon: bookMeeting
   }
 ];
-
-export default (name = 'Ebun') => {
-  const message = `Welcome to the Converge Companion App.
-  What would you like to do?`;
-  const text = {
-    title: `Hi ${name}, ${message}`,
-    options
-  };
-  return text;
-};
