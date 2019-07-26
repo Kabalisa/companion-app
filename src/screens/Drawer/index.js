@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import ProfileComponent from './components/ProfileComponent';
 import LogoutButton from './components/LogoutButton';
-
+import { signOut } from '../../services/AuthService';
 import styles from './styles';
 
 export default class Drawer extends Component {
@@ -32,12 +32,16 @@ export default class Drawer extends Component {
     });
   }
 
-  logoutUser = () => {
+  logoutUser = async () => {
     const {
       navigation: { navigate }
     } = this.props;
-    AsyncStorage.removeItem('token');
-    navigate('Login');
+    try {
+      await signOut();
+      navigate('Login');
+    } catch (error) {
+      navigate('Login');
+    }
   };
 
   render() {
@@ -46,9 +50,13 @@ export default class Drawer extends Component {
     } = this.state;
     return (
       <View style={styles.drawerContainer}>
-        <ProfileComponent userData={{
-          email, firstName, lastName, picture
-        }}
+        <ProfileComponent
+          userData={{
+            email,
+            firstName,
+            lastName,
+            picture
+          }}
         />
         <LogoutButton onPress={this.logoutUser} />
       </View>

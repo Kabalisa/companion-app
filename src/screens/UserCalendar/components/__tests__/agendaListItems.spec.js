@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import Renderer from 'react-test-renderer';
 import AgendaListItems from '../AgendaListItems';
 
 const props = {
@@ -8,12 +8,10 @@ const props = {
     title: '10:00'
   }
 };
-const wrapper = shallow(<AgendaListItems {...props} />);
+const wrapper = Renderer.create(<AgendaListItems {...props} />);
 
-describe('User Calendar Component', () => {
-  describe('Component Render', () => {
-    it('should match snapshot', () => {
-      expect(wrapper).toMatchSnapshot();
-    });
+describe('Agenda List Items', () => {
+  it('should match snapshot', () => {
+    expect(wrapper).toMatchSnapshot();
   });
 });

@@ -4,10 +4,11 @@ import {
 } from 'redux';
 import thunk from 'redux-thunk';
 import messages from './messages';
-
+import calendar from './calendar/reducers';
 
 export const rootReducer = combineReducers({
-  [messages.stateKey]: messages.messageReducer
+  [messages.stateKey]: messages.messageReducer,
+  calendar
 });
 
 const middleWare = [thunk];

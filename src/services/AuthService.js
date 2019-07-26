@@ -1,22 +1,35 @@
-import { Google } from 'expo';
+import * as Google from 'expo-app-auth';
 import { AsyncStorage } from 'react-native';
+import axios from 'axios';
 import config from '../../config';
 
-const { IOS_CLIENT_ID, ANDROID_CLIENT_ID, ANDELA_AUTH_API } = config;
-const googleConfig = {
-  iosClientId: IOS_CLIENT_ID,
-  androidClientId: ANDROID_CLIENT_ID,
+const { GOOGLE_CLIENT_ID, ANDELA_AUTH_API } = config;
+export const googleConfig = {
+  issuer: 'https://accounts.google.com',
+  clientId: GOOGLE_CLIENT_ID,
   scopes: ['profile', 'email', 'https://www.googleapis.com/auth/calendar']
 };
 
 export const getAccessToken = async () => {
-  const response = await Google.logInAsync(googleConfig);
-  if (response.type === 'success') {
-    const { accessToken } = response;
-    await AsyncStorage.setItem('googleToken', accessToken);
-    return response;
+  const response = await Google.authAsync(googleConfig);
+  const profileData = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+    headers: { Authorization: `Bearer ${response.accessToken}` }
+  });
+  let currentUser = {};
+  if (profileData.ok) {
+    currentUser = await profileData.json();
   }
-  throw new Error('Action canceled');
+
+  if (response.accessToken && response.refreshToken) {
+    await axios.post(
+      'https://dialogflow-service-companion.herokuapp.com/tokens',
+      {
+        accessToken: { [currentUser.email]: response.accessToken }
+      }
+    );
+    return { ...response, currentUser };
+  }
+  throw new Error('Invalid account');
 };
 
 export const getJwtToken = async (accessToken) => {
@@ -24,7 +37,54 @@ export const getJwtToken = async (accessToken) => {
     `${ANDELA_AUTH_API}/token?google_token=${accessToken}`
   );
   const data = await response.json();
-  if (response.ok && data.token) return data;
-  if (response.status === 401) throw new Error('Invalid email');
-  else throw new Error('Something went wrong');
+  switch (response.ok) {
+    case true:
+      return data;
+    case false:
+      throw new Error('Unauthorized');
+    default:
+      throw new Error('Something went wrong');
+  }
+};
+
+export const signOut = async () => {
+  try {
+    const accessToken = await AsyncStorage.getItem('accessToken');
+    if (accessToken) {
+      const options = {
+        token: accessToken,
+        isClientIdProvided: true
+      };
+      await Google.revokeAsync(googleConfig, options);
+    }
+    await AsyncStorage.multiRemove(['accessToken', 'refreshToken', 'token']);
+    return;
+  } catch (error) {
+    await AsyncStorage.multiRemove(['accessToken', 'refreshToken', 'token']);
+    throw new Error(error.message || 'Sign out failed');
+  }
+};
+
+export const refreshAuth = async () => {
+  try {
+    const token = await AsyncStorage.getItem('refreshToken');
+    if (!token) {
+      await signOut();
+      return false;
+    }
+    const response = await Google.refreshAsync(googleConfig, token);
+    let authState;
+    if (response.accessToken) {
+      const { accessToken, refreshToken } = response;
+      await AsyncStorage.multiSet([
+        ['refreshToken', refreshToken || token],
+        ['accessToken', accessToken]
+      ]);
+      authState = true;
+    }
+    return authState;
+  } catch (error) {
+    signOut();
+    return false;
+  }
 };

@@ -1,16 +1,14 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import Renderer from 'react-test-renderer';
 import AgendaList from '../AgendaList';
 
 const props = {
   currentEvents: []
 };
-const wrapper = shallow(<AgendaList {...props} />);
+const wrapper = Renderer.create(<AgendaList {...props} />);
 
 describe('User AgendaList Component', () => {
-  describe('Component Render', () => {
-    it('should match snapshot', () => {
-      expect(wrapper).toMatchSnapshot();
-    });
+  it('should match snapshot', () => {
+    expect(wrapper).toMatchSnapshot();
   });
 });

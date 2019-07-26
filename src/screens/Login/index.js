@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AsyncStorage } from 'react-native';
-import jwtDecode from 'jwt-decode';
 import Toast from 'react-native-easy-toast';
-import axios from 'axios';
 import Login from './components/Login';
 import { getJwtToken, getAccessToken } from '../../services/AuthService';
 import styles from './components/styles';
@@ -26,20 +24,20 @@ export default class LoginContainer extends Component {
       error: null
     });
     try {
-      const { accessToken } = await getAccessToken();
+      const { accessToken, refreshToken, currentUser } = await getAccessToken();
       const { token } = await getJwtToken(accessToken);
-      await AsyncStorage.setItem('token', token);
-      const decoded = jwtDecode(token);
-      const {
-        UserInfo: { email }
-      } = decoded;
-      await axios.post(
-        'https://dialogflow-service-companion.herokuapp.com/tokens',
-        {
-          accessToken: { [email]: accessToken }
+      const user = await JSON.stringify(currentUser);
+      await AsyncStorage.multiSet(
+        [
+          ['accessToken', accessToken],
+          ['refreshToken', refreshToken],
+          ['token', token],
+          ['currentUser', user]
+        ],
+        () => {
+          this.handleNavigate();
         }
       );
-      this.handleNavigate();
     } catch (error) {
       this.setState({
         authenticating: false,

@@ -70,3 +70,4 @@ android/app/.project
 .env.config.json
 .expo/packager-info.json 
 .expo/settings.json 
+.env.production

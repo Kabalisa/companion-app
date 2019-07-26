@@ -154,6 +154,14 @@ export default {
   ],
   dayNamesShort: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
   today: 'Today',
-  dotColors: ['#00A89D', '#F24024', '#FFC659', '#0085E3', '#825DDE'],
-  eventColors: ['#FDF1DB', '#CFECFF', '#0085E3', '#DAF6F4']
+  dotColors: ['#0085E3', '#c7291e', '#41b000', '#ba3b00', '#ffad16', '#10d999'],
+
+  eventColors: [
+    '#45b1ff',
+    '#d06b64',
+    '#7bd148',
+    '#ff7537',
+    '#ffad46',
+    '#72d692'
+  ]
 };

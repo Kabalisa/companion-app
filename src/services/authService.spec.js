@@ -1,0 +1,108 @@
+import * as Google from 'expo-app-auth';
+import { AsyncStorage } from 'react-native';
+import * as AuthService from './AuthService';
+import {
+  user as userProfile,
+  accessToken,
+  refreshToken,
+  token
+} from '../../__tests__/mock/data';
+
+describe('Authentication Service', () => {
+  describe('Get Google AccessToken', () => {
+    test('should get access token from Google', async () => {
+      jest.spyOn(Google, 'authAsync').mockImplementation(() => ({
+        accessToken,
+        refreshToken
+      }));
+      global.fetch = jest.fn().mockImplementation(() => ({
+        json: () => Promise.resolve(userProfile),
+        ok: true
+      }));
+      const { googleConfig } = AuthService;
+      await AuthService.getAccessToken();
+      expect(Google.authAsync).toBeCalledWith(googleConfig);
+    });
+  });
+
+  describe('Get JWT token', () => {
+    test('should retrieve JWT token', async () => {
+      global.fetch = jest.fn().mockImplementation(() => ({
+        json: () => Promise.resolve({ token }),
+        ok: true
+      }));
+      const response = await AuthService.getJwtToken(accessToken);
+      expect(response instanceof Object).toBeTruthy();
+      expect.objectContaining({ token: response.token });
+    });
+    test('should throw an unauthorized', async () => {
+      global.fetch = jest.fn().mockImplementation(() => ({
+        json: () => Promise.resolve({}),
+        ok: false
+      }));
+      let response;
+      try {
+        response = await AuthService.getJwtToken(accessToken);
+      } catch (error) {
+        response = error.message;
+      }
+      expect(response).toEqual('Unauthorized');
+    });
+
+    test('should throw unknown error', async () => {
+      global.fetch = jest.fn().mockImplementation(() => ({
+        json: () => Promise.resolve({}),
+        ok: 'something else'
+      }));
+      let response;
+      try {
+        response = await AuthService.getJwtToken(accessToken);
+      } catch (error) {
+        response = error.message;
+      }
+      expect(response).toEqual('Something went wrong');
+    });
+  });
+
+  describe('Sign Out and Token refresh', () => {
+    test('should sign out and revoke accessToken', async () => {
+      jest.spyOn(AsyncStorage, 'getItem').mockImplementation(() => accessToken);
+      jest.spyOn(Google, 'revokeAsync').mockImplementation(() => true);
+      await AuthService.signOut();
+      expect(AsyncStorage.getItem).toBeCalledWith('accessToken');
+      expect(Google.revokeAsync).toBeCalledWith(AuthService.googleConfig, {
+        isClientIdProvided: true,
+        token: accessToken
+      });
+    });
+
+    test('should sign out throw an error', async () => {
+      jest.spyOn(AsyncStorage, 'getItem').mockImplementation(() => accessToken);
+      jest.spyOn(Google, 'revokeAsync').mockImplementation(() => {
+        throw new Error('Invalid token');
+      });
+      try {
+        await AuthService.signOut();
+      } catch (error) {
+        expect(error.message).toEqual('Invalid token');
+      }
+    });
+
+    test('should refresh token succeed', async () => {
+      jest
+        .spyOn(AsyncStorage, 'getItem')
+        .mockImplementation(() => refreshToken);
+      jest.spyOn(AsyncStorage, 'multiSet');
+      jest
+        .spyOn(Google, 'refreshAsync')
+        .mockImplementation(() => ({ accessToken, refreshToken }));
+      const isAuthenticated = await AuthService.refreshAuth();
+      expect(AsyncStorage.getItem).toBeCalledWith('refreshToken');
+      expect(AsyncStorage.multiSet).toBeCalledWith([
+        ['refreshToken', refreshToken],
+        ['accessToken', accessToken]
+      ]);
+      expect(isAuthenticated).toBeTruthy();
+    });
+  });
+});

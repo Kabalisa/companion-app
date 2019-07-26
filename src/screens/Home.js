@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
-  View, Image, SafeAreaView, Text, AsyncStorage
+  View, Image, SafeAreaView, Text
 } from 'react-native';
 import { AppLoading } from 'expo';
-import PropTypes from 'prop-types';
 import styles from '../shared/styles/splashLogin';
 import AndelaLogo from '../assets/andela.png';
 import AppLogo from '../assets/icon.png';
+import { refreshAuth } from '../services/AuthService';
 
 class Home extends Component {
   state = { isLoading: true };
@@ -15,8 +16,8 @@ class Home extends Component {
     const {
       navigation: { navigate }
     } = this.props;
-    const token = await AsyncStorage.getItem('token');
-    navigate(token ? 'Main' : 'Auth');
+    const isAuthenticated = await refreshAuth();
+    navigate(isAuthenticated ? 'Main' : 'Auth');
   };
 
   render() {
@@ -58,7 +59,6 @@ class Home extends Component {
     );
   }
 }
-
 Home.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func

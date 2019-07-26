@@ -1,6 +1,6 @@
 import React from 'react';
 import { AsyncStorage } from 'react-native';
-import { Google } from 'expo';
+import * as Google from 'expo-app-auth';
 import { shallow } from 'enzyme';
 import LoginContainer from './index';
 import navigationProps from '../../../__tests__/helpers/navigationProps';
@@ -23,11 +23,15 @@ instance.forceUpdate();
 
 describe('Login Container', () => {
   beforeEach(() => {
-    jest.spyOn(AsyncStorage, 'setItem');
+    jest.spyOn(AsyncStorage, 'multiSet');
+    global.fetch = jest.fn().mockImplementation(() => ({
+      json: () => Promise.resolve(true),
+      ok: true
+    }));
   });
 
   afterEach(() => {
-    AsyncStorage.setItem.mockClear();
+    AsyncStorage.multiSet.mockClear();
     navigationProps.navigation.navigate.mockClear();
     show.mockClear();
   });
@@ -37,19 +41,20 @@ describe('Login Container', () => {
   });
 
   test('should catch error if Google auth failed', async () => {
-    Google.logInAsync = jest.fn().mockImplementationOnce(() => ({
+    Google.authAsync = jest.fn().mockImplementationOnce(() => ({
       type: 'canceled'
     }));
     await componentWrapper.props().handleLoginPress();
-    expect(AsyncStorage.setItem).not.toHaveBeenCalled();
+    expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
     expect(instance.state.authenticating).toBe(false);
     expect(instance.state.error).not.toBe(null);
   });
 
   test('should respond to Google auth button onPress', async () => {
-    Google.logInAsync = jest.fn().mockImplementationOnce(() => ({
+    Google.authAsync = jest.fn().mockImplementationOnce(() => ({
       type: 'success',
-      accessToken
+      accessToken,
+      refreshToken: accessToken
     }));
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({
       json: () => Promise.resolve({ token: accessToken }),
@@ -60,28 +65,29 @@ describe('Login Container', () => {
     expect(instance.state.authenticating).toBe(false);
     await componentWrapper.props().handleLoginPress();
     expect(instance.signInWithGoogle).toHaveBeenCalled();
-    expect(AsyncStorage.setItem).toHaveBeenLastCalledWith('token', accessToken);
+    expect(AsyncStorage.multiSet).toHaveBeenCalled();
+    expect(navigationProps.navigation.navigate).toBeCalled();
   });
 
   test('should respond to Google auth button onPress', async () => {
-    Google.logInAsync = jest.fn().mockImplementationOnce(() => ({
+    Google.authAsync = jest.fn().mockImplementationOnce(() => ({
       type: 'success',
       accessToken
     }));
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve({ error: 'Invalid email' }),
+      json: () => Promise.resolve({ error: 'Invalid account' }),
       ok: false,
       status: 401
     }));
     expect(instance.state.authenticating).toBe(false);
     await componentWrapper.props().handleLoginPress();
-    expect(AsyncStorage.setItem).toHaveBeenCalled();
-    expect(instance.state.error).toBe('Invalid email');
-    expect(show).toBeCalledWith('Invalid email');
+    expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
+    expect(instance.state.error).toBe('Invalid account');
+    expect(show).toBeCalledWith('Invalid account');
   });
 
   test('should respond to Google auth button onPress', async () => {
-    Google.logInAsync = jest.fn().mockImplementationOnce(() => ({
+    Google.authAsync = jest.fn().mockImplementationOnce(() => ({
       type: 'success',
       accessToken
     }));
@@ -91,14 +97,14 @@ describe('Login Container', () => {
     }));
     expect(instance.state.authenticating).toBe(false);
     await componentWrapper.props().handleLoginPress();
-    expect(AsyncStorage.setItem).toHaveBeenCalled();
-    expect(instance.state.error).toBe('Something went wrong');
+    expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
+    expect(instance.state.error).not.toBe(null);
   });
   test('should button not respond if authenticating', () => {
     componentWrapper.setState({ authenticating: true });
     instance.forceUpdate();
     componentWrapper.props().handleLoginPress();
-    expect(AsyncStorage.setItem).not.toHaveBeenCalled();
+    expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
     expect(instance.state.authenticating).toBe(true);
     expect(navigationProps.navigation.navigate).not.toBeCalled();
   });

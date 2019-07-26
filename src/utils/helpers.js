@@ -1,28 +1,33 @@
 import moment from 'moment';
-import { flattenDeep, groupBy, mapValues } from 'lodash';
+import {
+  flattenDeep, groupBy, mapValues, uniqBy
+} from 'lodash';
 import settings from '../constants/calendarSettings';
 
-export const formatDate = (date) => {
-  try {
-    const isValid = moment(date).isValid();
-    if (isValid) {
-      return new Date(date).toISOString().split('T')[0];
-    }
-    return undefined;
-  } catch (error) {
-    return undefined;
+const isValidDate = (value) => {
+  if (!value) {
+    return false;
   }
+  if (!new Date(value).getTime() || !moment(value).isValid) {
+    return false;
+  }
+  return true;
 };
-export const getStartHour = (value) => {
-  try {
-    const date = moment(value);
-    if (date.isValid()) {
-      return date.startOf('hour').format('HH:mm');
-    }
-    return undefined;
-  } catch (error) {
-    return undefined;
+
+export const formatDate = (value) => {
+  if (isValidDate(value)) {
+    return moment(value).format('YYYY-MM-DD');
   }
+  return undefined;
+};
+
+export const getStartHour = (value) => {
+  if (isValidDate(value)) {
+    return moment(value)
+      .startOf('hour')
+      .format('HH:mm');
+  }
+  return undefined;
 };
 
 export const eventDuration = (start, end) => {
@@ -54,7 +59,11 @@ export const formatCalendarData = (data = []) => {
       start: event.start,
       originalStartTime: event.originalStartTime,
       summary: event.summary,
-      color: event.color = sample(settings.dotColors)
+      color: event.color = {
+        dot: settings.dotColors,
+        event: settings.eventColors
+      },
+      userEmail: event.userEmail
     } = item);
     event.date = item.start && formatDate(item.start.dateTime);
     return event;
@@ -71,11 +80,10 @@ export const markDayEvents = (dates = {}) => {
     const colors = flattenDeep(
       dates[key].map(date => ({
         key: date.id,
-        color: date.color
+        color: date.color.dot
       }))
     );
-
-    const dots = colors.length > 3 ? colors.slice(2) : colors;
+    const dots = uniqBy(colors, 'color');
     results[key] = { dots };
   });
   return results;
@@ -97,4 +105,20 @@ export const getSelectedDayEvents = (events = []) => {
   });
 
   return Object.values(allEvents);
+};
+
+export const starOfMonth = date => moment(date)
+  .startOf('month')
+  .toISOString();
+export const endOfMonth = date => moment(date)
+  .endOf('month')
+  .toISOString();
+export const getMonth = date => moment(date).format('YYYY-MM');
+
+export const getCurrentTime = () => {
+  const date = new Date();
+  const hours = date.getHours();
+  const minutes = date.getMinutes() / 60;
+
+  return hours + minutes;
 };

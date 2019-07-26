@@ -8,10 +8,8 @@ const props = {
   itemsLength: 1
 };
 const wrapper = shallow(<AgendaItem {...props} />);
-describe('User Calendar Component', () => {
-  describe('Component Render', () => {
-    test('should match snapshot', () => {
-      expect(wrapper).toMatchSnapshot();
-    });
+describe('Agenda Item', () => {
+  test('should match snapshot', () => {
+    expect(wrapper).toMatchSnapshot();
   });
 });

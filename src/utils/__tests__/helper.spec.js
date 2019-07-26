@@ -6,7 +6,8 @@ import {
   sample,
   formatCalendarData,
   markDayEvents,
-  getSelectedDayEvents
+  getSelectedDayEvents,
+  getCurrentTime
 } from '../helpers';
 import calendarDate from '../../../__tests__/mock/calendar.json';
 import settings from '../../constants/calendarSettings';
@@ -90,5 +91,13 @@ describe('Helper Functions', () => {
         'color'
       ])
     );
+  });
+
+  test('should get current time', () => {
+    global.Date = jest.fn(() => ({
+      getHours: () => 17,
+      getMinutes: () => 0
+    }));
+    expect(getCurrentTime()).toEqual(17.0);
   });
 });

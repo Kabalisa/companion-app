@@ -1,57 +1,62 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { AsyncStorage } from 'react-native';
+import * as Google from 'expo-app-auth';
 import Drawer from '../../index';
 
 jest.mock('jwt-decode');
 
-Object.defineProperty(AsyncStorage, 'getItem', {
-  value: _value => new Promise((resolve) => {
-    resolve('ThisIsMyAuthenticationToken');
-  })
-});
+const props = {
+  navigation: {
+    navigate: jest.fn()
+  }
+};
+jest.mock('AsyncStorage', () => ({
+  setItem: jest.fn(
+    () => new Promise((resolve) => {
+      resolve(null);
+    })
+  ),
+  getItem: jest.fn(
+    () => new Promise((resolve) => {
+      resolve('ThisIsMyAuthenticationToken');
+    })
+  ),
+  removeItem: jest.fn(
+    () => new Promise((resolve) => {
+      resolve(null);
+    })
+  )
+}));
 
-Object.defineProperty(AsyncStorage, 'removeItem', {
-  value: _value => null
-});
-
+const mountedComponent = shallow(<Drawer {...props} />);
 describe('Drawer', () => {
-  let mountedComponent;
-  let props;
-  let instance;
-
   beforeEach(() => {
-    props = {
-      navigation: {
-        navigate: jest.fn()
-      }
-    };
-    mountedComponent = shallow(<Drawer {...props} />);
-    instance = mountedComponent.instance();
+    Google.revokeAsync = jest.fn().mockImplementationOnce(() => true);
   });
 
   it('renders Components in Drawer Container', () => {
-    const profiles = mountedComponent.find('ProfileComponent');
-    const LogoutButtons = mountedComponent.find('LogoutButton');
-    expect(profiles.length).toBe(1);
-    expect(LogoutButtons.length).toBe(1);
+    expect(mountedComponent).toMatchSnapshot();
   });
 
-  it('call function when logout button is clicked', () => {
-    instance.logoutUser();
-    expect(instance.props.navigation.navigate.mock.calls.length).toEqual(1);
+  it('call function when logout button is clicked', async () => {
+    const instance = mountedComponent.instance();
+    await instance.logoutUser();
+    expect(props.navigation.navigate.mock.calls.length).toEqual(1);
   });
 
   it('call AsyncStorage.get in #componentDidMount', () => {
-    jest.spyOn(AsyncStorage, 'getItem');
+    const instance = mountedComponent.instance();
     instance.componentDidMount();
     expect(AsyncStorage.getItem).toHaveBeenCalled();
   });
 
-  it('call AsyncStorage to return a token in #componentDidMount', () => (
-    AsyncStorage.getItem('token').then((token) => {
+  it('call AsyncStorage to return a token in #componentDidMount', () => {
+    const instance = mountedComponent.instance();
+    instance.componentDidMount();
+    return AsyncStorage.getItem('token').then((token) => {
       instance.componentDidMount();
       expect(token).toEqual('ThisIsMyAuthenticationToken');
-    })
-  ));
+    });
+  });
 });

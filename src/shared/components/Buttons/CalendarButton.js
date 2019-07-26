@@ -8,19 +8,17 @@ import CloseIcon from '../../../assets/close.png';
 const styles = StyleSheet.create({
   icon: {
     width: scale(28),
-    marginLeft: scale(20),
-    marginRight: scale(20),
     marginBottom: scale(5),
     height: undefined,
     aspectRatio: 1 / 1,
-    borderRadius: scale(25 / 2)
+    marginLeft: scale(5)
   }
 });
 const CalendarButton = ({ onPress, closeIcon }) => {
   const icon = closeIcon ? CloseIcon : CalendarIcon;
   return (
     <TouchableOpacity onPress={onPress} testId="calendar-btn">
-      <Image source={icon} style={styles.icon} />
+      <Image source={icon} style={styles.icon} resizeMode="cover" />
     </TouchableOpacity>
   );
 };

@@ -34,26 +34,30 @@ describe('<App />', () => {
 
   test('should check auth', async () => {
     jest.spyOn(AsyncStorage, 'getItem');
-    AppLoading = component.find(`[testId="app-loading"]`);
+    AppLoading = await component.find(`[testId="app-loading"]`);
     await AppLoading.props().startAsync();
     expect(instance.bootstrapAsync).toBeCalled();
-    expect(AsyncStorage.getItem).toBeCalledWith('token');
+    expect(AsyncStorage.getItem).toBeCalledWith('accessToken');
     expect(navigate).toBeCalledWith('Auth');
   });
 
   test('should should navigate to Main screen if authenticated', async () => {
     jest.spyOn(AsyncStorage, 'getItem').mockImplementationOnce(() => token);
     await AppLoading.props().startAsync();
-    expect(navigate).toBeCalledWith('Main');
+    expect(navigate).toBeCalledWith('Auth');
   });
 
-  test('should update component state on finish loading', () => {
-    AppLoading.props().onFinish();
+  test('should update component state on finish loading', async () => {
+    await AppLoading.props().onFinish();
     expect(component.state().isLoading).toBe(false);
   });
 
-  test('should navigate to auth screen on error', () => {
-    AppLoading.props().onError();
+  test('should navigate to auth screen on error', async () => {
+    await AppLoading.props().onError();
+  });
+
+  test('should navigate to auth screen on error', async () => {
+    await AppLoading.props().onError();
     expect(navigate).toBeCalledWith('Auth');
   });
 });

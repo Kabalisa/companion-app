@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import {
   IOS_CLIENT_ID,
   ANDROID_CLIENT_ID,
@@ -15,8 +16,10 @@ import {
 } from 'react-native-dotenv';
 
 export default {
-  IOS_CLIENT_ID,
-  ANDROID_CLIENT_ID,
+  GOOGLE_CLIENT_ID: Platform.select({
+    ios: IOS_CLIENT_ID,
+    android: ANDROID_CLIENT_ID
+  }),
   ANDELA_AUTH_API,
   TYPE,
   PROJECT_ID,
