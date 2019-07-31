@@ -8,7 +8,7 @@ import buttonStyles from './styles';
 import GoogleButton from '../../../shared/components/Buttons/Button';
 import AndelaLogo from '../../../assets/andela.png';
 import AppLogo from '../../../assets/icon.png';
-import GoogleIcon from './icons/Google__G__Logo.png';
+import GoogleIcon from '../../../assets/Google__G__Logo.png';
 
 const Login = ({ handleLoginPress, disabled, children }) => (
   <SafeAreaView style={styles.container}>

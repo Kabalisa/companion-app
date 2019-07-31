@@ -4,26 +4,29 @@ import {
   View, Image, SafeAreaView, Text
 } from 'react-native';
 import { AppLoading } from 'expo';
-
-import * as Font from 'expo-font';
 import { refreshAuth } from '../services/AuthService';
 import styles from '../shared/styles/splashLogin';
 import AndelaLogo from '../assets/andela.png';
 import AppLogo from '../assets/icon.png';
 import DINPro from '../assets/fonts/DINPro-Regular.ttf';
 import DINProBold from '../assets/fonts/DINPro-Bold.ttf';
+import { cacheImages, cacheFonts } from '../utils/caching';
+import assets from '../assets';
 
 class Home extends Component {
   state = { isLoading: true };
 
   bootstrapAsync = async () => {
-    await Font.loadAsync({
+    const imageAssets = cacheImages([...assets]);
+    const fonts = cacheFonts({
       DINPro,
       DINProBold
     });
+
     const {
       navigation: { navigate }
     } = this.props;
+    await Promise.all(imageAssets, fonts);
     const isAuthenticated = await refreshAuth();
     navigate(isAuthenticated ? 'Main' : 'Auth');
   };

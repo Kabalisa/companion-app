@@ -1,11 +1,16 @@
 import React from 'react';
 import { AsyncStorage } from 'react-native';
+import { Asset } from 'expo-asset';
 import { shallow } from 'enzyme';
 import Home from '../../src/screens/Home';
 import navProps from '../helpers/navigationProps';
 
 jest.mock('expo-font');
 
+jest.spyOn(Asset, 'fromModule').mockImplementation(() => ({
+  fromModule: jest.fn(),
+  downloadAsync: jest.fn()
+}));
 const token = 'some-token-to-be-used';
 const [navigate] = Array(1).fill(jest.fn());
 const props = {
