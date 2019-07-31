@@ -11,7 +11,8 @@ const props = {
   usersHeaderAvatar: [
     {
       imageUrl: 'https://mex.hello.png',
-      username: 'Me You'
+      username: 'Me You',
+      userId: '345678'
     }
   ]
 };

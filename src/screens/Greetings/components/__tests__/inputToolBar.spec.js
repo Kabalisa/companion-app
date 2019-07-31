@@ -3,7 +3,8 @@ import { shallow } from 'enzyme';
 import InputToolBar from '../InputToolBar';
 
 const props = {
-  onPress: jest.fn()
+  onPress: jest.fn(),
+  skipOnBoarding: jest.fn()
 };
 const wrapper = shallow(<InputToolBar {...props} />);
 

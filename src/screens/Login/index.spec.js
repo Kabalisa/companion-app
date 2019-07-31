@@ -5,6 +5,7 @@ import { shallow } from 'enzyme';
 import LoginContainer from './index';
 import navigationProps from '../../../__tests__/helpers/navigationProps';
 
+jest.useFakeTimers();
 const [show] = Array(1).fill(jest.fn());
 const accessToken = 'converge673companion25appa-kjahdfkjah-akjdfhakjfh';
 
@@ -37,7 +38,9 @@ describe('Login Container', () => {
   });
 
   test('should match snapshot', () => {
+    const toast = componentWrapper.find(`[testId="toast-notification"]`);
     expect(componentWrapper).toMatchSnapshot();
+    expect(toast).toBeTruthy();
   });
 
   test('should catch error if Google auth failed', async () => {
@@ -47,7 +50,6 @@ describe('Login Container', () => {
     await componentWrapper.props().handleLoginPress();
     expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
     expect(instance.state.authenticating).toBe(false);
-    expect(instance.state.error).not.toBe(null);
   });
 
   test('should respond to Google auth button onPress', async () => {
@@ -79,11 +81,11 @@ describe('Login Container', () => {
       ok: false,
       status: 401
     }));
+
     expect(instance.state.authenticating).toBe(false);
     await componentWrapper.props().handleLoginPress();
     expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
-    expect(instance.state.error).toBe('Invalid account');
-    expect(show).toBeCalledWith('Invalid account');
+    expect(show).toBeCalledWith('Invalid account', 3000);
   });
 
   test('should respond to Google auth button onPress', async () => {
