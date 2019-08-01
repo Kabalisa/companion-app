@@ -1,6 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { scale, verticalScale } from 'react-native-size-matters';
-import color from 'color';
 
 const { width } = Dimensions.get('window');
 
@@ -15,25 +14,12 @@ const textStyles = {
   fontFamily: 'DINPro'
 };
 
-const shadowStyles = {
-  shadowColor: 'rgba(0,0,0,0.7)',
-  shadowOffset: {
-    width: 0,
-    height: 1
-  },
-  shadowOpacity: 0.2,
-  shadowRadius: 1.41,
-
-  elevation: 2
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1
   },
   menuItem: {
     ...container,
-    ...shadowStyles,
     borderRadius: 19,
     padding: scale(10),
     marginBottom: scale(10),
@@ -86,24 +72,26 @@ const styles = StyleSheet.create({
     fontWeight: '300'
   },
   inputPrimary: {
-    margin: scale(10)
+    margin: scale(10),
+    borderColor: 'green'
   },
   inputToolBar: {
-    flex: 1,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    borderColor: color('#344C5A')
-      .alpha(0.2)
-      .lighten(0.8),
-    borderWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#fff',
+    borderRadius: scale(30),
+    borderColor: '#F3F4F5',
+    borderTopColor: '#F3F4F5',
     borderBottomWidth: 0,
-    elevation: 5,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    borderWidth: StyleSheet.hairlineWidth * 2,
     width: '100%',
-    shadowOpacity: 0.7,
-    shadowRadius: 6,
-    shadowColor: color('#344C5A').alpha(0.3),
-    shadowOffset: { height: 0, width: 2 }
+    shadowRadius: 1,
+    shadowOffset: {
+      width: 0,
+      height: -1
+    },
+    shadowColor: '#000000',
+    elevation: 4,
+    shadowOpacity: 0.05
   },
   menuContainer: {
     flexDirection: 'row',
@@ -160,7 +148,6 @@ const styles = StyleSheet.create({
   messageAvatar: {
     marginLeft: '3%',
     justifyContent: 'center'
-    // marginBottom: 20
   },
   greetingsContainer: { flexDirection: 'row', marginRight: 30 },
   suggestionContainer: {
