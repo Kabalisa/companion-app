@@ -2,12 +2,9 @@ import {
   StyleSheet, Dimensions, StatusBar, Platform
 } from 'react-native';
 import { scale, moderateScale, verticalScale } from 'react-native-size-matters';
-import color from 'color';
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 0 : StatusBar.currentHeight;
-const { width, height } = Dimensions.get('window');
-const DEVICE_WIDTH = width;
-const DEVICE_HEIGHT = height;
+const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 export const calendarStyles = StyleSheet.create({
   section: {
     backgroundColor: '#fff',
@@ -53,6 +50,7 @@ export const agendaItem = StyleSheet.create({
 
 export const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#fff',
     marginTop: STATUSBAR_HEIGHT,
     height: DEVICE_HEIGHT || 0
@@ -86,37 +84,38 @@ export const headerStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    height: scale(48)
   },
   rightContent: {
     flexDirection: 'row',
     alignContent: 'center',
     alignItems: 'center',
-    marginTop: scale(10),
-    marginHorizontal: scale(20)
-  },
-  avatarContainer: {
-    position: 'relative',
-    flexDirection: 'row'
+    marginHorizontal: scale(10)
   },
   avatartItem: {
     marginLeft: -10
+  },
+  iconContainer: {
+    backgroundColor: '#fff',
+    alignContent: 'center',
+    justifyContent: 'center',
+    borderRadius: scale(26) / 2,
+    marginRight: scale(5)
+  },
+  pinnedUsersContainer: {
+    flexDirection: 'row'
   }
 });
 
 export const addEventStyles = StyleSheet.create({
   addEventsButton: {
-    width: scale(28),
-    height: scale(28),
-    borderRadius: scale(28 / 2),
-    backgroundColor: '#0459E4',
+    backgroundColor: '#FFFFFF',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: scale(3),
-    marginRight: scale(5)
+    justifyContent: 'center'
   },
   addEventsIcon: {
-    width: scale(15),
+    width: scale(26),
     height: undefined,
     aspectRatio: 1 / 1
   }
@@ -133,21 +132,13 @@ export const addCalendarStyles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold'
   },
-  list: {
-    borderBottomWidth: 1,
+  listItem: {
     borderColor: '#E9F1F4',
+    borderWidth: StyleSheet.hairlineWidth,
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     alignSelf: 'center',
-    shadowColor: '#E9F1F4',
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 9,
-    elevation: 5,
     padding: 4
   },
   title: {
@@ -155,34 +146,34 @@ export const addCalendarStyles = StyleSheet.create({
     fontSize: 12
   },
   resultContainer: {
-    position: 'absolute',
     zIndex: 1,
     width: '85%',
     alignSelf: 'center',
-    justifyContent: 'space-between',
     backgroundColor: '#FFF',
     borderWidth: 1,
-    borderColor: '#F3F4F5',
-    borderRadius: 7,
-    marginTop: '18%',
-    marginBottom: '35%',
-    shadowColor: '#F3F4F5',
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-
-    elevation: 2
+    borderColor: '#F3F4F5'
   },
-  modalStyles: {
-    justifyContent: 'flex-start',
-    height: Platform.OS === 'ios' ? '45%' : '55%',
-    paddingVertical: 15,
+  modal: {
+    margin: 0
+  },
+  innerModel: {
+    flex: 1
+  },
+  backDrop: {
+    flex: 0.5
+  },
+  contentContainer: {
+    flex: 0.5,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    width: DEVICE_WIDTH
+  },
+  content: {
+    backgroundColor: '#fff',
     width: '100%',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderTopLeftRadius: scale(30),
+    borderTopRightRadius: scale(30),
+    height: '100%',
     shadowColor: 'rgba(0,0,0,0.03)',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 1,
@@ -191,26 +182,25 @@ export const addCalendarStyles = StyleSheet.create({
   },
   searchBoxContainer: {
     width: '85%',
-    height: 50,
+    height: scale(52),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     alignSelf: 'center',
-    padding: 10,
-    borderRadius: 9,
-    borderColor: color('#344C5A')
-      .alpha(0.2)
-      .lighten(0.8),
-    borderWidth: StyleSheet.hairlineWidth,
-    shadowColor: color('#344C5A').alpha(0.3),
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 3,
-    elevation: 2,
-    backgroundColor: '#fff'
+    marginTop: scale(20),
+    padding: scale(10),
+    borderRadius: scale(9),
+    borderWidth: scale(2),
+    elevation: 5,
+    shadowColor: 'rgba(0,0,0,0.03)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 2,
+    backgroundColor: '#fff',
+    borderColor: '#F3F4F5'
   },
   searchInput: {
-    height: 40,
+    height: scale(48),
     width: '80%'
   },
   searchText: {
@@ -225,15 +215,10 @@ export const addCalendarStyles = StyleSheet.create({
 
 export const pinnedCalendarStyles = StyleSheet.create({
   pinnedContainer: {
-    position: 'absolute',
     alignSelf: 'center',
     justifyContent: 'space-around',
     zIndex: 0,
-    paddingVertical: 20,
-    paddingHorizontal: -40,
-    marginTop: '18%',
-    flex: 1,
-    shadowColor: '#F3F4F5'
+    marginTop: scale(10)
   },
   renderList: {
     flex: 1,

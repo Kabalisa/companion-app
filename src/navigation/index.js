@@ -27,7 +27,9 @@ const Main = createStackNavigator(
 );
 
 const Drawer = createDrawerNavigator(
-  { Main },
+  {
+    Main
+  },
   { contentComponent: DrawerScreen }
 );
 

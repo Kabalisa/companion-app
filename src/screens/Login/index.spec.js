@@ -85,7 +85,7 @@ describe('Login Container', () => {
     expect(instance.state.authenticating).toBe(false);
     await componentWrapper.props().handleLoginPress();
     expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
-    expect(show).toBeCalledWith('Invalid account', 3000);
+    expect(show).toBeCalledWith('Invalid account', 5000);
   });
 
   test('should respond to Google auth button onPress', async () => {

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 export default {
   hours: {
     '00:00': {
@@ -102,7 +103,8 @@ export default {
     todayTextColor: '#4D6EFF',
     dotColor: '#4D6EFF',
     textSectionTitleColor: '#989DB3',
-    textDayFontWeight: '600'
+    textDayFontWeight: '600',
+    arrowColor: '#4D6EFF'
   },
   selected: {
     container: {
@@ -155,13 +157,5 @@ export default {
   dayNamesShort: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
   today: 'Today',
   dotColors: ['#0085E3', '#c7291e', '#41b000', '#ba3b00', '#ffad16', '#10d999'],
-
-  eventColors: [
-    '#45b1ff',
-    '#d06b64',
-    '#7bd148',
-    '#ff7537',
-    '#ffad46',
-    '#72d692'
-  ]
+  eventColors: ['#45b1ff', '#d06b64', '#7bd148', '#ff7537', '#ffad46', '#72d692']
 };

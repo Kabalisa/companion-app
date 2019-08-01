@@ -1,4 +1,5 @@
 import * as Google from 'expo-app-auth';
+import moxios from 'moxios';
 import { AsyncStorage } from 'react-native';
 import * as AuthService from './AuthService';
 import {
@@ -9,6 +10,14 @@ import {
 } from '../../__tests__/mock/data';
 
 describe('Authentication Service', () => {
+  beforeEach(() => {
+    moxios.install();
+    moxios.stubRequest('https://dialogflow-service-companion.herokuapp.com/tokens', {
+      status: 200,
+      responseText: 'hello'
+    });
+  });
+
   describe('Get Google AccessToken', () => {
     test('should get access token from Google', async () => {
       jest.spyOn(Google, 'authAsync').mockImplementation(() => ({
@@ -89,9 +98,10 @@ describe('Authentication Service', () => {
     });
 
     test('should refresh token succeed', async () => {
-      jest
-        .spyOn(AsyncStorage, 'getItem')
-        .mockImplementation(() => refreshToken);
+      jest.spyOn(AsyncStorage, 'getItem').mockImplementation(() => {
+        const res = refreshToken;
+        return res;
+      });
       jest.spyOn(AsyncStorage, 'multiSet');
       jest
         .spyOn(Google, 'refreshAsync')

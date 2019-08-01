@@ -8,7 +8,6 @@ const ExpandableCalendar = ({ dots, selected }) => (
     firstDay={1}
     initialPosition="open"
     monthFormat="MMMM"
-    hideArrows
     markingType="multi-dot"
     scrollEnabled={false}
     markedDates={{

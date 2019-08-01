@@ -2,35 +2,48 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import BackButton from '../../../shared/components/Buttons/BackButton';
-import CalendarButton from '../../../shared/components/Buttons/CalendarButton';
-import AddCalendarButton from '../OtherCalendar/components/addCalendarButton';
+import HeaderButton from '../OtherCalendar/components/HeaderIconButton';
 import Avatar from '../../../shared/components/UserAvatar/Avatar';
 import { headerStyles } from './styles';
 
 const Header = ({
   goBack,
   onToggle,
-  closeIcon,
   onSearchPress,
-  usersHeaderAvatar
-}) => (
-  <View style={headerStyles.container}>
-    <BackButton onPress={goBack} />
-    <View style={headerStyles.rightContent}>
-      <View style={headerStyles.avatarContainer}>
-        {usersHeaderAvatar.map((avatar, index) => (
-          <View key={avatar.userId} style={headerStyles.avatartItem}>
-            <Avatar profileAvatar={avatar.imageUrl} colorIndex={index} />
+  usersHeaderAvatar,
+  isCalendarOpen,
+  isModalVisible
+}) => {
+  const calendarIcon = isCalendarOpen ? 'close' : 'calendar';
+  let searchIcon = usersHeaderAvatar.length === 0 ? 'search' : 'searchPlus';
+  const searchSize = usersHeaderAvatar.length === 0 ? 18 : 26;
+  if (usersHeaderAvatar.length === 0 && isModalVisible) {
+    searchIcon = null;
+  }
+  return (
+    <View style={headerStyles.container}>
+      <BackButton onPress={goBack} />
+      <View style={headerStyles.rightContent}>
+        <View style={headerStyles.pinnedUsersContainer}>
+          {usersHeaderAvatar.map((avatar, index) => (
+            <View key={avatar.userId} style={headerStyles.avatartItem}>
+              <Avatar profileAvatar={avatar.imageUrl} colorIndex={index} />
+            </View>
+          ))}
+          <View style={headerStyles.avatartItem}>
+            <HeaderButton
+              onPress={onSearchPress}
+              icon={searchIcon}
+              size={searchSize}
+              containerStyles={headerStyles.iconContainer}
+            />
           </View>
-        ))}
-        <View style={headerStyles.avatartItem}>
-          <AddCalendarButton onPress={onSearchPress} />
         </View>
+        <HeaderButton onPress={onToggle} icon={calendarIcon} />
       </View>
-      <CalendarButton onPress={onToggle} closeIcon={closeIcon} />
     </View>
-  </View>
-);
+  );
+};
 
 Header.propTypes = {
   goBack: PropTypes.func.isRequired,
@@ -40,11 +53,13 @@ Header.propTypes = {
       username: PropTypes.string.isRequired
     })
   ).isRequired,
-  closeIcon: PropTypes.bool,
+  isCalendarOpen: PropTypes.bool,
   onToggle: PropTypes.func.isRequired,
-  onSearchPress: PropTypes.func.isRequired
+  onSearchPress: PropTypes.func.isRequired,
+  isModalVisible: PropTypes.bool
 };
 Header.defaultProps = {
-  closeIcon: true
+  isCalendarOpen: true,
+  isModalVisible: false
 };
 export default Header;

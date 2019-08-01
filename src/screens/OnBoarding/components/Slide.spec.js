@@ -9,7 +9,8 @@ const props = {
   page2: 'pages',
   page3: 'pages',
   bodyText: 'test',
-  slideTitle: 'test'
+  slideTitle: 'test',
+  skipOnBoarding: jest.fn()
 };
 
 const componentWrapper = shallow(<Slide {...props} />);

@@ -5,7 +5,6 @@ import Header from '../Header';
 const props = {
   goBack: jest.fn(),
   onToggle: jest.fn(),
-  closeIcon: true,
   isCalendarOpen: true,
   onSearchPress: jest.fn(),
   usersHeaderAvatar: [

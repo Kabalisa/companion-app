@@ -1,10 +1,11 @@
 import React from 'react';
 import Renderer from 'react-test-renderer';
 import AgendaListItems from '../AgendaListItems';
+import data from '../../../../../__tests__/mock/calendar.json';
 
 const props = {
   section: {
-    data: [[]],
+    data: [Object.values(data.events)],
     title: '10:00'
   }
 };
