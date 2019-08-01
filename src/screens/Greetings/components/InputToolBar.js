@@ -9,6 +9,7 @@ const InputBox = props => (
     placeholder="Say something ..."
     primaryStyle={styles.inputPrimary}
     containerStyle={styles.inputToolBar}
+    textInputStyle={styles.inputBoxText}
   />
 );
 

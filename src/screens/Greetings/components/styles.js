@@ -93,6 +93,9 @@ const styles = StyleSheet.create({
     elevation: 4,
     shadowOpacity: 0.05
   },
+  inputBoxText: {
+    fontSize: 20
+  },
   menuContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
