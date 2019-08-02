@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { scale, verticalScale } from 'react-native-size-matters';
 
 const { width } = Dimensions.get('window');
@@ -8,10 +8,10 @@ const container = {
   justifyContent: 'center'
 };
 const textStyles = {
-  fontSize: 12,
   lineHeight: 15,
-  fontWeight: '500',
-  fontFamily: 'DINPro'
+  fontFamily: 'DINPro',
+  fontWeight: Platform.OS === 'ios' ? '500' : '400',
+  fontSize: Platform.OS === 'ios' ? 12 : 13
 };
 
 const styles = StyleSheet.create({
