@@ -6,9 +6,8 @@ import navigation from '../../../__tests__/helpers/navigationProps';
 import { user, accessToken } from '../../../__tests__/mock/data';
 
 const users = [user];
-const [fetchCalendar, getDayEvents, setUser, removeUser] = Array(4).fill(
-  jest.fn()
-);
+const removeUser = jest.fn();
+const [fetchCalendar, getDayEvents, setUser] = Array(4).fill(jest.fn());
 const props = {
   ...navigation,
   currentEvents: [],
@@ -82,8 +81,8 @@ describe('User Calendar Component', () => {
   });
 
   test('should respond on unpin user', () => {
-    component.props().unpinUser(users[0]);
-    expect(removeUser).toBeCalledWith(users[0].email);
+    component.props().unpinUser(users[0], '2019-08-01', []);
+    expect(removeUser).toBeCalledWith(users[0].email, '2019-08-01', []);
   });
 
   test('should search user by email', async () => {

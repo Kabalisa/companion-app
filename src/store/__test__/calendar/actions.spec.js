@@ -3,7 +3,8 @@ import thunk from 'redux-thunk';
 import {
   getCalendarData,
   pinUser,
-  fetchCalendars
+  fetchCalendars,
+  unpinUser
 } from '../../calendar/actions';
 import dummyEvents from '../../../../__tests__/mock/calendar.json';
 
@@ -35,11 +36,9 @@ describe('Test calendar actions', () => {
       json: () => Promise.resolve(dummyEvents)
     }));
     fetchCalendars();
-    return store
-      .dispatch(getCalendarData(today, ['caleb@email.com']))
-      .then(() => {
-        expect(store.getActions().length).toBeLessThanOrEqual(2);
-      });
+    return store.dispatch(getCalendarData(today, ['ex@email.com'])).then(() => {
+      expect(store.getActions().length).toBeLessThanOrEqual(2);
+    });
   });
 
   it('should do test getCalendarData action success ', async () => {
@@ -52,7 +51,7 @@ describe('Test calendar actions', () => {
 
     jest.mock('react-native', () => ({
       AsyncStorage: {
-        getItem: jest.fn(() => new Promise(resolve => resolve(null)))
+        getItem: jest.fn(() => new Promise(resolve => resolve()))
       }
     }));
 
@@ -61,6 +60,7 @@ describe('Test calendar actions', () => {
       json: () => Promise.resolve(dummyEvents)
     }));
     await store.dispatch(pinUser(item, today, item.email));
-    expect(store.getActions().length).toBeLessThanOrEqual(2);
+    await store.dispatch(unpinUser(item.email, null, [item]));
+    expect(store.getActions().length).toBeLessThanOrEqual(4);
   });
 });

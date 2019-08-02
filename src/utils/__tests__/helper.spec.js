@@ -57,6 +57,7 @@ describe('Helper Functions', () => {
     expect(dotedEvents[date].dots instanceof Array).toBeTruthy();
     expect(dotedEvents[date].dots[0] instanceof Object).toBeTruthy();
     expect(markDayEvents({})).toEqual({});
+    expect(markDayEvents()).toEqual({});
     expect(markDayEvents('kjahf')).toEqual({});
     expect(markDayEvents([8])).toEqual({});
   });

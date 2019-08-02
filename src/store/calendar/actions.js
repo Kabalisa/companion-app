@@ -16,7 +16,7 @@ import {
   GET_SELECTED_DATE_EVENTS,
   HANDLE_CALENDAR_MONTH_CHANGE,
   PIN_USERS,
-  REMOVE_USER_CALENDAR
+  UNPIN_USERS
 } from './types';
 
 const today = new Date().toISOString().split('T')[0];
@@ -45,10 +45,8 @@ export const fetchCalendars = async (email, date = today, colorIndex = 0) => {
   });
 };
 
-export const getCalendarData = (
-  date = today,
-  emails = []
-) => async (dispatch) => {
+export const getCalendarData = (...args) => async (dispatch) => {
+  const [date = today, emails = []] = args;
   dispatch({
     type: FETCHING_EVENTS
   });
@@ -99,7 +97,8 @@ export const pinUser = (item, date, users) => (dispatch) => {
   });
 };
 
-export const unpinUser = email => ({
-  type: REMOVE_USER_CALENDAR,
-  payload: email
-});
+export const unpinUser = (email, date, users) => (dispatch) => {
+  const newUsers = users.filter(user => user.email !== email);
+  dispatch(getCalendarData(date, newUsers));
+  dispatch({ type: UNPIN_USERS, payload: email });
+};

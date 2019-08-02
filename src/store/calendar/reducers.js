@@ -6,7 +6,7 @@ import {
   GET_SELECTED_DATE_EVENTS,
   HANDLE_CALENDAR_MONTH_CHANGE,
   PIN_USERS,
-  REMOVE_USER_CALENDAR
+  UNPIN_USERS
 } from './types';
 import { getSelectedDayEvents } from '../../utils/helpers';
 
@@ -66,7 +66,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         pinnedUsers: uniqBy([...state.pinnedUsers, payload], 'userId')
       };
-    case REMOVE_USER_CALENDAR:
+    case UNPIN_USERS:
       return {
         ...state,
         pinnedUsers: state.pinnedUsers.filter(user => user.email !== payload),

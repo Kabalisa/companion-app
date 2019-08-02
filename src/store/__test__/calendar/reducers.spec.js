@@ -3,30 +3,33 @@ import reducers, {
   eventsAndCurrentEvents
 } from '../../calendar/reducers';
 import {
-  REMOVE_USER_CALENDAR,
   FETCHING_EVENTS,
   PIN_USERS,
   FETCHING_EVENTS_SUCCESS,
   GET_SELECTED_DATE_EVENTS,
-  HANDLE_CALENDAR_MONTH_CHANGE
+  HANDLE_CALENDAR_MONTH_CHANGE,
+  UNPIN_USERS
 } from '../../calendar/types';
 import dummyEvents from '../../../../__tests__/mock/calendar.json';
 
 describe('Test calendar reducers', () => {
   it('should return an initial state', () => {
-    expect(reducers(undefined, { type: '', payload: {} })).toEqual(
-      INITIAL_STATE
-    );
+    expect(
+      reducers(undefined, {
+        type: '',
+        payload: {}
+      })
+    ).toEqual(INITIAL_STATE);
   });
 
-  it('should remove the user\'s calendar', () => {
+  it('should unpin user and remove his calendar', () => {
     const store = reducers(
       {
         ...INITIAL_STATE,
         pinnedUsers: [{ email: 'test@gmail.com' }, { email: 'caleb@gmail.com' }]
       },
       {
-        type: REMOVE_USER_CALENDAR,
+        type: UNPIN_USERS,
         payload: 'caleb@gmail.com'
       }
     );

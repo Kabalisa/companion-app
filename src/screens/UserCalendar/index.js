@@ -77,8 +77,10 @@ export class CalendarContainer extends Component {
 
   unpinUser = (user) => {
     const { email } = user;
-    const { removeUser } = this.props;
-    removeUser(email);
+    const { removeUser, selectedDate, pinnedUsers } = this.props;
+    const users = pinnedUsers.filter(item => item.email !== email);
+    const emails = [...users.map(item => item.email)];
+    removeUser(email, selectedDate, emails);
   };
 
   render() {
