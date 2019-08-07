@@ -7,8 +7,8 @@ const UserAvatar = (props) => {
   return (
     <Avatar
       {...avatarProps}
-      position="left"
-      imageStyle={{ left: [styles.conversationAvatar] }}
+      position="right"
+      imageStyle={{ right: [styles.conversationAvatar] }}
     />
   );
 };

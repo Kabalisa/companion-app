@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import GreetingsMessage from './GreetingsMessage';
 import SuggestionMessage from './SuggestionMessage';
-import SystemMessage from './SystemMessage';
-import UserMessage from './UserMessage';
+import MessageDialog from './MessageDialog';
 
 const Message = (props) => {
   const { currentMessage } = props;
@@ -15,9 +14,9 @@ const Message = (props) => {
     return <GreetingsMessage {...props} />;
   }
   if (currentMessage.user._id !== 2) {
-    return <UserMessage {...props} />;
+    return <MessageDialog {...props} />;
   }
-  return <SystemMessage {...props} />;
+  return <MessageDialog position="left" {...props} />;
 };
 
 Message.propTypes = {

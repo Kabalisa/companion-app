@@ -128,20 +128,33 @@ const styles = StyleSheet.create({
   },
   systemMessageContainer: { alignSelf: 'flex-start', flexDirection: 'row' },
   userMessageContainer: { alignSelf: 'flex-end', flexDirection: 'row' },
-  messageContainer: {
-    flexDirection: 'column',
-    marginRight: 0,
-    marginBottom: 40,
-    paddingVertical: 10,
+  wrapper: {
+    marginBottom: 27,
+    alignItems: 'flex-start',
+    flexDirection: 'row'
+  },
+  message: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: scale(20),
+    maxWidth: scale(227),
+    borderTopLeftRadius: 14,
+    borderTopRightRadius: 14,
+    marginBottom: scale(8)
+  },
+  messageText: { ...textStyles },
+  timeStampContainer: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  timeStampContainer: {
-    alignSelf: 'flex-end',
-    marginRight: 52,
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+  timeStampText: {
+    fontSize: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    marginRight: 8,
+    color: 'rgba(153,165,172,1)'
   },
   checkMark: {
     marginLeft: 3,

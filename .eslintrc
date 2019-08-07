@@ -41,7 +41,7 @@
     "max-len": [
       2,
       {
-        "code": 80,
+        "code": 85,
         "tabWidth": 4,
         "ignoreUrls": true
       }
