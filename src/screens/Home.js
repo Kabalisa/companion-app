@@ -8,8 +8,8 @@ import { refreshAuth } from '../services/AuthService';
 import styles from '../shared/styles/splashLogin';
 import AndelaLogo from '../assets/andela.png';
 import AppLogo from '../assets/icon.png';
-import DINPro from '../assets/fonts/DINPro-Regular.ttf';
 import DINProBold from '../assets/fonts/DINPro-Bold.ttf';
+import DINPro from '../assets/fonts/DINPro-Regular.ttf';
 import { cacheImages, cacheFonts } from '../utils/caching';
 import assets from '../assets';
 
@@ -17,8 +17,8 @@ class Home extends Component {
   state = { isLoading: true };
 
   bootstrapAsync = async () => {
-    const imageAssets = cacheImages([...assets]);
-    const fonts = cacheFonts({
+    const imageAssets = await cacheImages([...assets]);
+    const fonts = await cacheFonts({
       DINPro,
       DINProBold
     });
@@ -26,9 +26,9 @@ class Home extends Component {
     const {
       navigation: { navigate }
     } = this.props;
-    await Promise.all(imageAssets, fonts);
     const isAuthenticated = await refreshAuth();
     navigate(isAuthenticated ? 'Main' : 'Auth');
+    return Promise.all(imageAssets, fonts);
   };
 
   render() {
