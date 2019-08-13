@@ -1,5 +1,7 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
-import { scale, verticalScale } from 'react-native-size-matters';
+import { scale } from 'react-native-size-matters';
+
+import responsiveStyles from '../../../shared/styles/responsiveStyles';
 
 const { width } = Dimensions.get('window');
 
@@ -8,10 +10,22 @@ const container = {
   justifyContent: 'center'
 };
 const textStyles = {
-  lineHeight: 15,
-  fontFamily: 'DINPro',
+  fontSize: responsiveStyles().responsiveTextStylesFontSize,
+  lineHeight: responsiveStyles().responsiveTextStylesLineHeight,
   fontWeight: Platform.OS === 'ios' ? '500' : '400',
-  fontSize: Platform.OS === 'ios' ? 12 : 13
+  fontFamily: 'DINPro'
+};
+
+const shadowStyles = {
+  shadowColor: 'rgba(0,0,0,0.7)',
+  shadowOffset: {
+    width: 0,
+    height: 1
+  },
+  shadowOpacity: 0.2,
+  shadowRadius: 1.41,
+
+  elevation: 2
 };
 
 const styles = StyleSheet.create({
@@ -20,19 +34,21 @@ const styles = StyleSheet.create({
   },
   menuItem: {
     ...container,
-    borderRadius: 19,
+    ...shadowStyles,
+    borderRadius: responsiveStyles().responsiveMenuItemBorderRadius,
     padding: scale(10),
     marginBottom: scale(10),
     marginRight: scale(20),
     height: undefined,
-    aspectRatio: 123 / 148,
-    width: scale(123)
+    aspectRatio: responsiveStyles().responsiveMenuItemAspectRatio,
+    width: responsiveStyles().responsiveMenuItemWidth
   },
   menuItemImage: {
-    marginBottom: scale(20),
+    display: responsiveStyles().responsivemenuItemImageDisplay,
+    marginBottom: responsiveStyles().responsiveMenuItemImageMarginBottom,
     height: undefined,
     aspectRatio: 1 / 1,
-    width: verticalScale(54)
+    width: responsiveStyles().responsiveMenuItemImageWidth
   },
   menuItemText: {
     textAlign: 'center',
@@ -42,10 +58,10 @@ const styles = StyleSheet.create({
   },
   greetingsTitle: {
     backgroundColor: 'rgba(236,241,250,1)',
-    padding: scale(20),
+    padding: responsiveStyles().responsiveMessagePadding,
     maxWidth: scale(227),
     ...container,
-    marginBottom: scale(20),
+    marginBottom: responsiveStyles().responsiveGreetingsTitleMarginBottom,
     borderTopLeftRadius: 14,
     borderTopRightRadius: 14,
     borderBottomRightRadius: 14
@@ -54,7 +70,7 @@ const styles = StyleSheet.create({
     ...container,
     backgroundColor: 'rgba(4,89,228,1);',
     color: 'white',
-    padding: scale(20),
+    padding: responsiveStyles().responsiveMessagePadding,
     maxWidth: scale(227),
     borderTopLeftRadius: 14,
     borderTopRightRadius: 14,
@@ -102,14 +118,14 @@ const styles = StyleSheet.create({
     width: Math.floor((width * 5) / 6)
   },
   navigationProfileAvatar: {
-    width: scale(35),
+    width: width >= 768 ? scale(25) : scale(35),
     marginLeft: scale(20),
     marginRight: scale(20),
     marginBottom: scale(5),
 
     height: undefined,
     aspectRatio: 1 / 1,
-    borderRadius: scale(35 / 2)
+    borderRadius: width >= 768 ? scale(25 / 2) : scale(35 / 2)
   },
   sendIcon: {
     height: scale(25),
@@ -165,12 +181,12 @@ const styles = StyleSheet.create({
     marginLeft: '3%',
     justifyContent: 'center'
   },
-  greetingsContainer: { flexDirection: 'row', marginRight: 30 },
+  greetingsContainer: { flexDirection: 'row', marginRight: 30, paddingTop: 40 },
   suggestionContainer: {
     marginBottom: scale(20)
   },
   suggestionContent: {
-    padding: scale(20),
+    padding: responsiveStyles().responsiveMessagePadding,
     ...container,
     borderWidth: 1,
     borderColor: '#10a36d',

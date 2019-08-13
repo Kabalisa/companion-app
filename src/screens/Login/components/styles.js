@@ -8,9 +8,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: scale(54),
+    height: SCREEN_WIDTH >= 768 ? scale(40) : scale(54),
     borderRadius: scale(8),
-    width: SCREEN_WIDTH * 0.8,
+    width: SCREEN_WIDTH * (SCREEN_WIDTH >= 768 ? 0.5 : 0.8),
     borderColor: color('#344C5A')
       .alpha(0.2)
       .lighten(0.8),
@@ -23,7 +23,7 @@ export default StyleSheet.create({
     backgroundColor: '#fff'
   },
   btnTitle: {
-    fontSize: scale(16),
+    fontSize: SCREEN_WIDTH >= 768 ? scale(12) : scale(16),
     lineHeight: scale(40),
     color: '#344C5A',
     fontFamily: 'DINPro'

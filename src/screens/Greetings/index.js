@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
-  Platform, SafeAreaView, Alert, AsyncStorage
+  Platform, SafeAreaView, Alert, AsyncStorage, Dimensions
 } from 'react-native';
+import { Constants } from 'expo';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { Dialogflow_V2 as DialogFlow } from 'react-native-dialogflow-text';
@@ -21,10 +22,19 @@ import companionAppLogo from './components/icons/companion-logo.png';
 const { CLIENT_EMAIL, PRIVATE_KEY, PROJECT_ID } = config;
 const BOT_USER = { _id: 2, name: 'SmartBot', avatar: companionAppLogo };
 
+const { width } = Dimensions.get('window');
+
 export class GreetingsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     return {
+      headerStyle:
+        width >= 768
+          ? {
+            marginTop: Constants.statusBarHeight,
+            paddingBottom: 10
+          }
+          : {},
       headerRight: (
         <HeaderRight onPress={() => navigation.navigate('UserCalendar')} />
       ),
