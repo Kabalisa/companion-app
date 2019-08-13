@@ -17,7 +17,8 @@ import ExpandableCalendar from './ExpandableCalendar';
 import Header from './Header';
 import Loading from '../../../shared/components/ActivityIndicator/Loading';
 import PinnedUser from '../OtherCalendar/components/PinnedUser';
-import { addCalendarStyles, styles } from './styles';
+import { styles } from './styles';
+import { addCalendarStyles } from './agendaStyles';
 import SearchResults from '../OtherCalendar/components/SearchResults';
 import SearchInput from '../OtherCalendar/components/SearchInput';
 
@@ -90,7 +91,7 @@ class Calendar extends Component {
     const dots = markDayEvents(events);
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+        <StatusBar barStyle="default" />
         <Header
           onSearchPress={this.openSearchModal}
           goBack={this.navigateBack}
@@ -130,7 +131,7 @@ class Calendar extends Component {
           </View>
         </Modal>
         <CalendarProvider
-          date=""
+          date={selectedDate}
           onDateChanged={handleDateSelect}
           onMonthChange={this.handleMonthChange}
           testID="calendar-provider"
@@ -142,7 +143,12 @@ class Calendar extends Component {
             </View>
           ) : null}
 
-          <AgendaList currentEvents={currentEvents} extraData={events} />
+          <AgendaList
+            currentEvents={currentEvents}
+            extraData={events}
+            currentDate={selectedDate}
+            isLoading={isLoading}
+          />
         </CalendarProvider>
       </SafeAreaView>
     );

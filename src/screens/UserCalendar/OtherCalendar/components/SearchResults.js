@@ -2,7 +2,7 @@ import React from 'react';
 import { View, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import { ListItem } from 'react-native-elements';
-import { addCalendarStyles } from '../../components/styles';
+import { addCalendarStyles } from '../../components/agendaStyles';
 
 const SearchResults = ({ data, pinUser }) => (
   <View style={addCalendarStyles.resultContainer}>

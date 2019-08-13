@@ -18,7 +18,6 @@ const AgendaListItems = ({ section }) => {
         </View>
         <View style={styles.horizontalLine} />
       </View>
-
       <View style={styles.main}>
         <FlatList
           data={data}

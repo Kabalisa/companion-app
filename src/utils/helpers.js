@@ -118,7 +118,7 @@ export const getMonth = date => moment(date).format('YYYY-MM');
 export const getCurrentTime = () => {
   const date = new Date();
   const hours = date.getHours();
-  const minutes = date.getMinutes() / 60;
+  const minutes = Math.round((date.getMinutes() / 60) * 100) / 100;
 
   return hours + minutes;
 };

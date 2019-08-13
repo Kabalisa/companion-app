@@ -26,11 +26,11 @@ const Header = ({
       <View style={headerStyles.rightContent}>
         <View style={headerStyles.pinnedUsersContainer}>
           {usersHeaderAvatar.map((avatar, index) => (
-            <View key={avatar.userId} style={headerStyles.avatartItem}>
+            <View key={avatar.userId} style={headerStyles.avatarItem}>
               <Avatar profileAvatar={avatar.imageUrl} colorIndex={index} />
             </View>
           ))}
-          <View style={headerStyles.avatartItem}>
+          <View style={headerStyles.avatarItem}>
             <HeaderButton
               onPress={onSearchPress}
               icon={searchIcon}

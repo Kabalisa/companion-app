@@ -20,9 +20,9 @@ export class CalendarContainer extends Component {
   };
 
   async componentDidMount() {
-    const { navigation } = this.props;
+    const { navigation, selectedDate, pinnedUsers } = this.props;
     navigation.setParams({ isCalendarOpen: true });
-    await this.getUserCalendar();
+    await this.getUserCalendar(selectedDate, pinnedUsers);
   }
 
   handleDateSelect = (date) => {
@@ -79,7 +79,7 @@ export class CalendarContainer extends Component {
     const { email } = user;
     const { removeUser, selectedDate, pinnedUsers } = this.props;
     const users = pinnedUsers.filter(item => item.email !== email);
-    const emails = [...users.map(item => item.email)];
+    const emails = users.map(item => item.email);
     removeUser(email, selectedDate, emails);
   };
 
