@@ -110,7 +110,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05
   },
   inputBoxText: {
-    fontSize: 20
+    fontSize: 20,
+    lineHeight: 20
   },
   menuContainer: {
     flexDirection: 'row',

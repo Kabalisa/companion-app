@@ -6,7 +6,7 @@ import styles from './styles';
 const InputBox = props => (
   <InputToolbar
     {...props}
-    placeholder="Say something ..."
+    placeholder="Type something ..."
     primaryStyle={styles.inputPrimary}
     containerStyle={styles.inputToolBar}
     textInputStyle={styles.inputBoxText}
