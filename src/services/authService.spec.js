@@ -97,6 +97,19 @@ describe('Authentication Service', () => {
       }
     });
 
+    test('should throw sign out failed error', async () => {
+      jest.spyOn(AsyncStorage, 'getItem').mockImplementation(() => accessToken);
+      jest.spyOn(Google, 'revokeAsync').mockImplementation(() => {
+        const err = 'error';
+        throw err;
+      });
+      try {
+        await AuthService.signOut();
+      } catch (error) {
+        expect(error.message).toEqual('Sign out failed');
+      }
+    });
+
     test('should refresh token succeed', async () => {
       jest.spyOn(AsyncStorage, 'getItem').mockImplementation(() => {
         const res = refreshToken;
