@@ -143,6 +143,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center'
   },
+  messageContainer: {
+    marginBottom: 40,
+    paddingVertical: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
   systemMessageContainer: { alignSelf: 'flex-start', flexDirection: 'row' },
   userMessageContainer: { alignSelf: 'flex-end', flexDirection: 'row' },
   wrapper: {
@@ -179,8 +185,7 @@ const styles = StyleSheet.create({
     marginTop: -5
   },
   messageAvatar: {
-    marginLeft: '3%',
-    justifyContent: 'center'
+    marginLeft: '3%'
   },
   greetingsContainer: { flexDirection: 'row', marginRight: 30, paddingTop: 40 },
   suggestionContainer: {
@@ -214,6 +219,12 @@ const styles = StyleSheet.create({
   },
   suggestionIcon: {
     marginRight: 15
+  },
+  messageDetails: {
+    alignSelf: 'flex-start',
+    marginLeft: 54,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 });
 

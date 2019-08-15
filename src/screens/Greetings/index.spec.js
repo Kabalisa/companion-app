@@ -15,6 +15,8 @@ const props = {
 
 const result = {
   queryResult: {
+    intent: { name: 'intent/random-intent' },
+    fulfillmentText: 'here is your message',
     fulfillmentMessages: [
       {
         text: 'here is your message',
@@ -54,9 +56,7 @@ describe('Greetings screen', () => {
   });
 
   test('render sendUserEmail', async () => {
-    jest.spyOn(AsyncStorage, 'getItem').mockImplementation(
-      () => 'testwasShown'
-    );
+    jest.spyOn(AsyncStorage, 'getItem').mockImplementation(() => 'testwasShown');
     await wrapperInstance.sendUserEmail();
   });
 
@@ -89,7 +89,10 @@ describe('Greetings screen', () => {
 
   test('should test the navigation headerRight onPress', () => {
     const naviProps = {
-      navigation: { state: { params: { picture: 'http://picurl' } }, navigate: jest.fn() }
+      navigation: {
+        state: { params: { picture: 'http://picurl' } },
+        navigate: jest.fn()
+      }
     };
     const navigationOptions = GreetingsScreen.navigationOptions(naviProps);
     navigationOptions.headerRight.props.onPress();
@@ -107,10 +110,11 @@ describe('Greetings screen', () => {
   });
 
   test('componentDidMount', () => {
-    jest.spyOn(AsyncStorage, 'getItem').mockImplementation((
-    ) => new Promise((resolve) => {
-      resolve('test');
-    }));
+    jest.spyOn(AsyncStorage, 'getItem').mockImplementation(
+      () => new Promise((resolve) => {
+        resolve('test');
+      })
+    );
     return AsyncStorage.getItem('token').then((token) => {
       jest.spyOn(DialogFlow, 'setConfiguration');
       expect(token).toEqual('test');

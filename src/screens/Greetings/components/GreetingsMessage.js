@@ -3,10 +3,9 @@ import React, { Component } from 'react';
 import { View, Text, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
-import MenuItem from './MenuItem';
 import UserAvatar from './Avatar';
+import MenuOptions from './MenuOptions';
 import styles from './styles';
-import options from '../../../constants/initialMessage';
 
 export default class GreetingsMessage extends Component {
   state = { text: { title: '' } };
@@ -39,14 +38,7 @@ export default class GreetingsMessage extends Component {
           <View style={styles.greetingsTitle}>
             <Text style={styles.greetingsTitleText}>{title}</Text>
           </View>
-
-          <View style={styles.menuContainer}>
-            {options.map(option => (
-              <View key={`${option.itemDescription}`}>
-                <MenuItem {...option} onPress={onPress} />
-              </View>
-            ))}
-          </View>
+          <MenuOptions onPress={onPress} />
         </View>
       </View>
     );

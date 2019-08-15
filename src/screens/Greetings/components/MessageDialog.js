@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Ionicons } from '@expo/vector-icons';
+import MenuOptions from './MenuOptions';
 import UserAvatar from './Avatar';
 import styles from './styles';
 
@@ -28,7 +29,12 @@ const specs = (position) => {
 };
 
 const MessageDialog = (props) => {
-  const { currentMessage: { text, createdAt }, position } = props;
+  const {
+    currentMessage: { text, createdAt },
+    position,
+    showMenu,
+    onPress
+  } = props;
   return (
     <View style={[styles.wrapper, specs(position).wrapper]}>
       {position === 'left' && <UserAvatar {...props} />}
@@ -40,6 +46,7 @@ const MessageDialog = (props) => {
             </Text>
           </View>
         </View>
+        {showMenu && <MenuOptions onPress={onPress} />}
         <View style={[styles.timeStampContainer]}>
           <Text style={[styles.timeStampText]}>
             {`Sent ${moment(createdAt).fromNow()}`}
@@ -57,11 +64,14 @@ MessageDialog.propTypes = {
     text: PropTypes.string,
     createdAt: PropTypes.any
   }).isRequired,
-  position: PropTypes.string
+  position: PropTypes.string,
+  showMenu: PropTypes.bool,
+  onPress: PropTypes.func.isRequired
 };
 
 MessageDialog.defaultProps = {
-  position: 'right'
+  position: 'right',
+  showMenu: false
 };
 
 export default MessageDialog;

@@ -76,35 +76,44 @@ export class GreetingsScreen extends Component {
     });
   }
 
-  sendBotResponse = (text) => {
+  sendBotResponse = (text, messageProps = {}) => {
     const { sendMessages, messages } = this.props;
     const message = {
       _id: messages.length + 1,
       text,
       createdAt: new Date(),
-      user: BOT_USER
+      user: BOT_USER,
+      messageProps
     };
     sendMessages(message);
   };
 
   handleGoogleResponse = (result) => {
-    if (!result.error) {
-      const { fulfillmentMessages } = result.queryResult;
-      const [firstFulfillment] = fulfillmentMessages;
-      const { text = {} } = firstFulfillment;
-      const { text: messages = [] } = text;
-      const [message = ''] = messages;
-      if (message.toLowerCase().includes('email')) this.sendUserEmail();
-      else this.sendBotResponse(message);
-    } else {
+    if (result.error) {
       const { code, status, message } = result.error;
-      Alert.alert(
+      return Alert.alert(
         `${status} ${code}`,
         message,
         [{ text: 'CANCEL' }, { text: 'OK' }],
         { cancelable: false }
       );
     }
+
+    const {
+      queryResult: {
+        fulfillmentText: message,
+        intent: { name: intentName = '' }
+      }
+    } = result;
+    if (message.toLowerCase().includes('email')) {
+      return this.sendUserEmail();
+    }
+    if (
+      intentName.includes('intents/5279baf4-d47d-47c1-baf5-b1e3e1f77f25')
+    ) {
+      return this.sendBotResponse(message, { showMenu: true });
+    }
+    return this.sendBotResponse(message);
   };
 
   sendUserEmail = async () => {
@@ -148,6 +157,7 @@ export class GreetingsScreen extends Component {
     return (
       <Message
         {...props}
+        {...messages[0].messageProps}
         onPress={text => this._onSend({
           _id: messages.length + 1,
           text,
@@ -193,14 +203,12 @@ export class GreetingsScreen extends Component {
 GreetingsScreen.propTypes = {
   navigation: PropTypes.shape({
     setParams: PropTypes.func
-  })
-};
-
-GreetingsScreen.propTypes = {
-  navigation: PropTypes.shape({
-    setParams: PropTypes.func
   }),
-  messages: PropTypes.arrayOf(PropTypes.shape({})),
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      messageProps: PropTypes.shape({})
+    })
+  ),
   sendMessages: PropTypes.func.isRequired
 };
 
