@@ -40,7 +40,10 @@ const Auth = createStackNavigator(
   },
   {
     initialRouteName: 'Login',
-    headerMode: 'none'
+    headerMode: 'none',
+    defaultNavigationOptions: {
+      gesturesEnabled: false
+    }
   }
 );
 

@@ -57,6 +57,7 @@ export class GreetingsScreen extends Component {
     }
   };
 
+
   componentDidMount() {
     const { navigation: { setParams } = {} } = this.props;
     AsyncStorage.getItem('token').then((token) => {
@@ -124,7 +125,7 @@ export class GreetingsScreen extends Component {
     }
   };
 
-  _onSend(message, printMessage = true) {
+  _onSend = (message, printMessage = true) => {
     const { sendMessages } = this.props;
     if (printMessage) sendMessages(message);
     const { text = '' } = message;
@@ -213,7 +214,7 @@ const mapStateToProps = state => ({
   messages: state.messages.messages
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   sendMessages: message => dispatch(sendMessage(message))
 });
 

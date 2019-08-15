@@ -1,17 +1,16 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { scale } from 'react-native-size-matters';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default StyleSheet.create({
   header: {
     height: scale(226),
     width: scale(291),
-    marginTop: '30%'
+    marginTop: '20%'
   },
   body: {
-    flex: 0.3,
-    justifyContent: 'space-between',
+    flex: 1,
     alignItems: 'center'
   },
   alignBody: {
@@ -20,18 +19,18 @@ export default StyleSheet.create({
   },
   title: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: SCREEN_HEIGHT * 0.03,
     color: 'rgba(52,76,90,1)',
     opacity: 1.0,
-    marginTop: scale(35),
+    marginTop: '5%',
     marginBottom: scale(20),
     fontFamily: 'DINPro'
   },
   bodyText: {
-    fontSize: 14,
+    fontSize: SCREEN_HEIGHT * 0.02,
     textAlign: 'center',
-    color: 'rgba(52,76,90,1)',
-    opacity: 0.8,
+    color: 'rgba(52,76,90,0.8)',
+    opacity: 1,
     marginBottom: scale(5),
     fontFamily: 'DINPro'
   },
@@ -44,23 +43,36 @@ export default StyleSheet.create({
   },
   buttomText: {
     color: 'rgba(52,76,90,0.34)',
-    fontSize: 14,
+    fontSize: 12,
     opacity: 1.0,
-    fontFamily: 'DINPro'
+    fontFamily: 'DINPro',
+    bottom: '5%'
   },
   container: {
+    justifyContent: 'flex-end',
     alignItems: 'center',
     alignSelf: 'center',
     flex: 1,
-    width: SCREEN_WIDTH * 0.8,
-    backgroundColor: 'rgba(255,255,255,1)',
-    paddingBottom: scale(20)
+    width: SCREEN_WIDTH,
+    position: 'absolute',
+    height: '100%'
+  },
+  page1Container: {
+    flex: 1,
+    backgroundColor: 'rgba(236,248,250,1)'
+  },
+  page2Container: {
+    flex: 1,
+    backgroundColor: 'rgba(244,240,221,1)'
+  },
+  page3Container: {
+    flex: 1,
+    backgroundColor: 'rgba(227,247,226,1)'
   },
   containerFlex: {
     flex: 0.6
   },
   pagination: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -81,5 +93,15 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
     margin: 2
+  },
+  onBoardingInfo: {
+    marginTop: '1.57%',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    position: 'absolute',
+    height: '100%',
+    width: '100%'
   }
 });

@@ -1,4 +1,4 @@
 export const slideTitle2 = 'Get Room Directions';
-export const slideBody2 = `Unable to locate your meeting room? 
-Companion app provides you with detailed directions to your 
-meeting room of choice, saving you time.`;
+export const slideBody2 = `Visiting an Andela center for the first 
+time? Companion App helps you navigate 
+to meeting rooms with no hassle.`;

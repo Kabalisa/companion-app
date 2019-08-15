@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Slide from './Slide';
+import Slide, { Content } from './Slide';
 import slideImage1 from './assets/swipper1.png';
 
 const props = {
@@ -13,10 +13,27 @@ const props = {
   skipOnBoarding: jest.fn()
 };
 
-const componentWrapper = shallow(<Slide {...props} />);
+const ContentProps = {
+  props: {
+    body: 'test',
+    title: 'test',
+    subbody: 'test',
+    fadeAnim: {},
+    slowAnim: {},
+    index: 0,
+    pages1: 'pages',
+    pages2: 'pages',
+    pages3: 'pages',
+    pagination: 2,
+    images: []
+  }
+};
 
+const componentWrapper = shallow(<Slide {...props} />);
+const ContentWrapper = shallow(<Content {...ContentProps} />);
+const components = [componentWrapper, ContentWrapper];
 describe('Component Rendering', () => {
   test('should match the snapshot', () => {
-    expect(componentWrapper).toMatchSnapshot();
+    components.map(index => expect(index).toMatchSnapshot());
   });
 });
