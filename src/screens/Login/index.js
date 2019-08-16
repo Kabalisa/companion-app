@@ -9,9 +9,7 @@ import styles from './components/styles';
 export default class LoginContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      authenticating: false
-    };
+    this.state = { authenticating: false };
     this.toast = null;
   }
 
@@ -32,15 +30,13 @@ export default class LoginContainer extends Component {
           ['token', token],
           ['currentUser', user]
         ],
-        () => {
-          this.handleNavigate();
-        }
+        this.handleNavigate
       );
     } catch (error) {
-      this.setState({
-        authenticating: false
-      });
-      this.toast.show(error.message, 5000);
+      this.setState({ authenticating: false });
+      let { message } = error;
+      if (message.includes('cancel')) message = 'You cancelled the login process.';
+      this.toast.show(message, 5000);
     }
   };
 
@@ -49,9 +45,7 @@ export default class LoginContainer extends Component {
       navigation: { navigate }
     } = this.props;
     const onBoarded = await AsyncStorage.getItem('onBoard');
-    this.setState({
-      authenticating: false
-    });
+    this.setState({ authenticating: false });
     navigate(onBoarded ? 'Main' : 'OnBoarding');
   };
 
@@ -69,9 +63,9 @@ export default class LoginContainer extends Component {
             this.toast = ref;
           }}
           style={styles.toastStyles}
-          positionValue={37}
+          positionValue={60}
           position="bottom"
-          opacity={0.6}
+          opacity={1}
           testId="toast-notification"
         />
       </Login>

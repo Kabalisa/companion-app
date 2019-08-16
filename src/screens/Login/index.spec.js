@@ -45,7 +45,8 @@ describe('Login Container', () => {
 
   test('should catch error if Google auth failed', async () => {
     Google.authAsync = jest.fn().mockImplementationOnce(() => ({
-      type: 'canceled'
+      type: 'canceled',
+      error: { message: 'cancel' }
     }));
     await componentWrapper.props().handleLoginPress();
     expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
@@ -56,11 +57,13 @@ describe('Login Container', () => {
     Google.authAsync = jest.fn().mockImplementationOnce(() => ({
       type: 'success',
       accessToken,
+      status: 200,
       refreshToken: accessToken
     }));
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({
       json: () => Promise.resolve({ token: accessToken }),
-      ok: true
+      ok: true,
+      status: 200
     }));
     jest.spyOn(instance, 'signInWithGoogle');
     instance.forceUpdate();
@@ -77,24 +80,28 @@ describe('Login Container', () => {
       accessToken
     }));
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve({ error: 'Invalid account' }),
+      json: () => Promise.resolve({
+        error: 'Please make sure to use a valid Andela email'
+      }),
       ok: false,
       status: 401
     }));
 
     expect(instance.state.authenticating).toBe(false);
     await componentWrapper.props().handleLoginPress();
-    expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
-    expect(show).toBeCalledWith('Invalid account', 5000);
+    expect(show).toBeCalledWith(
+      'Please make sure to use a valid Andela email',
+      5000
+    );
   });
 
-  test('should respond to Google auth button onPress', async () => {
+  test('should cancel the login process', async () => {
     Google.authAsync = jest.fn().mockImplementationOnce(() => ({
       type: 'success',
       accessToken
     }));
     global.fetch = jest.fn().mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve({ error: 'Something went wrong' }),
+      json: () => Promise.resolve({ error: { message: 'user cancel' } }),
       ok: false
     }));
     expect(instance.state.authenticating).toBe(false);
@@ -102,6 +109,7 @@ describe('Login Container', () => {
     expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
     expect(instance.state.error).not.toBe(null);
   });
+
   test('should button not respond if authenticating', () => {
     componentWrapper.setState({ authenticating: true });
     instance.forceUpdate();

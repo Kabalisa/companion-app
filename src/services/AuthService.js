@@ -21,29 +21,27 @@ export const getAccessToken = async () => {
   }
 
   if (response.accessToken && response.refreshToken) {
-    await axios.post(
-      'https://dialogflow-service-companion.herokuapp.com/tokens',
-      {
-        accessToken: { [currentUser.email]: response.accessToken }
-      }
-    );
+    await axios.post('https://dialogflow-service-companion.herokuapp.com/tokens', {
+      accessToken: { [currentUser.email]: response.accessToken }
+    });
     return { ...response, currentUser };
   }
-  throw new Error('Invalid account');
+  throw new Error('Please make sure to use a valid Andela email');
 };
 
 export const getJwtToken = async (accessToken) => {
   const response = await fetch(
     `${ANDELA_AUTH_API}/token?google_token=${accessToken}`
   );
+
   const data = await response.json();
-  switch (response.ok) {
-    case true:
+  switch (response.status) {
+    case 200:
       return data;
-    case false:
-      throw new Error('Unauthorized');
+    case 401:
+      throw new Error('You can only login with your Andela email!');
     default:
-      throw new Error('Something went wrong');
+      throw new Error('We weren\'t able to authenticate you, please try again');
   }
 };
 

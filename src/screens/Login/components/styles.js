@@ -38,7 +38,7 @@ export default StyleSheet.create({
     position: 'absolute'
   },
   toastStyles: {
-    backgroundColor: 'red',
+    backgroundColor: 'rgba(255, 77, 77,1)',
     width: '100%',
     borderRadius: 0,
     alignItems: 'center'

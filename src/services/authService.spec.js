@@ -38,7 +38,8 @@ describe('Authentication Service', () => {
     test('should retrieve JWT token', async () => {
       global.fetch = jest.fn().mockImplementation(() => ({
         json: () => Promise.resolve({ token }),
-        ok: true
+        ok: true,
+        status: 200
       }));
       const response = await AuthService.getJwtToken(accessToken);
       expect(response instanceof Object).toBeTruthy();
@@ -55,7 +56,9 @@ describe('Authentication Service', () => {
       } catch (error) {
         response = error.message;
       }
-      expect(response).toEqual('Unauthorized');
+      expect(response).toEqual(
+        'We weren\'t able to authenticate you, please try again'
+      );
     });
 
     test('should throw unknown error', async () => {
@@ -69,7 +72,9 @@ describe('Authentication Service', () => {
       } catch (error) {
         response = error.message;
       }
-      expect(response).toEqual('Something went wrong');
+      expect(response).toEqual(
+        'We weren\'t able to authenticate you, please try again'
+      );
     });
   });
 
