@@ -5,10 +5,12 @@ import {
 import thunk from 'redux-thunk';
 import messages from './messages';
 import calendar from './calendar/reducers';
+import attendees from './attendees/reducers';
 
 export const rootReducer = combineReducers({
   [messages.stateKey]: messages.messageReducer,
-  calendar
+  calendar,
+  attendees
 });
 
 const middleWare = [thunk];

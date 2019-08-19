@@ -1,0 +1,2 @@
+export const PIN_ATTENDEES = 'PIN_ATTENDEES';
+export const REMOVE_ATTENDEE = 'REMOVE_ATTENDEE';

@@ -118,11 +118,21 @@ export const addEventStyles = StyleSheet.create({
 });
 
 export const pinnedCalendarStyles = StyleSheet.create({
+  mainContainer: {
+    width: DEVICE_WIDTH
+  },
   pinnedContainer: {
+    position: 'absolute',
+    width: '100%',
     alignSelf: 'center',
+    alignContent: 'center',
     justifyContent: 'space-around',
     zIndex: 0,
-    marginTop: scale(10)
+    paddingVertical: 20,
+    paddingHorizontal: 70,
+    flex: 1,
+    shadowColor: '#F3F4F5',
+    marginTop: scale(60)
   },
   renderList: {
     flex: 1,

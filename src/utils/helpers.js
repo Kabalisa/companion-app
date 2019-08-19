@@ -2,6 +2,7 @@ import moment from 'moment';
 import {
   flattenDeep, groupBy, mapValues, uniqBy
 } from 'lodash';
+import { AsyncStorage } from 'react-native';
 import settings from '../constants/calendarSettings';
 
 const isValidDate = (value) => {
@@ -122,3 +123,29 @@ export const getCurrentTime = () => {
 
   return hours + minutes;
 };
+
+/**
+ * Fetch user emails from the andela API.
+ * @param {keyWord} keyWord the keyword that helps identify a user.
+ * @returns {text} the user email after successful fetch .
+ */
+export async function getUserEmail(keyWord) {
+  this.setState({ text: keyWord });
+  const text = keyWord.trim();
+  if (text) {
+    const token = await AsyncStorage.getItem('token');
+    const attendeeData = await fetch(
+      `https://api-prod.andela.com/api/v1/users/basic?search=${text}`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+    if (attendeeData) {
+      const currentResults = await attendeeData.json();
+      this.setState({ data: currentResults.values });
+      return currentResults;
+    }
+  }
+  this.setState({ data: [] });
+  return text;
+}

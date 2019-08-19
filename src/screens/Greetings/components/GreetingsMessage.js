@@ -47,13 +47,14 @@ export default class GreetingsMessage extends Component {
 
 GreetingsMessage.propTypes = {
   currentMessage: PropTypes.shape({
-    text: PropTypes.string
+    text: PropTypes.any
   }),
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func
 };
 
 GreetingsMessage.defaultProps = {
   currentMessage: {
     text: ''
-  }
+  },
+  onPress: () => {}
 };

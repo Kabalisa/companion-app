@@ -10,9 +10,15 @@ export default class SuggestionMessage extends React.Component {
   };
 
   onPress = () => {
-    this.setState({
-      isAccepted: true
-    });
+    const { action } = this.props;
+    const { isAccepted } = this.state;
+    action();
+    if (isAccepted === true) {
+      this.setState({
+        isAccepted: false
+      });
+    }
+    this.setState({ isAccepted: true });
   };
 
   renderIcon = (icon, primaryColor) => (
@@ -26,10 +32,17 @@ export default class SuggestionMessage extends React.Component {
 
   render() {
     const { isAccepted } = this.state;
-    const { text, icon } = this.props;
+    const {
+      text,
+      icon,
+      AcceptedPrcolor,
+      NotAcceptedPrcolor,
+      AcceptedBgcolor,
+      NotAcceptedBgcolor
+    } = this.props;
 
-    const primaryColor = isAccepted ? '#ffffff' : '#10a36d';
-    const backgroundColor = isAccepted ? '#10a36d' : '#ecfaee';
+    const primaryColor = isAccepted ? AcceptedPrcolor : NotAcceptedPrcolor;
+    const backgroundColor = isAccepted ? AcceptedBgcolor : NotAcceptedBgcolor;
 
     return (
       <View style={[styles.systemMessageContainer, styles.suggestionContainer]}>
@@ -39,7 +52,6 @@ export default class SuggestionMessage extends React.Component {
         <TouchableOpacity
           onPress={this.onPress}
           style={[styles.suggestionContent, { backgroundColor }]}
-          disabled={!!isAccepted}
         >
           {this.renderIcon(icon, primaryColor)}
           <Text style={[styles.suggestionText, { color: primaryColor }]}>
@@ -52,6 +64,21 @@ export default class SuggestionMessage extends React.Component {
 }
 
 SuggestionMessage.propTypes = {
-  text: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired
+  text: PropTypes.string,
+  icon: PropTypes.string,
+  action: PropTypes.func,
+  AcceptedPrcolor: PropTypes.string,
+  NotAcceptedPrcolor: PropTypes.string,
+  AcceptedBgcolor: PropTypes.string,
+  NotAcceptedBgcolor: PropTypes.string
+};
+
+SuggestionMessage.defaultProps = {
+  text: 'w',
+  icon: 'w',
+  action: () => {},
+  AcceptedPrcolor: 'w',
+  NotAcceptedPrcolor: 'w',
+  AcceptedBgcolor: 'w',
+  NotAcceptedBgcolor: 'w'
 };

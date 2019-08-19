@@ -4,13 +4,21 @@ import { shallow } from 'enzyme';
 import moxios from 'moxios';
 import { Dialogflow_V2 as DialogFlow } from 'react-native-dialogflow-text';
 import navigationProps from '../../../__tests__/helpers/navigationProps';
-import { GreetingsScreen, mapDispatchToProps } from './index';
+import { GreetingsScreen, mapStateToProps, mapDispatchToProps } from './index';
+import { user, accessToken } from '../../../__tests__/mock/data';
 
 jest.mock('jwt-decode');
 
+const users = [user];
+const [pinAttendees] = Array(4).fill(jest.fn());
+
 const props = {
   ...navigationProps,
-  sendMessages: jest.fn()
+  sendMessages: jest.fn(),
+  sendMessage: jest.fn(),
+  getAttendeeEmail: jest.fn(),
+  pinAttendees,
+  pinnedAttendees: []
 };
 
 const result = {
@@ -152,6 +160,55 @@ describe('Interactions with the bot', () => {
 
   it('should handle bot response ', async () => {
     wrapper.instance().sendBotResponse('Hello world');
+  });
+});
+
+describe('Add attendees to a meeting', () => {
+  test('should match snapshot', () => {
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test('should search attendee by email', async () => {
+    jest.spyOn(AsyncStorage, 'getItem').mockImplementation(() => accessToken);
+    global.fetch = jest.fn().mockImplementation(() => ({
+      json: () => Promise.resolve({ values: users }),
+      ok: true
+    }));
+    const text = 'me@example.com';
+    await wrapper.instance().getAttendeeEmail(text);
+    expect(wrapper.state().text).toEqual(text);
+    expect(wrapper.state().data.length).toEqual(1);
+  });
+
+  test('should remove the searches after a user is selected', async () => {
+    const text = '';
+    await wrapper.instance().getAttendeeEmail(text);
+    expect(wrapper.state().text).toEqual(text);
+    expect(wrapper.state().data.length).toEqual(0);
+  });
+  test('should respond to pin attendee', async () => {
+    await wrapper.instance().pinSelectedAttendee(users[0]);
+    expect(pinAttendees).toBeCalled();
+  });
+});
+
+describe('test for dispatch actions', () => {
+  test('should dispatch action', () => {
+    const initialState = {
+      messages: {
+        messages: []
+      },
+      error: {},
+      text: '',
+      pinnedAttendees: [],
+      isLoading: false
+    };
+    expect(mapStateToProps(initialState).messages).toEqual([]);
+  });
+  test('should dispatch sendMessage action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).sendMessages();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: 'SEND_MESSAGE' });
   });
 });
 

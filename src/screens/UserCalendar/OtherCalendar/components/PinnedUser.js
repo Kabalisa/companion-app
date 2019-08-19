@@ -15,36 +15,43 @@ const PinnedUser = ({ pinnedUsers, removeUser }) => (
       keyExtractor={(item, index) => `${index}`}
       style={pinnedStyles.renderList}
       renderItem={item => (
-        <View style={pinnedStyles.avatarContainer}>
-          <View>
-            <Avatar
-              rounded
-              size="medium"
-              source={{
-                uri: item.item.imageUrl
-              }}
-              title={item.item.username}
-              titleStyle={pinnedStyles.title}
-              key={item.userId}
-              containerStyle={pinnedStyles.list}
-            />
-            <Text style={pinnedStyles.userInformation}>
-              {item.item.username}
-            </Text>
+        <TouchableOpacity>
+          <View style={pinnedStyles.avatarContainer}>
+            <View>
+              <Avatar
+                rounded
+                size="medium"
+                source={{
+                  uri: item.item.imageUrl
+                }}
+                title={item.item.username}
+                titleStyle={pinnedStyles.title}
+                key={item.userId}
+                containerStyle={pinnedStyles.list}
+              />
+              <Text style={pinnedStyles.userInformation}>
+                {item.item.username}
+              </Text>
+            </View>
+            <View style={pinnedStyles.cancelIcon}>
+              <TouchableOpacity onPress={() => removeUser(item.item)}>
+                <Image style={pinnedStyles.cancelTwoIcon} source={unPinIcon} />
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={pinnedStyles.cancelIcon}>
-            <TouchableOpacity onPress={() => removeUser(item.item)}>
-              <Image style={pinnedStyles.cancelTwoIcon} source={unPinIcon} />
-            </TouchableOpacity>
-          </View>
-        </View>
+        </TouchableOpacity>
       )}
     />
   </View>
 );
 
 PinnedUser.propTypes = {
-  pinnedUsers: PropTypes.instanceOf(Array).isRequired,
-  removeUser: PropTypes.func.isRequired
+  pinnedUsers: PropTypes.instanceOf(Array),
+  removeUser: PropTypes.func
+};
+
+PinnedUser.defaultProps = {
+  removeUser: () => {},
+  pinnedUsers: []
 };
 export default PinnedUser;

@@ -23,6 +23,7 @@ const today = new Date().toISOString().split('T')[0];
 
 export const fetchCalendars = async (email, date = today, colorIndex = 0) => {
   const accessToken = await AsyncStorage.getItem('accessToken');
+
   const timeMin = starOfMonth(date);
   const timeMax = endOfMonth(date);
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import Calendar from './components/Calendar';
-import { getMonth } from '../../utils/helpers';
+import { getMonth, getUserEmail } from '../../utils/helpers';
+
 import {
   getCalendarData,
   getSelectedDateEvents,
@@ -14,10 +14,14 @@ import {
 const today = new Date().toISOString().split('T')[0];
 
 export class CalendarContainer extends Component {
-  state = {
-    data: [],
-    text: ''
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      text: ''
+    };
+    this.getUserEmail = getUserEmail.bind(this);
+  }
 
   async componentDidMount() {
     const { navigation, selectedDate, pinnedUsers } = this.props;
@@ -41,27 +45,6 @@ export class CalendarContainer extends Component {
   getUserCalendar = async (date = today, emails = []) => {
     const { fetchCalendar } = this.props;
     fetchCalendar(date, emails);
-  };
-
-  getUserEmail = async (keyWord) => {
-    this.setState({ text: keyWord });
-    const text = keyWord.trim();
-    if (text) {
-      const token = await AsyncStorage.getItem('token');
-      const userData = await fetch(
-        `https://api-prod.andela.com/api/v1/users/basic?search=${text}`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-      if (userData) {
-        const currentResults = await userData.json();
-        this.setState({ data: currentResults.values });
-        return currentResults;
-      }
-    }
-    this.setState({ data: [] });
-    return text;
   };
 
   pinUser = (item) => {
@@ -133,7 +116,6 @@ CalendarContainer.propTypes = {
   setUser: PropTypes.func.isRequired,
   removeUser: PropTypes.func.isRequired
 };
-
 const mapStateToProps = state => ({
   ...state.calendar
 });

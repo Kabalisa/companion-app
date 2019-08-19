@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     padding: responsiveStyles().responsiveMessagePadding,
     ...container,
     borderWidth: 1,
-    borderColor: '#10a36d',
+    borderColor: '#0459E4',
     backgroundColor: '#ecfaee',
     flexDirection: 'row',
     borderRadius: 19,
@@ -219,6 +219,43 @@ const styles = StyleSheet.create({
   },
   suggestionIcon: {
     marginRight: 15
+  },
+  modalStyles: {
+    justifyContent: 'flex-start',
+    height: Platform.OS === 'ios' ? '65%' : '55%',
+    paddingVertical: 15,
+    width: '100%',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    shadowColor: 'rgba(0,0,0,0.03)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 2,
+    elevation: 5
+  },
+  modal: {
+    margin: 0
+  },
+  backDrop: {
+    flex: 0.5
+  },
+  contentContainer: {
+    flex: 0.5,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    width
+  },
+  content: {
+    backgroundColor: '#fff',
+    width: '100%',
+    borderTopLeftRadius: scale(30),
+    borderTopRightRadius: scale(30),
+    height: '100%',
+    shadowColor: 'rgba(0,0,0,0.03)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 2,
+    elevation: 5
   },
   messageDetails: {
     alignSelf: 'flex-start',

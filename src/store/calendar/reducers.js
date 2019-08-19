@@ -19,6 +19,7 @@ export const INITIAL_STATE = {
   error: {},
   text: '',
   pinnedUsers: [],
+  pinnedAttendees: [],
   isLoading: false
 };
 
