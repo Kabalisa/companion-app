@@ -10,7 +10,9 @@ import { user, accessToken } from '../../../__tests__/mock/data';
 jest.mock('jwt-decode');
 
 const users = [user];
-const [pinAttendees] = Array(4).fill(jest.fn());
+const [pinAttendees] = Array(4).fill(
+  jest.fn()
+);
 
 const props = {
   ...navigationProps,

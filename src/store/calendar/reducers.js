@@ -19,7 +19,6 @@ export const INITIAL_STATE = {
   error: {},
   text: '',
   pinnedUsers: [],
-  pinnedAttendees: [],
   isLoading: false
 };
 
@@ -67,6 +66,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         pinnedUsers: uniqBy([...state.pinnedUsers, payload], 'userId')
       };
+
     case UNPIN_USERS:
       return {
         ...state,

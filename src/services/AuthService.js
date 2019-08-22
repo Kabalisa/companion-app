@@ -21,7 +21,7 @@ export const getAccessToken = async () => {
   }
 
   if (response.accessToken && response.refreshToken) {
-    await axios.post('https://dialogflow-service-companion.herokuapp.com/tokens', {
+    await axios.post('https://companion-app-dialogflow.herokuapp.com/tokens', {
       accessToken: { [currentUser.email]: response.accessToken }
     });
     return { ...response, currentUser };

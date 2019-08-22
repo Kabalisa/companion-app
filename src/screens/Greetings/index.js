@@ -26,11 +26,9 @@ import styles from './components/styles';
 import config from '../../../config';
 import companionAppLogo from './components/icons/companion-logo.png';
 import PinnedUser from '../UserCalendar/OtherCalendar/components/PinnedUser';
-import SearchResults from
-  '../UserCalendar/OtherCalendar/components/SearchResults';
+import SearchResults from '../UserCalendar/OtherCalendar/components/SearchResults';
 import SearchInput from '../UserCalendar/OtherCalendar/components/SearchInput';
-import SaveAttendeeButton from
-  './InviteAttendees/components/SaveAttendeeButton';
+import SaveAttendeeButton from './InviteAttendees/components/SaveAttendeeButton';
 import {
   pinAttendeesAction,
   unpinAttendeeAction
@@ -135,9 +133,7 @@ export class GreetingsScreen extends Component {
     if (message.toLowerCase().includes('email')) {
       return this.sendUserEmail();
     }
-    if (
-      intentName.includes('intents/5279baf4-d47d-47c1-baf5-b1e3e1f77f25')
-    ) {
+    if (intentName.includes('intents/5279baf4-d47d-47c1-baf5-b1e3e1f77f25')) {
       return this.sendBotResponse(message, { showMenu: true });
     }
     return this.sendBotResponse(message);
@@ -189,7 +185,7 @@ export class GreetingsScreen extends Component {
         throw Error(JSON.stringify(error));
       }
     );
-  }
+  };
 
   renderInputToolbar = props => <InputToolbar {...props} />;
 
@@ -207,15 +203,32 @@ export class GreetingsScreen extends Component {
 
   renderPinnedAttendee = () => {
     const { pinnedAttendees, unpinAttendee } = this.props;
-    return (
-      <PinnedUser
-        pinnedUsers={pinnedAttendees}
-        removeUser={unpinAttendee}
-      />
+    return <PinnedUser pinnedUsers={pinnedAttendees} removeUser={unpinAttendee} />;
+  };
+
+  saveAttendees = () => {
+    const { pinnedAttendees } = this.props;
+    DialogFlow.requestEvent(
+      'attendees',
+      { attendees: pinnedAttendees },
+      () => {
+        pinnedAttendees.length = 0;
+        this.openAddAttendeesModal();
+        this._onSend({ text: 'okay' }, false);
+      },
+      (error) => {
+        throw Error(JSON.stringify(error));
+      }
     );
   };
 
-  renderSaveButton = () => (<SaveAttendeeButton />)
+  renderSaveButton = () => {
+    const { pinnedAttendees } = this.props;
+    if (pinnedAttendees.length !== 0) {
+      return <SaveAttendeeButton action={this.saveAttendees} />;
+    }
+    return null;
+  };
 
   renderMessage = (props) => {
     const { messages } = this.props;
@@ -246,10 +259,7 @@ export class GreetingsScreen extends Component {
   render() {
     const { messages } = this.props;
     const {
-      userAvatar,
-      firstName,
-      data,
-      isModalVisible
+      userAvatar, firstName, data, isModalVisible
     } = this.state;
 
     return (

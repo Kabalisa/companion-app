@@ -12,7 +12,7 @@ import {
 describe('Authentication Service', () => {
   beforeEach(() => {
     moxios.install();
-    moxios.stubRequest('https://dialogflow-service-companion.herokuapp.com/tokens', {
+    moxios.stubRequest('https://companion-app-dialogflow.herokuapp.com/tokens', {
       status: 200,
       responseText: 'hello'
     });

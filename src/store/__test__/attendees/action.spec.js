@@ -6,17 +6,10 @@ import * as types from '../../attendees/types';
 const mockStore = configureStore([thunk]);
 let store;
 const item = {
-  bamboo_hr_id: 0,
   email: 'alvin.mugambi@andela.com',
-  id: '-LcBZlxl2-AfbOlYNWAS',
-  last_login: '2019-03-07T00:00:00.000Z',
-  level_id: '',
-  location: null,
   name: 'Alvin Mugambi',
   picture:
-    'https://lh3.googleusercontent.com/-igciUdxZ4Tw/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3reMYlAe6d56yp86TiBYZ0Ja7cRk8A/s50/photo.jpg',
-  roles: '-KXGy1EB1oimjQgFim6C:Fellow,-KiihfZoseQeqC6bWTau:Andelan',
-  status: 'active'
+    'https://lh3.googleusercontent.com/-igciUdxZ4Tw/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3reMYlAe6d56yp86TiBYZ0Ja7cRk8A/s50/photo.jpg'
 };
 
 const user = {

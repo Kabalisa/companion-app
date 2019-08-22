@@ -74,11 +74,11 @@ SuggestionMessage.propTypes = {
 };
 
 SuggestionMessage.defaultProps = {
-  text: 'w',
-  icon: 'w',
+  text: '',
+  icon: '',
   action: () => {},
-  AcceptedPrcolor: 'w',
-  NotAcceptedPrcolor: 'w',
-  AcceptedBgcolor: 'w',
-  NotAcceptedBgcolor: 'w'
+  AcceptedPrcolor: '',
+  NotAcceptedPrcolor: '',
+  AcceptedBgcolor: '',
+  NotAcceptedBgcolor: ''
 };

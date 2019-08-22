@@ -7,7 +7,7 @@ import InteractionMessage from './InteractionMessage';
 const Message = (props) => {
   const { currentMessage, action } = props;
   const { openAttendeesModal } = action;
-  if (currentMessage.text === 'Do you want to invite people to the meeting?') {
+  if (currentMessage.text === 'Who are you inviting?') {
     return (
       <InteractionMessage
         {...props}
