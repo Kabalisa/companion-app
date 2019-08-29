@@ -1,10 +1,14 @@
 import moment from 'moment';
+import uuid from 'uuid/v4';
 import {
   flattenDeep, groupBy, mapValues, uniqBy
 } from 'lodash';
 import jwtDecode from 'jwt-decode';
 import { AsyncStorage } from 'react-native';
 import settings from '../constants/calendarSettings';
+import companionAppLogo from
+  '../screens/Greetings/components/icons/companion-logo.png';
+import { messageConstants } from './constants';
 
 export const currentUserEmail = async () => {
   const token = await AsyncStorage.getItem('token');
@@ -177,3 +181,30 @@ export async function getUserEmail(keyWord) {
   this.setState({ data: [] });
   return text;
 }
+
+export const handleGoogleResponse = (result) => {
+  const {
+    queryResult: { fulfillmentText: text }
+  } = result;
+  const BOT_USER = { _id: 2, name: 'SmartBot', avatar: companionAppLogo };
+  const message = {
+    _id: uuid(),
+    text,
+    type: 'bot',
+    createdAt: new Date(),
+    user: BOT_USER
+  };
+  return message;
+};
+
+export const getAccessToken = () => AsyncStorage.getItem('accessToken');
+
+export const generateKey = (text, type) => {
+  const isCalender = text === messageConstants.CalenderInvite;
+  const isUser = type === messageConstants.UserSting;
+  const isGreeting = type === messageConstants.GreetingString;
+
+  const key = `${isCalender}-${isUser}-${isGreeting}`;
+
+  return key;
+};

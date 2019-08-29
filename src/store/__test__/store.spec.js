@@ -6,7 +6,7 @@ describe('Store test', () => {
   it('Should Handle send message', () => {
     const message = 'Hi companion App';
     const store = createStore(rootReducer);
-    const action = actions.sendMessage(message);
+    const action = actions.displayMessage(message);
     store.dispatch(action);
 
     const sentMessage = store.getState();

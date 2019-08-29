@@ -5,6 +5,7 @@ export default {
     {
       _id: 1,
       text: 'hello',
+      type: 'greetings',
       createdAt: new Date(),
       user: {
         _id: 2,

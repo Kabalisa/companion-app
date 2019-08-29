@@ -1,6 +1,5 @@
 import * as Google from 'expo-app-auth';
 import { AsyncStorage } from 'react-native';
-import axios from 'axios';
 import config from '../../config';
 
 const { GOOGLE_CLIENT_ID, ANDELA_AUTH_API } = config;
@@ -21,9 +20,6 @@ export const getAccessToken = async () => {
   }
 
   if (response.accessToken && response.refreshToken) {
-    await axios.post('https://companion-app-dialogflow.herokuapp.com/tokens', {
-      accessToken: { [currentUser.email]: response.accessToken }
-    });
     return { ...response, currentUser };
   }
   throw new Error('Please make sure to use a valid Andela email');

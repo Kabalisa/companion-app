@@ -1,5 +1,5 @@
 import { uniqBy } from 'lodash';
-import { PIN_ATTENDEES, REMOVE_ATTENDEE } from './types';
+import { PIN_ATTENDEES, REMOVE_ATTENDEE, RESET_ATTENDEE } from './types';
 
 export const INITIAL_STATE = {
   error: {},
@@ -21,6 +21,11 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         pinnedAttendees: state.pinnedAttendees
           .filter(user => user.email !== payload)
+      };
+    case RESET_ATTENDEE:
+      return {
+        ...state,
+        pinnedAttendees: []
       };
     default:
       return state;

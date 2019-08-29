@@ -1,2 +1,4 @@
-// eslint-disable-next-line import/prefer-default-export
-export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const DISPLAY_MESSAGE = 'DISPLAY_MESSAGE';
+export const SEND_DIALOGFLOW_REQUEST = 'SEND_TO_DIALOGFLOW_REQUEST';
+export const RESPONSE_DIALOGFLOW_SUCCESS = 'SEND_TO_DIALOGFLOW_SUCCESS';
+export const RESPONSE_DIALOGFLOW_FAILURE = 'SEND_TO_DIALOGFLOW_FAILURE';

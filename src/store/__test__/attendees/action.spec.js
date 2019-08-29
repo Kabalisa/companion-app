@@ -34,4 +34,11 @@ describe('actions', () => {
     };
     expect(actions.unpinAttendeeAction(user.email)).toEqual(expectedAction);
   });
+
+  it('should create an action to reset attendee', () => {
+    const expectedAction = {
+      type: types.RESET_ATTENDEE
+    };
+    expect(actions.resetAttendeeAction()).toEqual(expectedAction);
+  });
 });

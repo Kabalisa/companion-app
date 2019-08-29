@@ -14,7 +14,7 @@ module.exports = {
     '!**/babel.config.js',
     '!**/jest.setup.js'
   ],
-  setupFiles: ['<rootDir>/enzyme.config.js'],
+  setupFiles: ['<rootDir>/enzyme.config.js', '<rootDir>/jest-setup.js'],
   coverageThreshold: {
     global: {
       branches: 80,
