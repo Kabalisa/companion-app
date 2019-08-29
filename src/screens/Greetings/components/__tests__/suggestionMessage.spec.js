@@ -10,8 +10,11 @@ const currentMessage = {
 const props = {
   text: currentMessage.text,
   icon: 'md-walk',
-  action: jest.fn()
-
+  action: jest.fn(),
+  AcceptedPrcolor: '#ffffff',
+  NotAcceptedPrcolor: '#0459E4',
+  AcceptedBgcolor: '#0459E4',
+  NotAcceptedBgcolor: '#ECF1FA'
 };
 
 const wrapper = shallow(

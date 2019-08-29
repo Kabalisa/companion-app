@@ -2,8 +2,18 @@ import moment from 'moment';
 import {
   flattenDeep, groupBy, mapValues, uniqBy
 } from 'lodash';
+import jwtDecode from 'jwt-decode';
 import { AsyncStorage } from 'react-native';
 import settings from '../constants/calendarSettings';
+
+export const currentUserEmail = async () => {
+  const token = await AsyncStorage.getItem('token');
+  const decoded = await jwtDecode(token);
+  const {
+    UserInfo: { email }
+  } = decoded;
+  return email;
+};
 
 const isValidDate = (value) => {
   if (!value) {
@@ -31,6 +41,22 @@ export const getStartHour = (value) => {
   return undefined;
 };
 
+const checkIfPrivate = (event) => {
+  let summary = '';
+  if (event.userEmail === 'primary') {
+    return event.summary;
+  }
+  if (event.visibility !== 'undefined'
+  && event.visibility === 'private'
+  && event.userEmail !== event.currentUserEmail) {
+    summary = 'Busy';
+  } else {
+    const currentSummary = event.summary;
+    summary = currentSummary;
+  }
+  return summary;
+};
+
 export const eventDuration = (start, end) => {
   const startTime = moment(new Date(start));
   const endTime = moment(new Date(end));
@@ -38,6 +64,7 @@ export const eventDuration = (start, end) => {
   if (!duration) return undefined;
   return duration;
 };
+
 export const sample = (array = []) => {
   const results = array[Math.floor(Math.random() * array.length)];
   return results;
@@ -57,9 +84,9 @@ export const formatCalendarData = (data = []) => {
       creator: event.creator,
       organizer: event.organizer,
       end: event.end,
+      summary: event.summary,
       start: event.start,
       originalStartTime: event.originalStartTime,
-      summary: event.summary,
       color: event.color = {
         dot: settings.dotColors,
         event: settings.eventColors
@@ -67,6 +94,7 @@ export const formatCalendarData = (data = []) => {
       userEmail: event.userEmail
     } = item);
     event.date = item.start && formatDate(item.start.dateTime);
+    event.summary = checkIfPrivate(item);
     return event;
   });
   return groupBy(newDate, 'date');

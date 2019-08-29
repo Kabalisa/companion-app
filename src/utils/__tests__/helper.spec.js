@@ -40,7 +40,9 @@ describe('Helper Functions', () => {
     expect(['a', 'b'].includes(sample(array))).toBeFalsy();
     expect([].includes(sample())).toBeFalsy();
   });
-  test('should return formated calendar date', () => {
+  test('should return formated calendar date', async () => {
+    calendarDate.items[0].visibility = 'private';
+    calendarDate.items[0].userEmail = 'test@user.com';
     const formatedDates = formatCalendarData(calendarDate.items);
     expect(formatCalendarData()).toEqual({});
     expect(formatedDates).toHaveProperty(date);

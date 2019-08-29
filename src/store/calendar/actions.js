@@ -4,7 +4,8 @@ import {
   starOfMonth,
   endOfMonth,
   formatCalendarData,
-  getSelectedDayEvents
+  getSelectedDayEvents,
+  currentUserEmail
 } from '../../utils/helpers';
 import request from '../../utils/request';
 import settings from '../../constants/calendarSettings';
@@ -23,7 +24,7 @@ const today = new Date().toISOString().split('T')[0];
 
 export const fetchCalendars = async (email, date = today, colorIndex = 0) => {
   const accessToken = await AsyncStorage.getItem('accessToken');
-
+  const currentEmail = await currentUserEmail();
   const timeMin = starOfMonth(date);
   const timeMax = endOfMonth(date);
 
@@ -39,7 +40,8 @@ export const fetchCalendars = async (email, date = today, colorIndex = 0) => {
           dot: settings.dotColors[colorIndex],
           event: settings.eventColors[colorIndex]
         },
-        userEmail: email
+        userEmail: email,
+        currentUserEmail: currentEmail
       });
     });
     return datum;
