@@ -231,3 +231,9 @@ export const generateKey = (text, type) => {
 
   return key;
 };
+export const getUserData = (data, defaultImage) => ({
+  imageUrl: data.picture || defaultImage,
+  username: data.name,
+  userId: data.id,
+  email: data.email
+});

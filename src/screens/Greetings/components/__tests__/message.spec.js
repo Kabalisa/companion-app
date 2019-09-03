@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Message from '../Message';
 import props from './utils/componentProps';
+import screenshotHandler from '../../../../../__tests__/helpers/screenshotsHandler';
 
 const newProps = {
   ...props,
@@ -32,24 +33,19 @@ const props2 = {
 };
 
 describe('Gifted chat message', () => {
-  test('should render the initial message', () => {
-    const wrapper = shallow(<Message {...props} />);
-    expect(wrapper).toMatchSnapshot();
-  });
+  const componentInitialMsg = shallow(<Message {...props} />);
+  screenshotHandler(componentInitialMsg, 'should render the initial message');
 
-  test('should render the user message', () => {
-    const wrapper = shallow(<Message {...newProps} />);
-    expect(wrapper).toMatchSnapshot();
-  });
+  const wrapper = shallow(<Message {...newProps} />);
+  screenshotHandler(wrapper, 'should render the user message');
 
-  test('should render the system message', () => {
-    const wrapper = shallow(<Message {...props2} />);
-    expect(wrapper).toMatchSnapshot();
-  });
+  const componentSystemMsg = shallow(<Message {...props2} />);
+  screenshotHandler(componentSystemMsg, 'should render the system message');
 
-  test('should render a location suggestion message', () => {
-    props2.currentMessage.type = 'suggestion';
-    const wrapper = shallow(<Message {...props2} />);
-    expect(wrapper).toMatchSnapshot();
-  });
+  props2.currentMessage.type = 'suggestion';
+  const componentSuggestionMsg = shallow(<Message {...props2} />);
+  screenshotHandler(
+    componentSuggestionMsg,
+    'should render a location suggestion message'
+  );
 });

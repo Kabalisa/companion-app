@@ -5,13 +5,14 @@ import { Dialogflow_V2 as DialogFlow } from 'react-native-dialogflow-text';
 import navigationProps from '../../../__tests__/helpers/navigationProps';
 import { GreetingsScreen, mapStateToProps, mapDispatchToProps } from './index';
 import { user, accessToken } from '../../../__tests__/mock/data';
+import {
+  mockAsyncStorage,
+  mockFetchWithValues
+} from '../../../__tests__/mock/libraries';
 
 jest.mock('jwt-decode');
 
-const users = [user];
-const [pinAttendees] = Array(4).fill(
-  jest.fn()
-);
+const [pinAttendees] = Array(4).fill(jest.fn());
 
 const props = {
   ...navigationProps,
@@ -103,25 +104,21 @@ describe('Add attendees to a meeting', () => {
   });
 
   test('should search attendee by email', async () => {
-    jest.spyOn(AsyncStorage, 'getItem').mockImplementation(() => accessToken);
-    global.fetch = jest.fn().mockImplementation(() => ({
-      json: () => Promise.resolve({ values: users }),
-      ok: true
-    }));
-    const text = 'me@example.com';
+    mockAsyncStorage(accessToken);
+    mockFetchWithValues([user]);
+    const text = 'example@example.com';
     await wrapper.instance().getAttendeeEmail(text);
     expect(wrapper.state().text).toEqual(text);
     expect(wrapper.state().data.length).toEqual(1);
   });
 
   test('should remove the searches after a user is selected', async () => {
-    const text = '';
-    await wrapper.instance().getAttendeeEmail(text);
-    expect(wrapper.state().text).toEqual(text);
+    await wrapper.instance().getAttendeeEmail('');
+    expect(wrapper.state().text).toEqual('');
     expect(wrapper.state().data.length).toEqual(0);
   });
   test('should respond to pin attendee', async () => {
-    await wrapper.instance().pinSelectedAttendee(users[0]);
+    await wrapper.instance().pinSelectedAttendee(user);
     expect(pinAttendees).toBeCalled();
   });
 });

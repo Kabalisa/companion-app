@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Button from '../CalendarButton';
+import screenshotHandler from '../../../../../__tests__/helpers/screenshotsHandler';
 
 const [onPress] = Array(1).fill(jest.fn());
 const props = {
@@ -11,9 +12,7 @@ const componentWrapper = shallow(<Button {...props} />);
 
 describe('Button', () => {
   describe('Component rendering', () => {
-    test('should match snapshot', () => {
-      expect(componentWrapper).toMatchSnapshot();
-    });
+    screenshotHandler(componentWrapper);
 
     test('should button respond to onPress', () => {
       componentWrapper.props().onPress();

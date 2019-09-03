@@ -2,6 +2,7 @@ import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { scale } from 'react-native-size-matters';
 
 import responsiveStyles from '../../../shared/styles/responsiveStyles';
+import { addCalendarStyles } from '../../UserCalendar/components/agendaStyles';
 
 const { width } = Dimensions.get('window');
 
@@ -283,16 +284,7 @@ const styles = StyleSheet.create({
     width
   },
   content: {
-    backgroundColor: '#fff',
-    width: '100%',
-    borderTopLeftRadius: scale(30),
-    borderTopRightRadius: scale(30),
-    height: '100%',
-    shadowColor: 'rgba(0,0,0,0.03)',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 2,
-    elevation: 5
+    ...addCalendarStyles.content
   },
   messageDetails: {
     alignSelf: 'flex-start',

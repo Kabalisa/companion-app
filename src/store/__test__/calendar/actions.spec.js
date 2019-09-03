@@ -7,6 +7,7 @@ import {
   unpinUser
 } from '../../calendar/actions';
 import dummyEvents from '../../../../__tests__/mock/calendar.json';
+import { mockFetchWithPromises } from '../../../../__tests__/mock/libraries';
 
 const mockStore = configureStore([thunk]);
 let store;
@@ -31,10 +32,7 @@ describe('Test calendar actions', () => {
         getItem: jest.fn(() => new Promise(resolve => resolve(null)))
       }
     }));
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({
-      status: 500,
-      json: () => Promise.resolve(dummyEvents)
-    }));
+    mockFetchWithPromises(dummyEvents);
     fetchCalendars();
     return store.dispatch(getCalendarData(today, ['ex@email.com'])).then(() => {
       expect(store.getActions().length).toBeLessThanOrEqual(2);
@@ -55,10 +53,9 @@ describe('Test calendar actions', () => {
       }
     }));
 
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({
-      status: 200,
-      json: () => Promise.resolve(dummyEvents)
-    }));
+    const fakeCalendarEvents = dummyEvents;
+
+    mockFetchWithPromises(fakeCalendarEvents);
     await store.dispatch(pinUser(item, today, item.email));
     await store.dispatch(unpinUser(item.email, null, [item]));
     expect(store.getActions().length).toBeLessThanOrEqual(4);

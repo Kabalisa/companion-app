@@ -1,9 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { AsyncStorage } from 'react-native';
 import { CalendarContainer as UserCalendar } from './index';
 import navigation from '../../../__tests__/helpers/navigationProps';
 import { user, accessToken } from '../../../__tests__/mock/data';
+import {
+  mockAsyncStorage, mockFetchWithValues
+} from '../../../__tests__/mock/libraries';
 
 const users = [user];
 const removeUser = jest.fn();
@@ -86,11 +88,8 @@ describe('User Calendar Component', () => {
   });
 
   test('should search user by email', async () => {
-    jest.spyOn(AsyncStorage, 'getItem').mockImplementation(() => accessToken);
-    global.fetch = jest.fn().mockImplementation(() => ({
-      json: () => Promise.resolve({ values: users }),
-      ok: true
-    }));
+    mockAsyncStorage(accessToken);
+    mockFetchWithValues(users);
     const text = 'me@example.com';
     await component.props().getUserEmail(text);
     expect(component.state().text).toEqual(text);

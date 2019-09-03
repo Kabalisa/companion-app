@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import App from '../src';
+import screenshotHandler from './helpers/screenshotsHandler';
 
 const props = {
   navigation: {
@@ -8,8 +9,6 @@ const props = {
   }
 };
 describe('<App />', () => {
-  test('should render correctly', () => {
-    const tree = shallow(<App {...props} />);
-    expect(tree).toMatchSnapshot();
-  });
+  const tree = shallow(<App {...props} />);
+  screenshotHandler(tree, 'should render correctly');
 });

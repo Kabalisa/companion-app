@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
 import { Ionicons } from '@expo/vector-icons';
 import styles from './styles';
+import {
+  interactionMessageProps,
+  interactionMessageDefaultProps
+} from './propsDefinition';
 
 export default class SuggestionMessage extends React.Component {
   state = {
@@ -58,21 +61,13 @@ export default class SuggestionMessage extends React.Component {
 }
 
 SuggestionMessage.propTypes = {
-  text: PropTypes.string,
-  icon: PropTypes.string,
-  action: PropTypes.func,
-  AcceptedPrcolor: PropTypes.string,
-  NotAcceptedPrcolor: PropTypes.string,
-  AcceptedBgcolor: PropTypes.string,
-  NotAcceptedBgcolor: PropTypes.string
+  ...interactionMessageProps
 };
 
 SuggestionMessage.defaultProps = {
-  text: '',
-  icon: '',
-  action: () => {},
-  AcceptedPrcolor: 'rgb(57, 75, 89)',
-  NotAcceptedPrcolor: 'rgb(57, 75, 89)',
-  AcceptedBgcolor: 'rgb(57, 75, 89)',
-  NotAcceptedBgcolor: 'rgb(57, 75, 89)'
+  ...interactionMessageDefaultProps,
+  AcceptedPrcolor: '',
+  NotAcceptedPrcolor: '',
+  AcceptedBgcolor: '',
+  NotAcceptedBgcolor: ''
 };

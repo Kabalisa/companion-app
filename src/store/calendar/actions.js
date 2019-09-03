@@ -5,7 +5,8 @@ import {
   endOfMonth,
   formatCalendarData,
   getSelectedDayEvents,
-  currentUserEmail
+  currentUserEmail,
+  getUserData
 } from '../../utils/helpers';
 import request from '../../utils/request';
 import settings from '../../constants/calendarSettings';
@@ -86,13 +87,8 @@ export const monthChange = date => ({
 });
 
 export const pinUser = (item, date, users) => (dispatch) => {
-  const alternativeImage = 'https://cdn.iconscout.com/icon/free/png-512/account-profile-avatar-man-circle-round-user-30452.png';
-  const user = {
-    imageUrl: item.picture || alternativeImage,
-    username: item.name,
-    userId: item.id,
-    email: item.email
-  };
+  const defaultImage = 'https://cdn.iconscout.com/icon/free/png-512/account-profile-avatar-man-circle-round-user-30452.png';
+  const user = getUserData(item, defaultImage);
   dispatch(getCalendarData(date, users));
   dispatch({
     type: PIN_USERS,

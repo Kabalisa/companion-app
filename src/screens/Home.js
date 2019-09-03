@@ -7,7 +7,7 @@ import { AppLoading } from 'expo';
 import { refreshAuth } from '../services/AuthService';
 import styles from '../shared/styles/splashLogin';
 import AndelaLogo from '../assets/andela.png';
-import AppLogo from '../assets/icon.png';
+import Logo from '../assets/icon.png';
 import DINProBold from '../assets/fonts/DINPro-Bold.ttf';
 import DINPro from '../assets/fonts/DINPro-Regular.ttf';
 import { cacheImages, cacheFonts } from '../utils/caching';
@@ -50,7 +50,7 @@ class Home extends Component {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <View style={styles.appLogoContainer}>
-            <Image source={AppLogo} style={styles.appLogo} />
+            <Image source={Logo} style={styles.appLogo} />
           </View>
         </View>
 
