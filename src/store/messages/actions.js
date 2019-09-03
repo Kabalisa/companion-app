@@ -29,7 +29,7 @@ export const successDisplay = response => async (dispatch) => {
 };
 export const sendToDialogFlow = message => async (dispatch) => {
   try {
-    dispatch(displayMessage(message));
+    dispatch(displayMessage([message]));
     dispatch(dialogFlowRequest());
     const {
       text, email, token

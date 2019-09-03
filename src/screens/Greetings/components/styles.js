@@ -156,6 +156,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flexDirection: 'row'
   },
+  durationMessageWrapper: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
   message: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -166,6 +171,31 @@ const styles = StyleSheet.create({
     marginBottom: scale(8)
   },
   messageText: { ...textStyles },
+  eventDurationMessageContainer: {
+    flexDirection: 'row',
+    marginBottom: 27
+  },
+  eventDurationMessage: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: scale(20),
+    maxWidth: scale(227),
+    marginBottom: scale(8),
+    marginLeft: 12,
+    backgroundColor: 'rgba(236,241,250,1)',
+    borderRadius: 20,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(4,89,228,1)'
+  },
+  eventDurationMessageText: {
+    ...textStyles,
+    color: 'rgba(4,89,228,1)'
+  },
+  durationSuggestionText: {
+    fontSize: 12,
+    textAlign: 'center',
+    color: 'rgba(153,165,172,1)'
+  },
   timeStampContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -210,6 +240,13 @@ const styles = StyleSheet.create({
   suggestionHr: {
     justifyContent: 'center',
     flex: 1
+  },
+  durationSuggestionHrLine: {
+    backgroundColor: '#ecf1fa',
+    height: 1,
+    marginLeft: 11,
+    marginRight: 7,
+    marginBottom: 12
   },
   suggestionHrLine: {
     backgroundColor: '#ecf1fa',

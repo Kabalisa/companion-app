@@ -33,7 +33,7 @@ describe('Async thunk', () => {
     const message = 'Hi';
     await store.dispatch(actions.sendToDialogFlow(message));
     const action = store.getActions();
-    expect(action[0]).toEqual({ type: 'DISPLAY_MESSAGE', message: 'Hi' });
+    expect(action[0]).toEqual({ type: 'DISPLAY_MESSAGE', message: ['Hi'] });
     expect(action[1]).toEqual({ type: 'SEND_TO_DIALOGFLOW_REQUEST' });
     expect(action[2]).toEqual({ type: 'SEND_TO_DIALOGFLOW_SUCCESS' });
     expect(action[3].type).toEqual('DISPLAY_MESSAGE');
@@ -50,7 +50,7 @@ describe('Async thunk', () => {
     const store = mockStore({});
     await store.dispatch(actions.sendToDialogFlow());
     const action = store.getActions();
-    expect(action[0]).toEqual({ type: 'DISPLAY_MESSAGE', message: undefined });
+    expect(action[0]).toEqual({ type: 'DISPLAY_MESSAGE', message: [undefined] });
     expect(action[1]).toEqual({ type: 'SEND_TO_DIALOGFLOW_REQUEST' });
     expect(action[2]).toEqual({ type: 'SEND_TO_DIALOGFLOW_FAILURE' });
   });

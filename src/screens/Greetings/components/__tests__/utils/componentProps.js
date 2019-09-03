@@ -1,6 +1,8 @@
 const props = {
   alignTop: false,
   bottomOffset: 0,
+  onPress: jest.fn,
+  action: { openAttendeesModal: jest.fn },
   currentMessage: {
     _id: 1,
     createdAt: '2019-06-17T17:10:37.523Z',

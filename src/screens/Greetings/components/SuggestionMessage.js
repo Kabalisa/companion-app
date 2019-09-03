@@ -11,13 +11,7 @@ export default class SuggestionMessage extends React.Component {
 
   onPress = () => {
     const { action } = this.props;
-    const { isAccepted } = this.state;
     action();
-    if (isAccepted === true) {
-      this.setState({
-        isAccepted: false
-      });
-    }
     this.setState({ isAccepted: true });
   };
 
@@ -77,8 +71,8 @@ SuggestionMessage.defaultProps = {
   text: '',
   icon: '',
   action: () => {},
-  AcceptedPrcolor: '',
-  NotAcceptedPrcolor: '',
-  AcceptedBgcolor: '',
-  NotAcceptedBgcolor: ''
+  AcceptedPrcolor: 'rgb(57, 75, 89)',
+  NotAcceptedPrcolor: 'rgb(57, 75, 89)',
+  AcceptedBgcolor: 'rgb(57, 75, 89)',
+  NotAcceptedBgcolor: 'rgb(57, 75, 89)'
 };

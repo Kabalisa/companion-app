@@ -5,7 +5,8 @@ import MessageDialog from '../MessageDialog';
 const props = {
   currentMessage: {
     text: 'Here is the calendar, book your meeting'
-  }
+  },
+  onPress: jest.fn
 };
 
 const wrapper1 = shallow(<MessageDialog position="right" {...props} />);

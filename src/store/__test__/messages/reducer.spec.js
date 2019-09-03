@@ -11,9 +11,10 @@ describe('Message Reducer', () => {
     expect(newState).toEqual(initialState);
   });
   it('Should Send Message', () => {
-    const message = 'Hello Companions App';
-    const action = actions.displayMessage('Hello Companions App');
+    const messageObject = { text: 'Hello Companions App' };
+    const message = [messageObject];
+    const action = actions.displayMessage(message);
     const newState = messageReducer(initialState, action);
-    expect(newState.messages[0]).toEqual(message);
+    expect(newState.messages[0]).toEqual(messageObject);
   });
 });

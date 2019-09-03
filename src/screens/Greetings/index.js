@@ -204,6 +204,7 @@ export class GreetingsScreen extends Component {
           renderSend={this.renderSend}
           listViewProps={this.listViewProps}
           renderSuggestionMessage={this.renderSuggestionMessage}
+          showAvatarForEveryMessage
           user={{
             _id: 1,
             name: firstName,

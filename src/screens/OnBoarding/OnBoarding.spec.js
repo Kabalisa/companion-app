@@ -18,14 +18,10 @@ const props = {
   }
 };
 
-const swiperDefaultProps = [
-  'onTouchStart',
-  'onTouchEnd',
-  'onMomentumScrollEnd'
-];
+const swiperDefaultProps = ['onTouchStart', 'onTouchEnd', 'onMomentumScrollEnd'];
 
 const state = {
-  index: ''
+  index: 0
 };
 const event = {};
 const wrapper = shallow(<OnBoarding {...props} />);
@@ -47,14 +43,18 @@ describe('Component Rendering', () => {
     instance.fade(0, 100, 100);
   });
 
-  test('should call the onTouchStart prop of the last swiper',
-    async () => {
-      wrapper.find('_default').at(1).props().onTouchStart();
-    });
+  test('should call the onTouchStart prop of the last swiper', async () => {
+    wrapper
+      .find('_default')
+      .at(1)
+      .props()
+      .onTouchStart();
+  });
 
   test('should call the default prop of the first swiper', async () => {
-    swiperDefaultProps.map(
-      data => wrapper.find('_default').first().props()[data](event, state)
-    );
+    swiperDefaultProps.map(data => wrapper
+      .find('_default')
+      .first()
+      .props()[data](event, state));
   });
 });

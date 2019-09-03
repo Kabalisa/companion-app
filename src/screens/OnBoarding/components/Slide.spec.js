@@ -10,7 +10,9 @@ const props = {
   page3: 'pages',
   bodyText: 'test',
   slideTitle: 'test',
-  skipOnBoarding: jest.fn()
+  skipOnBoarding: jest.fn(),
+  pageContainer: '',
+  slowAnim: {}
 };
 
 const ContentProps = {
@@ -24,8 +26,9 @@ const ContentProps = {
     pages1: 'pages',
     pages2: 'pages',
     pages3: 'pages',
-    pagination: 2,
-    images: []
+    pagination: {},
+    images: [],
+    ImageAnim: {}
   }
 };
 

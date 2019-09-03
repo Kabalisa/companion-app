@@ -10,6 +10,8 @@ import companionAppLogo from
   '../screens/Greetings/components/icons/companion-logo.png';
 import { messageConstants } from './constants';
 
+const BOT_USER = { _id: 2, name: 'SmartBot', avatar: companionAppLogo };
+
 export const currentUserEmail = async () => {
   const token = await AsyncStorage.getItem('token');
   const decoded = await jwtDecode(token);
@@ -50,9 +52,11 @@ const checkIfPrivate = (event) => {
   if (event.userEmail === 'primary') {
     return event.summary;
   }
-  if (event.visibility !== 'undefined'
-  && event.visibility === 'private'
-  && event.userEmail !== event.currentUserEmail) {
+  if (
+    event.visibility !== 'undefined'
+    && event.visibility === 'private'
+    && event.userEmail !== event.currentUserEmail
+  ) {
     summary = 'Busy';
   } else {
     const currentSummary = event.summary;
@@ -181,19 +185,37 @@ export async function getUserEmail(keyWord) {
   this.setState({ data: [] });
   return text;
 }
-
+const handleDurationSuggestion = (message, outputContexts) => {
+  if (
+    outputContexts[2]
+    && outputContexts[2].name.split('/').pop()
+      === 'book_a_meeting_dialog_params_duration'
+  ) {
+    message.unshift({
+      _id: uuid(),
+      text: 'isDuration',
+      type: 'bot',
+      createdAt: new Date(),
+      user: BOT_USER
+    });
+  }
+  return message;
+};
 export const handleGoogleResponse = (result) => {
   const {
-    queryResult: { fulfillmentText: text }
+    queryResult: { fulfillmentText: text, outputContexts = [] }
   } = result;
-  const BOT_USER = { _id: 2, name: 'SmartBot', avatar: companionAppLogo };
-  const message = {
-    _id: uuid(),
-    text,
-    type: 'bot',
-    createdAt: new Date(),
-    user: BOT_USER
-  };
+  let message = [
+    {
+      _id: uuid(),
+      text,
+      type: 'bot',
+      createdAt: new Date(),
+      user: BOT_USER
+    }
+  ];
+  message = handleDurationSuggestion(message, outputContexts);
+
   return message;
 };
 
@@ -201,10 +223,11 @@ export const getAccessToken = () => AsyncStorage.getItem('accessToken');
 
 export const generateKey = (text, type) => {
   const isCalender = text === messageConstants.CalenderInvite;
+  const isDuration = text === messageConstants.DurationSuggestion;
   const isUser = type === messageConstants.UserSting;
   const isGreeting = type === messageConstants.GreetingString;
 
-  const key = `${isCalender}-${isUser}-${isGreeting}`;
+  const key = `${isCalender}-${isUser}-${isGreeting}-${isDuration}`;
 
   return key;
 };

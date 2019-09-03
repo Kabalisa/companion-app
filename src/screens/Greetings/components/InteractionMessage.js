@@ -44,10 +44,10 @@ InteractionMessage.defaultProps = {
   text: '',
   icon: '',
   action: () => {},
-  AcceptedPrcolor: '',
-  NotAcceptedPrcolor: '',
-  AcceptedBgcolor: '',
-  NotAcceptedBgcolor: ''
+  AcceptedPrcolor: 'rgb(57, 75, 89)',
+  NotAcceptedPrcolor: 'rgb(57, 75, 89)',
+  AcceptedBgcolor: 'rgb(57, 75, 89)',
+  NotAcceptedBgcolor: 'rgb(57, 75, 89)'
 };
 
 export default InteractionMessage;

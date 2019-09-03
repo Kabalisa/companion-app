@@ -3,6 +3,6 @@ export const messageConstants = {
   GreetingString: 'greetings',
   UserSting: 'user',
   BotString: 'bot',
-  CalenderInvite: 'Who are you inviting?'
-
+  CalenderInvite: 'Who are you inviting?',
+  DurationSuggestion: 'isDuration'
 };
