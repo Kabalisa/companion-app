@@ -33,6 +33,7 @@ import {
   pinAttendeesAction,
   unpinAttendeeAction
 } from '../../store/attendees/action';
+import { getCalendarData } from '../../store/calendar/actions';
 import { getUserEmail as getAttendeeEmail } from '../../utils/helpers';
 import BotProcessing from './components/BotProcessing';
 
@@ -84,7 +85,8 @@ export class GreetingsScreen extends Component {
   }
 
   componentDidMount() {
-    const { navigation: { setParams } = {} } = this.props;
+    const { navigation: { setParams } = {}, fetchCalendar } = this.props;
+    this.fetchCalendarData(fetchCalendar);
     AsyncStorage.getItem('token').then((token) => {
       const decoded = jwtDecode(token);
       const {
@@ -95,6 +97,12 @@ export class GreetingsScreen extends Component {
         userAvatar: picture, email, firstName, token
       });
     });
+  }
+
+  fetchCalendarData = (fetchCalendar) => {
+    const today = new Date().toLocaleDateString();
+    const todayFormated = today.split('/').join('-');
+    fetchCalendar(todayFormated, []);
   }
 
   openAddAttendeesModal = () => {
@@ -201,7 +209,6 @@ export class GreetingsScreen extends Component {
     const {
       userAvatar, firstName, data, isModalVisible
     } = this.state;
-
     return (
       <SafeAreaView behavior="padding" enabled style={[styles.container]}>
         <GiftedChat
@@ -256,6 +263,7 @@ GreetingsScreen.propTypes = {
     setParams: PropTypes.func
   }),
   pinnedAttendees: PropTypes.arrayOf(PropTypes.shape({})),
+  fetchCalendar: PropTypes.func,
   unpinAttendee: PropTypes.func,
   pinAttendees: PropTypes.func,
   messages: PropTypes.arrayOf(
@@ -273,6 +281,7 @@ GreetingsScreen.defaultProps = {
     setParams: () => {}
   },
   messages: [{}],
+  fetchCalendar: () => {},
   unpinAttendee: () => {},
   pinAttendees: () => {},
   sendMessages: () => {},
@@ -287,6 +296,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+  fetchCalendar: () => dispatch(getCalendarData()),
   sendMessages: message => dispatch(sendToDialogFlow(message)),
   pinAttendees: item => dispatch(pinAttendeesAction(item)),
   unpinAttendee: item => dispatch(unpinAttendeeAction(item.email)),

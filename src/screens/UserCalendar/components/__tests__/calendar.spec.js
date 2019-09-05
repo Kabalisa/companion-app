@@ -1,8 +1,13 @@
 import React from 'react';
+import { shallow } from 'enzyme';
 import Renderer from 'react-test-renderer';
 import Calendar from '../Calendar';
 import navigation from '../../../../../__tests__/helpers/navigationProps';
 import { user } from '../../../../../__tests__/mock/data';
+import {
+  netInfoRemoveListenerTest,
+  handleConnectionChangeTest
+} from '../../../../utils/helpers';
 
 const props = {
   ...navigation,
@@ -21,11 +26,18 @@ const props = {
 };
 
 const wrapper = Renderer.create(<Calendar {...props} />);
+const shallowWrapper = shallow(<Calendar {...props} />);
 const testInstance = wrapper.root;
 describe('User Calendar Component', () => {
+  const instance = shallowWrapper.instance();
+
   it('should match snapshot', () => {
     expect(wrapper).toMatchSnapshot();
   });
+
+  netInfoRemoveListenerTest(instance);
+
+  handleConnectionChangeTest(instance);
 });
 
 

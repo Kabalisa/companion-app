@@ -2,7 +2,9 @@
 import {
   createStore, combineReducers, compose, applyMiddleware
 } from 'redux';
+import { AsyncStorage } from 'react-native';
 import thunk from 'redux-thunk';
+import { persistStore, persistReducer } from 'redux-persist';
 import messages from './messages';
 import calendar from './calendar/reducers';
 import attendees from './attendees/reducers';
@@ -13,6 +15,13 @@ export const rootReducer = combineReducers({
   attendees
 });
 
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const middleWare = [thunk];
 
 let composeEnhancers = compose;
@@ -22,9 +31,11 @@ if (__DEV__) {
 }
 
 const store = createStore(
-  rootReducer,
+  persistedReducer,
   {},
   composeEnhancers(applyMiddleware(...middleWare))
 );
 
-export default store;
+const persistor = persistStore(store);
+
+export { persistor, store };

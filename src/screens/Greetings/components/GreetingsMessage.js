@@ -1,10 +1,10 @@
-/* eslint-disable max-len */
 import React, { Component } from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
 import UserAvatar from './Avatar';
 import MenuOptions from './MenuOptions';
+import ViewText from './ViewText';
 import styles from './styles';
 
 export default class GreetingsMessage extends Component {
@@ -13,7 +13,8 @@ export default class GreetingsMessage extends Component {
   renderAvatar = props => <UserAvatar {...props} />;
 
   componentDidMount = async () => {
-    const message = `Welcome to the Converge Companion App. What would you like to do?`;
+    const message = 'Welcome to the Converge Companion'
+    + 'App. What would you like to do?';
     const token = await AsyncStorage.getItem('token');
     const decoded = await jwtDecode(token);
     const {
@@ -35,9 +36,11 @@ export default class GreetingsMessage extends Component {
       <View style={styles.greetingsContainer}>
         <View style={{ marginLeft: '5%' }}>{this.renderAvatar(this.props)}</View>
         <View>
-          <View style={styles.greetingsTitle}>
-            <Text style={styles.greetingsTitleText}>{title}</Text>
-          </View>
+          <ViewText
+            viewStyles={styles.greetingsTitle}
+            textStyles={styles.greetingsTitleText}
+            text={title}
+          />
           <MenuOptions onPress={onPress} />
         </View>
       </View>

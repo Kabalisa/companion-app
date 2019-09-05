@@ -6,7 +6,8 @@ import {
   Text,
   StatusBar,
   Dimensions,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  NetInfo
 } from 'react-native';
 import { CalendarProvider, LocaleConfig } from 'react-native-calendars';
 import Modal from 'react-native-modal';
@@ -35,8 +36,27 @@ LocaleConfig.defaultLocale = 'en';
 class Calendar extends Component {
   state = {
     isCalendarOpen: true,
-    isModalVisible: false
+    isModalVisible: false,
+    isConnected: true
   };
+
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+  }
+
+  handleConnectionChange = (isConnected) => {
+    this.setState({ isConnected });
+  }
 
   navigateBack = () => {
     const { navigation } = this.props;
@@ -77,7 +97,7 @@ class Calendar extends Component {
   };
 
   render() {
-    const { isModalVisible } = this.state;
+    const { isModalVisible, isConnected } = this.state;
     const {
       events,
       currentEvents,
@@ -139,7 +159,7 @@ class Calendar extends Component {
           {isCalendarOpen ? (
             <View>
               <ExpandableCalendar dots={dots} selected={selectedDate} />
-              {isLoading && <Loading size="small" color="#4D6EFF" />}
+              {isConnected && isLoading && <Loading size="small" color="#4D6EFF" />}
             </View>
           ) : null}
 

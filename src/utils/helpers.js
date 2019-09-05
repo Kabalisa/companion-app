@@ -4,7 +4,7 @@ import {
   flattenDeep, groupBy, mapValues, uniqBy
 } from 'lodash';
 import jwtDecode from 'jwt-decode';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, NetInfo } from 'react-native';
 import settings from '../constants/calendarSettings';
 import companionAppLogo from
   '../screens/Greetings/components/icons/companion-logo.png';
@@ -237,3 +237,24 @@ export const getUserData = (data, defaultImage) => ({
   userId: data.id,
   email: data.email
 });
+
+export const netInfoRemoveListenerTest = (
+  instance,
+  description = 'should call removeEventListener in componentWillUnmount'
+) => {
+  it(description, () => {
+    const spy = jest.spyOn(NetInfo.isConnected, 'removeEventListener');
+    instance.componentWillUnmount();
+    expect(spy).toHaveBeenCalled();
+  });
+};
+
+export const handleConnectionChangeTest = (
+  instance,
+  description = 'should call handleConnectionChange'
+) => {
+  it(description, () => {
+    instance.handleConnectionChange(true);
+    expect(instance.state.isConnected).toBeTruthy();
+  });
+};
