@@ -34,6 +34,7 @@ import {
   unpinAttendeeAction
 } from '../../store/attendees/action';
 import { getUserEmail as getAttendeeEmail } from '../../utils/helpers';
+import BotProcessing from './components/BotProcessing';
 
 
 const { width: DEVICE_WIDTH } = Dimensions.get('window');
@@ -187,6 +188,14 @@ export class GreetingsScreen extends Component {
     );
   };
 
+  renderFooter = () => {
+    const { isBotProcessing } = this.props;
+    if (isBotProcessing) {
+      return <BotProcessing />;
+    }
+    return null;
+  };
+
   render() {
     const { messages } = this.props;
     const {
@@ -202,6 +211,7 @@ export class GreetingsScreen extends Component {
           renderMessage={this.renderMessage}
           renderInputToolbar={this.renderInputToolbar}
           renderSend={this.renderSend}
+          renderFooter={this.renderFooter}
           listViewProps={this.listViewProps}
           renderSuggestionMessage={this.renderSuggestionMessage}
           showAvatarForEveryMessage
@@ -254,7 +264,8 @@ GreetingsScreen.propTypes = {
     })
   ),
   sendMessages: PropTypes.func,
-  sendEvents: PropTypes.func
+  sendEvents: PropTypes.func,
+  isBotProcessing: PropTypes.bool
 };
 
 GreetingsScreen.defaultProps = {
@@ -266,9 +277,11 @@ GreetingsScreen.defaultProps = {
   pinAttendees: () => {},
   sendMessages: () => {},
   sendEvents: () => {},
-  pinnedAttendees: [{}]
+  pinnedAttendees: [{}],
+  isBotProcessing: false
 };
 export const mapStateToProps = state => ({
+  isBotProcessing: state.messages.isBotProcessing,
   messages: state.messages.messages,
   ...state.attendees
 });

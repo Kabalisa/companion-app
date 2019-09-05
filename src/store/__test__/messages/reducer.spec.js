@@ -17,4 +17,16 @@ describe('Message Reducer', () => {
     const newState = messageReducer(initialState, action);
     expect(newState.messages[0]).toEqual(messageObject);
   });
+  it('Should Mock Dialogflow Request', () => {
+    const isBotProcessing = true;
+    const action = actions.dialogFlowRequest();
+    const newState = messageReducer(initialState, action);
+    expect(newState.isBotProcessing).toEqual(isBotProcessing);
+  });
+  it('Should Mock Dialogflow Failure', () => {
+    const isBotProcessing = false;
+    const action = actions.responseDialogFlowFailure();
+    const newState = messageReducer(initialState, action);
+    expect(newState.isBotProcessing).toEqual(isBotProcessing);
+  });
 });
