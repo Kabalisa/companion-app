@@ -16,11 +16,14 @@ const [pinAttendees] = Array(4).fill(jest.fn());
 
 const props = {
   ...navigationProps,
+  sendHiddenMessage: jest.fn(),
   sendMessages: jest.fn(),
   sendMessage: jest.fn(),
   getAttendeeEmail: jest.fn(),
+  sendEvents: jest.fn(),
   pinAttendees,
-  pinnedAttendees: []
+  pinnedAttendees: [],
+  isBotProcessing: true
 };
 
 
@@ -34,7 +37,9 @@ describe('Greetings screen', () => {
 
   test('should simulate the onSend message method', () => {
     const text = { text: 'hello companion' };
+    const message = ['hello companion'];
     expect(wrapperInstance._onSend(text)).toMatchSnapshot();
+    wrapper.find('GiftedChat').props().onSend(message);
   });
 
   test('should render the input toolbar correctly', () => {
@@ -49,8 +54,20 @@ describe('Greetings screen', () => {
     expect(wrapperInstance.renderMessage()).toMatchSnapshot();
   });
 
+  test('should render the footer', () => {
+    expect(wrapperInstance.renderFooter()).toMatchSnapshot();
+  });
+
+  test('should render the null footer', () => {
+    const nullProps = { ...props, isBotProcessing: null };
+    const Nullwrapper = shallow(<GreetingsScreen {...nullProps} />);
+    const NullwrapperInstance = Nullwrapper.instance();
+    expect(NullwrapperInstance.renderFooter()).toMatchSnapshot();
+  });
+
   test('render message on press', () => {
     wrapperInstance.renderMessage().props.onPress();
+    wrapperInstance.renderMessage().props.action.directionsArrival();
   });
 
   test('should return the navigation options', () => {
@@ -124,6 +141,9 @@ describe('Add attendees to a meeting', () => {
 });
 
 describe('test for dispatch actions', () => {
+  const item = {
+    email: 'test@andela.com'
+  };
   test('should dispatch action', () => {
     const initialState = {
       messages: {
@@ -141,18 +161,65 @@ describe('test for dispatch actions', () => {
     mapDispatchToProps(dispatch).sendMessages();
     expect(dispatch.mock.calls[0][0]).toBeDefined();
   });
+
+  test('should dispatch sendHiddenMessage action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).sendHiddenMessage();
+    expect(dispatch.mock.calls[0][0]).toBeDefined();
+  });
+
+  test('should dispatch pinAttendees action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).pinAttendees();
+    expect(dispatch.mock.calls[0][0]).toBeDefined();
+  });
+
+  test('should dispatch unpinAttendee action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).unpinAttendee(item);
+    expect(dispatch.mock.calls[0][0]).toBeDefined();
+  });
+
+  test('should dispatch sendEvents action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).sendEvents();
+    expect(dispatch.mock.calls[0][0]).toBeDefined();
+  });
 });
 
 describe('The mapDispatchToProps function', () => {
   let dispatch;
   let dispatchProp;
+  const item = {
+    email: 'test@andela.com'
+  };
   beforeEach(() => {
     dispatch = jest.fn(() => Promise.resolve());
     dispatchProp = mapDispatchToProps(dispatch);
   });
 
-  it('should dispacth getHotDesks when getHotDeskReport is called', () => {
+  it('should dispacth send messages when sendmessages is called', () => {
     dispatchProp.sendMessages();
+    expect(dispatch).toHaveBeenCalled();
+  });
+
+  it('should dispacth send messages when sendmessages is called', () => {
+    dispatchProp.sendHiddenMessage();
+    expect(dispatch).toHaveBeenCalled();
+  });
+
+  it('should dispacth send messages when unpinAttendee is called', () => {
+    dispatchProp.unpinAttendee(item);
+    expect(dispatch).toHaveBeenCalled();
+  });
+
+  it('should dispacth send messages when unpinAttendee is called', () => {
+    dispatchProp.sendEvents();
+    expect(dispatch).toHaveBeenCalled();
+  });
+
+  it('should dispacth send messages when unpinAttendee is called', () => {
+    dispatchProp.pinAttendees(item);
     expect(dispatch).toHaveBeenCalled();
   });
 });

@@ -1,5 +1,7 @@
 import { Dialogflow_V2 as DialogFlow } from 'react-native-dialogflow-text';
-import { CLIENT_EMAIL, PRIVATE_KEY, PROJECT_ID } from 'react-native-dotenv';
+import config from '../../config';
+
+const { CLIENT_EMAIL, PRIVATE_KEY, PROJECT_ID } = config;
 
 const DEFAULT_BASE_URL = 'https://dialogflow.googleapis.com/v2/projects/';
 DialogFlow.setConfiguration(

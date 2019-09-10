@@ -7,11 +7,17 @@ export const interactionMessageProps = {
   AcceptedPrcolor: PropTypes.string,
   NotAcceptedPrcolor: PropTypes.string,
   AcceptedBgcolor: PropTypes.string,
-  NotAcceptedBgcolor: PropTypes.string
+  NotAcceptedBgcolor: PropTypes.string,
+  borderColor: PropTypes.string
 };
 
 export const interactionMessageDefaultProps = {
   text: '',
   icon: '',
+  AcceptedPrcolor: '',
+  NotAcceptedPrcolor: '',
+  AcceptedBgcolor: '',
+  NotAcceptedBgcolor: '',
+  borderColor: '',
   action: () => {}
 };

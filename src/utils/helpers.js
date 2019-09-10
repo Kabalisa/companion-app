@@ -203,7 +203,7 @@ const handleDurationSuggestion = (message, outputContexts) => {
 };
 export const handleGoogleResponse = (result) => {
   const {
-    queryResult: { fulfillmentText: text, outputContexts = [] }
+    queryResult: { fulfillmentText: text, outputContexts = [], parameters }
   } = result;
   let message = [
     {
@@ -211,11 +211,11 @@ export const handleGoogleResponse = (result) => {
       text,
       type: 'bot',
       createdAt: new Date(),
-      user: BOT_USER
+      user: BOT_USER,
+      parameters
     }
   ];
   message = handleDurationSuggestion(message, outputContexts);
-
   return message;
 };
 
@@ -226,9 +226,9 @@ export const generateKey = (text, type) => {
   const isDuration = text === messageConstants.DurationSuggestion;
   const isUser = type === messageConstants.UserSting;
   const isGreeting = type === messageConstants.GreetingString;
-
-  const key = `${isCalender}-${isUser}-${isGreeting}-${isDuration}`;
-
+  const isDirection = typeof text === 'string'
+    ? text.includes(messageConstants.directionString) : false;
+  const key = `${isCalender}-${isUser}-${isGreeting}-${isDuration}-${isDirection}`;
   return key;
 };
 export const getUserData = (data, defaultImage) => ({

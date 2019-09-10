@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import PropTypes from 'prop-types';
 import MessageDialog from './MessageDialog';
 import SuggestionMessage from './SuggestionMessage';
 import {
@@ -15,7 +16,8 @@ const InteractionMessage = (props) => {
     AcceptedPrcolor,
     NotAcceptedPrcolor,
     AcceptedBgcolor,
-    NotAcceptedBgcolor
+    NotAcceptedBgcolor,
+    borderColor
   } = props;
   return (
     <View>
@@ -28,21 +30,26 @@ const InteractionMessage = (props) => {
         NotAcceptedPrcolor={NotAcceptedPrcolor}
         AcceptedBgcolor={AcceptedBgcolor}
         NotAcceptedBgcolor={NotAcceptedBgcolor}
+        borderColor={borderColor}
       />
     </View>
   );
 };
 
 InteractionMessage.propTypes = {
-  ...interactionMessageProps
+  ...interactionMessageProps,
+  text: PropTypes.string,
+  icon: PropTypes.string,
+  action: PropTypes.func,
+  AcceptedPrcolor: PropTypes.string,
+  NotAcceptedPrcolor: PropTypes.string,
+  AcceptedBgcolor: PropTypes.string,
+  NotAcceptedBgcolor: PropTypes.string,
+  borderColor: PropTypes.string
 };
 
 InteractionMessage.defaultProps = {
-  ...interactionMessageDefaultProps,
-  AcceptedPrcolor: '',
-  NotAcceptedPrcolor: '',
-  AcceptedBgcolor: '',
-  NotAcceptedBgcolor: ''
+  ...interactionMessageDefaultProps
 };
 
 export default InteractionMessage;

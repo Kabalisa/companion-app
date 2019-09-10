@@ -35,12 +35,11 @@ export default class SuggestionMessage extends React.Component {
       AcceptedPrcolor,
       NotAcceptedPrcolor,
       AcceptedBgcolor,
-      NotAcceptedBgcolor
+      NotAcceptedBgcolor,
+      borderColor
     } = this.props;
-
     const primaryColor = isAccepted ? AcceptedPrcolor : NotAcceptedPrcolor;
     const backgroundColor = isAccepted ? AcceptedBgcolor : NotAcceptedBgcolor;
-
     return (
       <View style={[styles.systemMessageContainer, styles.suggestionContainer]}>
         <View style={styles.suggestionHr}>
@@ -48,7 +47,7 @@ export default class SuggestionMessage extends React.Component {
         </View>
         <TouchableOpacity
           onPress={this.onPress}
-          style={[styles.suggestionContent, { backgroundColor }]}
+          style={[styles.suggestionContent, { backgroundColor, borderColor }]}
         >
           {this.renderIcon(icon, primaryColor)}
           <Text style={[styles.suggestionText, { color: primaryColor }]}>
@@ -65,9 +64,5 @@ SuggestionMessage.propTypes = {
 };
 
 SuggestionMessage.defaultProps = {
-  ...interactionMessageDefaultProps,
-  AcceptedPrcolor: '',
-  NotAcceptedPrcolor: '',
-  AcceptedBgcolor: '',
-  NotAcceptedBgcolor: ''
+  ...interactionMessageDefaultProps
 };

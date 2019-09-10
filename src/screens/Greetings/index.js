@@ -16,8 +16,9 @@ import Modal from 'react-native-modal';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
 import {
-  sendToDialogFlow,
-  sendEventToDialogFlow
+  sendToDialogFlowDisplay,
+  sendEventToDialogFlow,
+  sendToDialogFlow
 } from '../../store/messages/actions';
 import Send from './components/Send';
 import InputToolbar from './components/InputToolBar';
@@ -36,7 +37,6 @@ import {
 import { getCalendarData } from '../../store/calendar/actions';
 import { getUserEmail as getAttendeeEmail } from '../../utils/helpers';
 import BotProcessing from './components/BotProcessing';
-
 
 const { width: DEVICE_WIDTH } = Dimensions.get('window');
 
@@ -172,7 +172,25 @@ export class GreetingsScreen extends Component {
   };
 
   renderMessage = (props) => {
-    const { userAvatar, firstName } = this.state;
+    const { sendHiddenMessage } = this.props;
+    const {
+      userAvatar, firstName, token, email
+    } = this.state;
+    const directionsMessage = {
+      _id: uuid(),
+      text: 'i am there',
+      createdAt: new Date(),
+      user: {
+        _id: 1,
+        name: firstName,
+        avatar: userAvatar
+      },
+      type: 'hidden'
+    };
+
+    const message = {
+      ...directionsMessage, email, token, type: 'hidden'
+    };
 
     return (
       <Message
@@ -190,8 +208,10 @@ export class GreetingsScreen extends Component {
         })
         }
         action={{
-          openAttendeesModal: this.openAddAttendeesModal
-        }}
+          openAttendeesModal: this.openAddAttendeesModal,
+          directionsArrival: () => { sendHiddenMessage(message); }
+        }
+        }
       />
     );
   };
@@ -273,7 +293,8 @@ GreetingsScreen.propTypes = {
   ),
   sendMessages: PropTypes.func,
   sendEvents: PropTypes.func,
-  isBotProcessing: PropTypes.bool
+  isBotProcessing: PropTypes.bool,
+  sendHiddenMessage: PropTypes.func
 };
 
 GreetingsScreen.defaultProps = {
@@ -285,6 +306,7 @@ GreetingsScreen.defaultProps = {
   unpinAttendee: () => {},
   pinAttendees: () => {},
   sendMessages: () => {},
+  sendHiddenMessage: () => { },
   sendEvents: () => {},
   pinnedAttendees: [{}],
   isBotProcessing: false
@@ -297,7 +319,8 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   fetchCalendar: () => dispatch(getCalendarData()),
-  sendMessages: message => dispatch(sendToDialogFlow(message)),
+  sendMessages: message => dispatch(sendToDialogFlowDisplay(message)),
+  sendHiddenMessage: message => dispatch(sendToDialogFlow(message)),
   pinAttendees: item => dispatch(pinAttendeesAction(item)),
   unpinAttendee: item => dispatch(unpinAttendeeAction(item.email)),
   sendEvents: attendees => dispatch(sendEventToDialogFlow(attendees))

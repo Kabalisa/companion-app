@@ -83,7 +83,7 @@ const props = {
   scrollToBottom: false,
   scrollToBottomOffset: 200,
   showUserAvatar: false,
-  text: undefined,
+  text: 'hello',
   textInputProps: {},
   timeFormat: 'LT',
   user: {

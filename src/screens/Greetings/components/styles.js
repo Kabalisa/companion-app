@@ -226,7 +226,6 @@ const styles = StyleSheet.create({
     padding: responsiveStyles().responsiveMessagePadding,
     ...container,
     borderWidth: 1,
-    borderColor: '#0459E4',
     backgroundColor: '#ecfaee',
     flexDirection: 'row',
     borderRadius: 19,

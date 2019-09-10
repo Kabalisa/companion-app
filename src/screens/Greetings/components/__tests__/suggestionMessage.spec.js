@@ -14,7 +14,8 @@ const props = {
   AcceptedPrcolor: '#ffffff',
   NotAcceptedPrcolor: '#0459E4',
   AcceptedBgcolor: '#0459E4',
-  NotAcceptedBgcolor: '#ECF1FA'
+  NotAcceptedBgcolor: '#ECF1FA',
+  borderColor: '#ECF1FA'
 };
 
 const wrapper = shallow(
@@ -32,4 +33,16 @@ describe('Meeting room directions', () => {
     wrapper2.find(TouchableOpacity).first().props().onPress();
     expect(onPressEvent.mock.calls.length).toBe(0);
   });
+
+  test('suggestion message for user location should be rendered when user accepts',
+    () => {
+      const onPressEvent = jest.fn();
+      onPressEvent.mockReturnValue('Link on press invoked');
+      const wrapper2 = shallow(<SuggestionMessage {...props} />);
+      wrapper2.setState({
+        isAccepted: true
+      });
+      wrapper2.find(TouchableOpacity).first().props().onPress();
+      expect(onPressEvent.mock.calls.length).toBe(0);
+    });
 });

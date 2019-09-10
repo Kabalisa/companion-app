@@ -55,6 +55,7 @@ const MessageDialog = (props) => {
         </View>
       </View>
       {position === 'right' && <UserAvatar {...props} />}
+
     </View>
   );
 };

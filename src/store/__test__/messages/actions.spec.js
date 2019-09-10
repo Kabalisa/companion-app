@@ -6,7 +6,7 @@ import DialogFlow from '../../../DialogFlow';
 
 const middleWare = [thunk];
 const mockStore = configureMockStore(middleWare);
-global.fetch = jest.fn();
+
 
 describe('actions', () => {
   it('should create an action to send Message', () => {
@@ -22,21 +22,18 @@ describe('actions', () => {
 
 describe('Async thunk', () => {
   it('should send message to DialogFlow', async () => {
-    jest.spyOn(DialogFlow, 'requestQueryPayload').mockImplementation(
-      (a, b, c) => c({
-        queryResult: {
-          fulfillmentText: 'Hello'
-        }
-      })
-    );
+    fetch.once(JSON.stringify({
+      queryResult: {
+        fulfillmentText: 'event created'
+      }
+    }));
     const store = mockStore({});
     const message = 'Hi';
     await store.dispatch(actions.sendToDialogFlow(message));
-    const action = store.getActions();
-    expect(action[0]).toEqual({ type: 'DISPLAY_MESSAGE', message: ['Hi'] });
-    expect(action[1]).toEqual({ type: 'SEND_TO_DIALOGFLOW_REQUEST' });
-    expect(action[2]).toEqual({ type: 'SEND_TO_DIALOGFLOW_SUCCESS' });
-    expect(action[3].type).toEqual('DISPLAY_MESSAGE');
+    const expectedActions = store.getActions();
+    expect(expectedActions[0]).toEqual({ type: 'SEND_TO_DIALOGFLOW_REQUEST' });
+    expect(expectedActions[1]).toEqual({ type: 'SEND_TO_DIALOGFLOW_SUCCESS' });
+    expect(expectedActions[2].type).toEqual('DISPLAY_MESSAGE');
   });
 
   it('should return  error when sending to DialogFlow', async () => {
@@ -47,17 +44,22 @@ describe('Async thunk', () => {
         }
       })
     );
+
+    fetch.once(JSON.stringify({
+      queryResult: {
+        fulfillmentText: 'event created'
+      }
+    }));
     const store = mockStore({});
     await store.dispatch(actions.sendToDialogFlow());
-    const action = store.getActions();
-    expect(action[0]).toEqual({ type: 'DISPLAY_MESSAGE', message: [undefined] });
-    expect(action[1]).toEqual({ type: 'SEND_TO_DIALOGFLOW_REQUEST' });
-    expect(action[2]).toEqual({ type: 'SEND_TO_DIALOGFLOW_FAILURE' });
+    const expectedActions = store.getActions();
+    expect(expectedActions[0]).toEqual({ type: 'SEND_TO_DIALOGFLOW_REQUEST' });
+    expect(expectedActions[1]).toEqual({ type: 'SEND_TO_DIALOGFLOW_FAILURE' });
   });
 });
 
 describe('Async Thunk for Event', () => {
-  it('should send message to DialogFlow', async () => {
+  it('should send event to DialogFlow', async () => {
     jest.spyOn(DialogFlow, 'requestEventPayload').mockImplementation(
       (a, b, c, d) => d({
         queryResult: {
@@ -65,6 +67,12 @@ describe('Async Thunk for Event', () => {
         }
       })
     );
+
+    fetch.once(JSON.stringify({
+      queryResult: {
+        fulfillmentText: 'event created'
+      }
+    }));
     const store = mockStore({});
     const attendees = ['test@andela.com'];
     await store.dispatch(actions.sendEventToDialogFlow(attendees));

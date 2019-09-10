@@ -6,37 +6,32 @@ import MessageDialog from './MessageDialog';
 import InteractionMessage from './InteractionMessage';
 import EventDurationQueryMessage from './EventDurationQueryMessage';
 import { generateKey } from '../../../utils/helpers';
+import { calendarProps, directionProps } from './Props';
 
-const interactionMessageStylingProps = {
-  text: 'invite attendees for this meeting',
-  icon: 'ios-calendar',
-  AcceptedPrcolor: '#ffffff',
-  NotAcceptedPrcolor: '#0459E4',
-  AcceptedBgcolor: '#0459E4',
-  NotAcceptedBgcolor: '#ECF1FA'
-};
 const Message = (props) => {
   const { currentMessage, action } = props;
-  const { openAttendeesModal } = action;
-  const { text, type } = currentMessage;
+  const { openAttendeesModal, directionsArrival } = action;
+  const { text = '', type, parameters: params = {} } = currentMessage;
+
   const key = generateKey(text, type);
   return (
     <View>
-      {
-        {
-          'true-false-false-false': (
-            <InteractionMessage
-              {...props}
-              {...interactionMessageStylingProps}
-              action={openAttendeesModal}
-            />
-          ),
-          'false-false-true-false': <GreetingsMessage {...props} />,
-          'false-true-false-false': <MessageDialog {...props} />,
-          'false-false-false-true': <EventDurationQueryMessage {...props} />,
-          'false-false-false-false': <MessageDialog position="left" {...props} />
-        }[key]
-      }
+      {{
+        'true-false-false-false-false': <InteractionMessage
+          {...props}
+          action={openAttendeesModal}
+          {...calendarProps}
+        />,
+        'false-false-false-false-true': <InteractionMessage
+          {...props}
+          action={directionsArrival}
+          {...directionProps(params.floor || params.block)}
+        />,
+        'false-false-true-false-false': <GreetingsMessage {...props} />,
+        'false-false-false-true-false': <EventDurationQueryMessage {...props} />,
+        'false-true-false-false-false': <MessageDialog {...props} />,
+        'false-false-false-false-false': <MessageDialog position="left" {...props} />
+      }[key]}
     </View>
   );
 };
@@ -46,17 +41,20 @@ Message.propTypes = {
     user: PropTypes.objectOf(PropTypes.any),
     type: PropTypes.string,
     text: PropTypes.any,
-    _id: PropTypes.any
+    _id: PropTypes.any,
+    parameters: PropTypes.any
   }),
   action: PropTypes.shape({
-    openAttendeesModal: PropTypes.func.isRequired
+    openAttendeesModal: PropTypes.func.isRequired,
+    directionsArrival: PropTypes.func.isRequired
   })
 };
 
 Message.defaultProps = {
   currentMessage: {
     type: null,
-    text: ''
+    text: '',
+    parameters: PropTypes.any
   },
   action: () => {}
 };

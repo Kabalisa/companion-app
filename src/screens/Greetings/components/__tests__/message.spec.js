@@ -1,8 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Message from '../Message';
+import InteractionMessage from '../InteractionMessage';
+import { messageConstants } from '../../../../utils/constants';
 import props from './utils/componentProps';
 import screenshotHandler from '../../../../../__tests__/helpers/screenshotsHandler';
+import { directionProps } from '../Props';
+
 
 const newProps = {
   ...props,
@@ -35,17 +39,51 @@ const props2 = {
 describe('Gifted chat message', () => {
   const componentInitialMsg = shallow(<Message {...props} />);
   screenshotHandler(componentInitialMsg, 'should render the initial message');
+  test('should render the initial message', () => {
+    const wrapper = shallow(<Message {...newProps} />);
+    expect(wrapper).toMatchSnapshot();
+  });
 
-  const wrapper = shallow(<Message {...newProps} />);
-  screenshotHandler(wrapper, 'should render the user message');
+  test('should render a location suggestion message', () => {
+    const newprops = {
+      ...props2,
+      parameters: {
+        floor: 'first'
+      }
+    };
 
-  const componentSystemMsg = shallow(<Message {...props2} />);
-  screenshotHandler(componentSystemMsg, 'should render the system message');
+    newprops.currentMessage.type = 'suggestion';
+    const wrapper = shallow(<Message {...newProps} />);
+    expect(wrapper).toMatchSnapshot();
+  });
 
-  props2.currentMessage.type = 'suggestion';
-  const componentSuggestionMsg = shallow(<Message {...props2} />);
-  screenshotHandler(
-    componentSuggestionMsg,
-    'should render a location suggestion message'
-  );
+  test('should render a location suggestion message with blocks', () => {
+    const newprops = { ...props2, parameters: { block: 'block A' } };
+    newprops.currentMessage.type = 'suggestion';
+    const wrapper = shallow(<Message {...newProps} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test('should render a location suggestion message with blocks', () => {
+    const newprops = { ...props2, parameters: undefined };
+    newprops.currentMessage.type = 'suggestion';
+    const wrapper = shallow(<Message {...newprops} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+});
+
+describe('Interaction message', () => {
+  test('should test the interaction message', () => {
+    const wrapper = shallow(<InteractionMessage
+      {...directionProps('floor')}
+      action={jest.fn()}
+    />);
+    expect(wrapper).toMatchSnapshot();
+  });
+});
+
+describe('test message constants', () => {
+  test('should render the messageconstancts', () => {
+    expect(messageConstants.BotString).toEqual('bot');
+  });
 });

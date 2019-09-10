@@ -27,25 +27,6 @@ export const successDisplay = response => async (dispatch) => {
     dispatch(displayMessage(botMessage))
   ];
 };
-export const sendToDialogFlow = message => async (dispatch) => {
-  try {
-    dispatch(displayMessage([message]));
-    dispatch(dialogFlowRequest());
-    const {
-      text, email, token
-    } = message;
-    const accessToken = await getAccessToken();
-    const payload = {
-      email, token, accessToken
-    };
-    DialogFlow.requestQueryPayload(text, payload, (response) => {
-      dispatch(successDisplay(response));
-    });
-  } catch (error) {
-    dispatch(responseDialogFlowFailure());
-  }
-};
-
 export const sendEventToDialogFlow = attendeesWithPayload => async (dispatch) => {
   const {
     attendees, email
@@ -69,3 +50,26 @@ export const sendEventToDialogFlow = attendeesWithPayload => async (dispatch) =>
     dispatch(responseDialogFlowFailure());
   }
 };
+
+export const sendToDialogFlow = message => async (dispatch) => {
+  try {
+    dispatch(dialogFlowRequest());
+    const {
+      text, email, token
+    } = message;
+    const accessToken = await getAccessToken();
+    const payload = {
+      email, token, accessToken
+    };
+    DialogFlow.requestQueryPayload(text, payload, (response) => {
+      dispatch(successDisplay(response));
+    });
+  } catch (error) {
+    dispatch(responseDialogFlowFailure());
+  }
+};
+
+export const sendToDialogFlowDisplay = message => async dispatch => [
+  dispatch(displayMessage([message])),
+  dispatch(sendToDialogFlow(message))
+];

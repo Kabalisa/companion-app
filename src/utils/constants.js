@@ -4,5 +4,6 @@ export const messageConstants = {
   UserSting: 'user',
   BotString: 'bot',
   CalenderInvite: 'Who are you inviting?',
-  DurationSuggestion: 'isDuration'
+  DurationSuggestion: 'isDuration',
+  directionString: 'To get to'
 };
