@@ -70,26 +70,6 @@ describe('Greetings screen', () => {
     wrapperInstance.renderMessage().props.action.directionsArrival();
   });
 
-  test('should return the navigation options', () => {
-    const naviProps = {
-      navigation: { state: { params: { picture: 'http://picurl' } } }
-    };
-    const navigationOptions = GreetingsScreen.navigationOptions(naviProps);
-    expect(navigationOptions).toHaveProperty('headerLeft');
-    expect(navigationOptions).toHaveProperty('headerRight');
-  });
-
-  test('should test the navigation headerRight onPress', () => {
-    const naviProps = {
-      navigation: {
-        state: { params: { picture: 'http://picurl' } },
-        navigate: jest.fn()
-      }
-    };
-    const navigationOptions = GreetingsScreen.navigationOptions(naviProps);
-    navigationOptions.headerRight.props.onPress();
-  });
-
   test('should mount the keyboard spacer if the platform is not iOS', () => {
     Platform.OS = 'android';
     jest.spyOn(AsyncStorage, 'getItem').mockImplementation(

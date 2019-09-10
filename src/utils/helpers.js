@@ -79,9 +79,7 @@ export const sample = (array = []) => {
 };
 
 export const formatCalendarData = (data = []) => {
-  if (!(data instanceof Array)) {
-    return {};
-  }
+  if (!(data instanceof Array)) return {};
   const newDate = data.map((item) => {
     const event = {};
     ({

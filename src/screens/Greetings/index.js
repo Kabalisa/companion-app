@@ -1,18 +1,16 @@
+
 import React, { Component } from 'react';
 import {
   Platform,
   SafeAreaView,
   AsyncStorage,
-  Dimensions,
   TouchableWithoutFeedback,
   View
 } from 'react-native';
-import { Constants } from 'expo';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { GiftedChat } from 'react-native-gifted-chat';
 import jwtDecode from 'jwt-decode';
 import PropTypes from 'prop-types';
-import Modal from 'react-native-modal';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
 import {
@@ -20,11 +18,10 @@ import {
   sendEventToDialogFlow,
   sendToDialogFlow
 } from '../../store/messages/actions';
+import Modal from '../../shared/components/Modal/Modal';
 import Send from './components/Send';
 import InputToolbar from './components/InputToolBar';
 import Message from './components/Message';
-import HeaderLeft from './components/HeaderLeft';
-import HeaderRight from './components/HeaderRight';
 import styles from './components/styles';
 import PinnedUser from '../UserCalendar/OtherCalendar/components/PinnedUser';
 import SearchResults from '../UserCalendar/OtherCalendar/components/SearchResults';
@@ -38,48 +35,15 @@ import { getCalendarData } from '../../store/calendar/actions';
 import { getUserEmail as getAttendeeEmail } from '../../utils/helpers';
 import BotProcessing from './components/BotProcessing';
 
-const { width: DEVICE_WIDTH } = Dimensions.get('window');
-
-const { width } = Dimensions.get('window');
-
 export class GreetingsScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
-    return {
-      headerStyle:
-        width >= 768
-          ? {
-            marginTop: Constants.statusBarHeight,
-            paddingBottom: 10
-          }
-          : {},
-      headerRight: (
-        <HeaderRight onPress={() => navigation.navigate('UserCalendar')} />
-      ),
-      headerLeft: (
-        <HeaderLeft
-          onPress={navigation.toggleDrawer}
-          profileAvatar={params.picture}
-        />
-      )
-    };
-  };
-
   listViewProps = {
-    contentInset: { bottom: 40 },
-    style: {
-      padding: 20,
-      paddingLeft: 0
-    }
+    contentInset: { bottom: 40 }, style: { padding: 20, paddingLeft: 0 }
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      email: null,
-      data: [],
-      text: '',
-      isModalVisible: false
+      email: null, data: [], text: '', isModalVisible: false
     };
     this.getAttendeeEmail = getAttendeeEmail.bind(this);
   }
@@ -89,9 +53,7 @@ export class GreetingsScreen extends Component {
     this.fetchCalendarData(fetchCalendar);
     AsyncStorage.getItem('token').then((token) => {
       const decoded = jwtDecode(token);
-      const {
-        UserInfo: { picture, email, firstName }
-      } = decoded;
+      const { UserInfo: { picture, email, firstName } } = decoded;
       setParams({ picture });
       this.setState({
         userAvatar: picture, email, firstName, token
@@ -106,9 +68,7 @@ export class GreetingsScreen extends Component {
   }
 
   openAddAttendeesModal = () => {
-    this.setState(state => ({
-      isModalVisible: !state.isModalVisible
-    }));
+    this.setState(state => ({ isModalVisible: !state.isModalVisible }));
   };
 
   pinSelectedAttendee = (item) => {
@@ -164,10 +124,8 @@ export class GreetingsScreen extends Component {
   };
 
   renderSaveButton = () => {
-    const { pinnedAttendees } = this.props;
-    if (pinnedAttendees.length !== 0) {
-      return <SaveAttendeeButton action={this.saveAttendees} />;
-    }
+    const { pinnedAttendees: { length } } = this.props;
+    if (length !== 0) return <SaveAttendeeButton action={this.saveAttendees} />;
     return null;
   };
 
@@ -192,6 +150,7 @@ export class GreetingsScreen extends Component {
       ...directionsMessage, email, token, type: 'hidden'
     };
 
+
     return (
       <Message
         {...props}
@@ -200,11 +159,7 @@ export class GreetingsScreen extends Component {
           _id: uuid(),
           text,
           createdAt: new Date(),
-          user: {
-            _id: 1,
-            name: firstName,
-            avatar: userAvatar
-          }
+          user: { _id: 1, name: firstName, avatar: userAvatar }
         })
         }
         action={{
@@ -224,40 +179,34 @@ export class GreetingsScreen extends Component {
     return null;
   };
 
-  render() {
+
+  giftedChatProps = () => {
     const { messages } = this.props;
-    const {
-      userAvatar, firstName, data, isModalVisible
-    } = this.state;
+    const { userAvatar, firstName } = this.state;
+
+    return {
+      testID: 'GiftedChat',
+      messages,
+      onSend: message => this._onSend(message[0]),
+      renderMessage: this.renderMessage,
+      renderInputToolbar: this.renderInputToolbar,
+      renderSend: this.renderSend,
+      renderFooter: this.renderFooter,
+      listViewProps: this.listViewProps,
+      renderSuggestionMessage: this.renderSuggestionMessage,
+      user: { _id: 1, name: firstName, avatar: userAvatar },
+      showAvatarForEveryMessage: true,
+      alignTop: true
+    };
+  }
+
+  render() {
+    const { data, isModalVisible } = this.state;
+
     return (
       <SafeAreaView behavior="padding" enabled style={[styles.container]}>
-        <GiftedChat
-          testID="GiftedChat"
-          messages={messages}
-          onSend={message => this._onSend(message[0])}
-          renderMessage={this.renderMessage}
-          renderInputToolbar={this.renderInputToolbar}
-          renderSend={this.renderSend}
-          renderFooter={this.renderFooter}
-          listViewProps={this.listViewProps}
-          renderSuggestionMessage={this.renderSuggestionMessage}
-          showAvatarForEveryMessage
-          user={{
-            _id: 1,
-            name: firstName,
-            avatar: userAvatar
-          }}
-          alignTop
-        />
-
-        <Modal
-          avoidKeyboard
-          backdropOpacity={0.1}
-          isVisible={isModalVisible}
-          deviceWidth={DEVICE_WIDTH}
-          style={styles.modal}
-          hasBackdrop
-        >
+        <GiftedChat {...this.giftedChatProps()} />
+        <Modal isVisible={isModalVisible} style={styles.modal}>
           <View style={styles.container}>
             <TouchableWithoutFeedback onPress={this.openAddAttendeesModal}>
               <View style={styles.backDrop} />
@@ -278,18 +227,15 @@ export class GreetingsScreen extends Component {
   }
 }
 
+
 GreetingsScreen.propTypes = {
-  navigation: PropTypes.shape({
-    setParams: PropTypes.func
-  }),
+  navigation: PropTypes.shape({ setParams: PropTypes.func }),
   pinnedAttendees: PropTypes.arrayOf(PropTypes.shape({})),
   fetchCalendar: PropTypes.func,
   unpinAttendee: PropTypes.func,
   pinAttendees: PropTypes.func,
   messages: PropTypes.arrayOf(
-    PropTypes.shape({
-      messageProps: PropTypes.shape({})
-    })
+    PropTypes.shape({ messageProps: PropTypes.shape({}) })
   ),
   sendMessages: PropTypes.func,
   sendEvents: PropTypes.func,
@@ -298,16 +244,14 @@ GreetingsScreen.propTypes = {
 };
 
 GreetingsScreen.defaultProps = {
-  navigation: {
-    setParams: () => {}
-  },
+  navigation: { setParams: () => { } },
   messages: [{}],
-  fetchCalendar: () => {},
-  unpinAttendee: () => {},
-  pinAttendees: () => {},
-  sendMessages: () => {},
+  fetchCalendar: () => { },
+  unpinAttendee: () => { },
+  pinAttendees: () => { },
+  sendMessages: () => { },
   sendHiddenMessage: () => { },
-  sendEvents: () => {},
+  sendEvents: () => { },
   pinnedAttendees: [{}],
   isBotProcessing: false
 };

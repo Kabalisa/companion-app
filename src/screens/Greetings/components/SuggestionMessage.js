@@ -27,6 +27,12 @@ export default class SuggestionMessage extends React.Component {
     />
   );
 
+  renderSuggestionHr = () => (
+    <View style={styles.suggestionHr}>
+      <View style={styles.suggestionHrLine} />
+    </View>
+  )
+
   render() {
     const { isAccepted } = this.state;
     const {
@@ -42,9 +48,7 @@ export default class SuggestionMessage extends React.Component {
     const backgroundColor = isAccepted ? AcceptedBgcolor : NotAcceptedBgcolor;
     return (
       <View style={[styles.systemMessageContainer, styles.suggestionContainer]}>
-        <View style={styles.suggestionHr}>
-          <View style={styles.suggestionHrLine} />
-        </View>
+        {this.renderSuggestionHr()}
         <TouchableOpacity
           onPress={this.onPress}
           style={[styles.suggestionContent, { backgroundColor, borderColor }]}

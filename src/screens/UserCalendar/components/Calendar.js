@@ -5,12 +5,11 @@ import {
   View,
   Text,
   StatusBar,
-  Dimensions,
   TouchableWithoutFeedback,
   NetInfo
 } from 'react-native';
 import { CalendarProvider, LocaleConfig } from 'react-native-calendars';
-import Modal from 'react-native-modal';
+import Modal from '../../../shared/components/Modal/Modal';
 import calendarSettings from '../../../constants/calendarSettings';
 import { markDayEvents } from '../../../utils/helpers';
 import AgendaList from './AgendaList';
@@ -23,7 +22,6 @@ import { addCalendarStyles } from './agendaStyles';
 import SearchResults from '../OtherCalendar/components/SearchResults';
 import SearchInput from '../OtherCalendar/components/SearchInput';
 
-const { width: DEVICE_WIDTH } = Dimensions.get('window');
 LocaleConfig.locales.en = {
   monthNames: calendarSettings.monthNames,
   monthNamesShort: calendarSettings.monthNamesShort,
@@ -96,80 +94,95 @@ class Calendar extends Component {
     }));
   };
 
-  render() {
-    const { isModalVisible, isConnected } = this.state;
+  renderModalChild = () => {
+    const { data, pinnedUsers } = this.props;
+    return (
+      <View style={addCalendarStyles.innerModel}>
+        <TouchableWithoutFeedback onPress={this.openSearchModal}>
+          <View style={addCalendarStyles.backDrop} />
+        </TouchableWithoutFeedback>
+        <View style={addCalendarStyles.contentContainer}>
+          <View style={addCalendarStyles.content}>
+            {pinnedUsers.length < 4 ? (
+              this.renderSearchBox()
+            ) : (
+              <Text style={addCalendarStyles.searchText}>
+                You can only view 4 calendars
+              </Text>
+            )}
+            {data.length > 0 ? this.renderResult() : null}
+            {this.renderPinnedCalendar()}
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  renderCalendarProvider = () => {
+    const { isCalendarOpen, isConnected } = this.state;
     const {
       events,
       currentEvents,
       handleDateSelect,
       selectedDate,
-      isLoading,
-      data,
-      pinnedUsers
+      isLoading
     } = this.props;
-    const { isCalendarOpen } = this.state;
     const dots = markDayEvents(events);
+
+    return (
+      <CalendarProvider
+        date={selectedDate}
+        onDateChanged={handleDateSelect}
+        onMonthChange={this.handleMonthChange}
+        testID="calendar-provider"
+      >
+        {isCalendarOpen && (
+          <View>
+            <ExpandableCalendar dots={dots} selected={selectedDate} />
+            {isConnected && isLoading && <Loading size="small" color="#4D6EFF" />}
+          </View>
+        )}
+
+        <AgendaList
+          currentEvents={currentEvents}
+          extraData={events}
+          currentDate={selectedDate}
+          isLoading={isLoading}
+        />
+      </CalendarProvider>
+    );
+  }
+
+  headerProps = () => {
+    const { isModalVisible, isCalendarOpen } = this.state;
+    const { pinnedUsers } = this.props;
+
+    return {
+      onSearchPress: this.openSearchModal,
+      goBack: this.navigateBack,
+      onToggle: this.toggleCalendar,
+      title: '',
+      closeIcon: isCalendarOpen,
+      testID: 'calendar-header',
+      usersHeaderAvatar: pinnedUsers,
+      isCalendarOpen,
+      isModalVisible
+    };
+  }
+
+  render() {
+    const { isModalVisible } = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="default" />
-        <Header
-          onSearchPress={this.openSearchModal}
-          goBack={this.navigateBack}
-          onToggle={this.toggleCalendar}
-          title=""
-          closeIcon={isCalendarOpen}
-          testID="calendar-header"
-          usersHeaderAvatar={pinnedUsers}
-          isCalendarOpen={isCalendarOpen}
-          isModalVisible={isModalVisible}
-        />
+        <Header {...this.headerProps()} />
         <Modal
-          avoidKeyboard
-          backdropOpacity={0.1}
           isVisible={isModalVisible}
-          deviceWidth={DEVICE_WIDTH}
           style={addCalendarStyles.modal}
-          hasBackdrop
         >
-          <View style={addCalendarStyles.innerModel}>
-            <TouchableWithoutFeedback onPress={this.openSearchModal}>
-              <View style={addCalendarStyles.backDrop} />
-            </TouchableWithoutFeedback>
-            <View style={addCalendarStyles.contentContainer}>
-              <View style={addCalendarStyles.content}>
-                {pinnedUsers.length < 4 ? (
-                  this.renderSearchBox()
-                ) : (
-                  <Text style={addCalendarStyles.searchText}>
-                    You can only view 4 calendars
-                  </Text>
-                )}
-                {data.length > 0 ? this.renderResult() : null}
-                {this.renderPinnedCalendar()}
-              </View>
-            </View>
-          </View>
+          {this.renderModalChild()}
         </Modal>
-        <CalendarProvider
-          date={selectedDate}
-          onDateChanged={handleDateSelect}
-          onMonthChange={this.handleMonthChange}
-          testID="calendar-provider"
-        >
-          {isCalendarOpen ? (
-            <View>
-              <ExpandableCalendar dots={dots} selected={selectedDate} />
-              {isConnected && isLoading && <Loading size="small" color="#4D6EFF" />}
-            </View>
-          ) : null}
-
-          <AgendaList
-            currentEvents={currentEvents}
-            extraData={events}
-            currentDate={selectedDate}
-            isLoading={isLoading}
-          />
-        </CalendarProvider>
+        {this.renderCalendarProvider()}
       </SafeAreaView>
     );
   }

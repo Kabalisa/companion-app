@@ -68,15 +68,11 @@ export class CalendarContainer extends Component {
 
   render() {
     const { text, data } = this.state;
+
     const {
-      navigation,
-      currentEvents,
-      events,
-      isLoading,
-      selectedDate,
-      pinnedUsers,
-      error
+      navigation, currentEvents, events, isLoading, selectedDate, pinnedUsers, error
     } = this.props;
+
     return (
       <Calendar
         events={events}
@@ -87,14 +83,14 @@ export class CalendarContainer extends Component {
         error={error}
         navigation={navigation}
         isLoading={isLoading}
-        text={text}
-        data={data}
         pinnedUsers={pinnedUsers}
         fetchCalendar={this.getUserCalendar}
         getUserEmail={this.getUserEmail}
         pinUser={this.pinUser}
         unpinUser={this.unpinUser}
         testId="calendar-container"
+        text={text}
+        data={data}
       />
     );
   }

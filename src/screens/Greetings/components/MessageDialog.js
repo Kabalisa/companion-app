@@ -28,6 +28,15 @@ const specs = (position) => {
   };
 };
 
+const renderTimeStamp = createdAt => (
+  <View style={[styles.timeStampContainer]}>
+    <Text style={[styles.timeStampText]}>
+      {`Sent ${moment(createdAt).fromNow()}`}
+    </Text>
+    <Ionicons name="ios-checkmark" size={23} color="rgba(153,165,172,1)" />
+  </View>
+);
+
 const MessageDialog = (props) => {
   const {
     currentMessage: { text, createdAt },
@@ -47,12 +56,7 @@ const MessageDialog = (props) => {
           </View>
         </View>
         {showMenu && <MenuOptions onPress={onPress} />}
-        <View style={[styles.timeStampContainer]}>
-          <Text style={[styles.timeStampText]}>
-            {`Sent ${moment(createdAt).fromNow()}`}
-          </Text>
-          <Ionicons name="ios-checkmark" size={23} color="rgba(153,165,172,1)" />
-        </View>
+        {renderTimeStamp(createdAt)}
       </View>
       {position === 'right' && <UserAvatar {...props} />}
 

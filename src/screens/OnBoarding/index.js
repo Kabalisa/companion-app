@@ -86,42 +86,38 @@ class OnBoarding extends Component {
     this.animatepaginate(1, 10);
   };
 
-  render() {
-    const images = [slideImage1, slideImage2, slideImage3];
+  swiperProps = () => ({
+    loop: false,
+    showsPagination: false,
+    onTouchStart: () => this.fade(0.01, 100, 200, 300),
+    onTouchEnd:
+      (e, state) => {
+        if (state) return this.handleSetState(state);
+        return this.fade(1, 1000, 2500, 1000);
+      },
+    onMomentumScrollEnd: (e, state) => {
+      this.handleSetState(state);
+    }
+  })
+
+  renderSlide = (pageContainer) => {
     const { slowAnim } = this.state;
     return (
-      <View
-        style={{
-          flex: 1,
-          height: '100%',
-          width: '100%'
-        }}
-      >
-        <Swiper
-          loop={false}
-          showsPagination={false}
-          onTouchStart={() => this.fade(0.01, 100, 200, 300)}
-          onTouchEnd={
-            (e, state) => {
-              if (state) {
-                return this.handleSetState(state);
-              } return this.fade(1, 1000, 2500, 1000);
-            }
-          }
-          onMomentumScrollEnd={(e, state) => {
-            this.handleSetState(state);
-          }}
-        >
-          <Slide
-            pageContainer="page1Container"
-            skipOnBoarding={this.goToGreetings}
-            slowAnim={slowAnim}
-          />
-          <Slide
-            pageContainer="page2Container"
-            skipOnBoarding={this.goToGreetings}
-            slowAnim={slowAnim}
-          />
+      <Slide
+        pageContainer={pageContainer}
+        skipOnBoarding={this.goToGreetings}
+        slowAnim={slowAnim}
+      />
+    );
+  }
+
+  render() {
+    const images = [slideImage1, slideImage2, slideImage3];
+    return (
+      <View style={{ flex: 1, height: '100%', width: '100%' }}>
+        <Swiper {...this.swiperProps()}>
+          {this.renderSlide('page1Container')}
+          {this.renderSlide('page2Container')}
           <Swiper
             onMomentumScrollEnd={this.goToGreetings}
             loop={false}
@@ -131,17 +127,11 @@ class OnBoarding extends Component {
                 this.fade(0.01, 100, 100, 100); this.animatepaginate(0, 10);
               }}
           >
-            <Slide
-              pageContainer="page3Container"
-              skipOnBoarding={this.goToGreetings}
-              slowAnim={slowAnim}
-            />
+            {this.renderSlide('page3Container')}
             <ConnectedGreetingsScreen />
           </Swiper>
         </Swiper>
-        <Content
-          props={{ ...this.state, images }}
-        />
+        <Content props={{ ...this.state, images }} />
       </View>
     );
   }
