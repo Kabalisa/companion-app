@@ -1,18 +1,24 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { scale } from 'react-native-size-matters';
 
-import responsiveStyles from '../../../shared/styles/responsiveStyles';
+import {
+  widthPercentageToDP,
+  checkDeviceWidth,
+  checkDeviceHeight
+} from '../../../shared/styles/responsiveStyles';
 import { addCalendarStyles } from '../../UserCalendar/components/agendaStyles';
 
-const { width } = Dimensions.get('window');
+
+const { width, height } = Dimensions.get('window');
 
 const container = {
   alignItems: 'center',
   justifyContent: 'center'
 };
 const textStyles = {
-  fontSize: responsiveStyles().responsiveTextStylesFontSize,
-  lineHeight: responsiveStyles().responsiveTextStylesLineHeight,
+  fontSize: checkDeviceWidth(3.8, 4, 3.2, 3.5, 2.6),
+  padding: 3,
+  lineHeight: checkDeviceHeight('2%', '2.5%', '2%'),
   fontWeight: Platform.OS === 'ios' ? '500' : '400',
   fontFamily: 'DINPro'
 };
@@ -31,38 +37,37 @@ const shadowStyles = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    width,
+    height
   },
   menuItem: {
     ...container,
     ...shadowStyles,
-    borderRadius: responsiveStyles().responsiveMenuItemBorderRadius,
-    padding: scale(10),
-    marginBottom: scale(10),
-    marginRight: scale(20),
-    height: undefined,
-    aspectRatio: responsiveStyles().responsiveMenuItemAspectRatio,
-    width: responsiveStyles().responsiveMenuItemWidth
+    borderRadius: 19,
+    marginBottom: checkDeviceWidth('3%', '6%', '2%', '5%', '5%'),
+    marginRight: widthPercentageToDP('5%'),
+    width: widthPercentageToDP('33%'),
+    height: checkDeviceHeight('18%', '18%', '18%')
   },
   menuItemImage: {
-    display: responsiveStyles().responsivemenuItemImageDisplay,
-    marginBottom: responsiveStyles().responsiveMenuItemImageMarginBottom,
-    height: undefined,
+    marginBottom: checkDeviceHeight('1.9%', '1.9%', '1%'),
+    height: checkDeviceHeight('8%', '8%', '8%'),
     aspectRatio: 1 / 1,
-    width: responsiveStyles().responsiveMenuItemImageWidth
+    width: checkDeviceWidth('10%', 10, 10, 10, 10)
   },
   menuItemText: {
     textAlign: 'center',
-    maxWidth: scale(85),
-    minWidth: scale(65),
+    maxWidth: checkDeviceWidth('30%', '50%', '50%', '50%', '30%'),
+    minWidth: checkDeviceWidth('2%', '20%', '30%', '30%', '30%'),
     ...textStyles
   },
   greetingsTitle: {
     backgroundColor: 'rgba(236,241,250,1)',
-    padding: responsiveStyles().responsiveMessagePadding,
+    padding: widthPercentageToDP('5%'),
     maxWidth: scale(227),
     ...container,
-    marginBottom: responsiveStyles().responsiveGreetingsTitleMarginBottom,
+    marginBottom: widthPercentageToDP('4%'),
     borderTopLeftRadius: 14,
     borderTopRightRadius: 14,
     borderBottomRightRadius: 14
@@ -71,7 +76,7 @@ const styles = StyleSheet.create({
     ...container,
     backgroundColor: 'rgba(4,89,228,1);',
     color: 'white',
-    padding: responsiveStyles().responsiveMessagePadding,
+    padding: widthPercentageToDP('5%'),
     maxWidth: scale(227),
     borderTopLeftRadius: 14,
     borderTopRightRadius: 14,
@@ -89,7 +94,7 @@ const styles = StyleSheet.create({
     fontWeight: '300'
   },
   inputPrimary: {
-    margin: scale(10),
+    margin: checkDeviceWidth('1%', '1%', '2%', '1%', '1%'),
     borderColor: 'green'
   },
   inputToolBar: {
@@ -111,8 +116,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05
   },
   inputBoxText: {
-    fontSize: 20,
-    lineHeight: 20
+    fontSize: checkDeviceWidth('5%', '4%', '5%', '5%', '3%'),
+    lineHeight: 18
   },
   menuContainer: {
     flexDirection: 'row',
@@ -218,12 +223,16 @@ const styles = StyleSheet.create({
   messageAvatar: {
     marginLeft: '3%'
   },
-  greetingsContainer: { flexDirection: 'row', marginRight: 30, paddingTop: 40 },
+  greetingsContainer: {
+    flexDirection: 'row',
+    marginRight: 30,
+    paddingTop: 40
+  },
   suggestionContainer: {
     marginBottom: scale(20)
   },
   suggestionContent: {
-    padding: responsiveStyles().responsiveMessagePadding,
+    padding: checkDeviceWidth('8%', '9%', '5%', '5%', '5%'),
     ...container,
     borderWidth: 1,
     backgroundColor: '#ecfaee',

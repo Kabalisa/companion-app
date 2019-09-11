@@ -5,6 +5,10 @@ import {
   DEVICE_HEIGHT,
   DEVICE_WIDTH
 } from '../../../utils/responsiveDimensions';
+import {
+  checkDeviceWidth,
+  checkDeviceHeight
+} from '../../../shared/styles/responsiveStyles';
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 0 : StatusBar.currentHeight;
 
@@ -79,7 +83,7 @@ export const headerStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#fff',
-    height: scale(48),
+    height: checkDeviceHeight('6%', '6%', '6%'),
     borderBottomColor: '#ccc',
     borderBottomWidth: scale(0.5)
   },
@@ -111,7 +115,7 @@ export const addEventStyles = StyleSheet.create({
     justifyContent: 'center'
   },
   addEventsIcon: {
-    width: scale(26),
+    width: checkDeviceWidth('7%', '7%', '7%', '7%', '4.10%'),
     height: undefined,
     aspectRatio: 1 / 1
   }

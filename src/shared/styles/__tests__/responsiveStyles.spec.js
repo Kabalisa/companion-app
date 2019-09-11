@@ -1,155 +1,33 @@
-import { scale, verticalScale } from 'react-native-size-matters';
-import { Platform, Dimensions } from 'react-native';
-import responsiveStyles,
-{ between, responsiveSizes as defaultOutput }
-  from '../responsiveStyles';
+import {
+  checkDeviceHeight,
+  checkDeviceWidth
+} from '../responsiveStyles';
 
-describe('Responsive Styles', () => {
-  test('test between functionality', () => {
-    expect(between(4, 2, 6)).toBeTruthy();
+let deviceName;
+
+describe('Check deviceHeight', () => {
+  it('should check for iPhone5s ', async () => {
+    deviceName = 'iPhone 5s';
+    const response = checkDeviceHeight(
+      '4%', '3%', '5%', deviceName
+    );
+    expect(response).toBe(53.5);
   });
+});
 
-  test('test responsiveStyles Android functionality', () => {
-    const output = {
-      ...defaultOutput,
-      responsiveTextStylesLineHeight: 18,
-      responsiveMessagePadding: scale(20),
-      responsiveGreetingsTitleMarginBottom: scale(10),
-      responsiveMenuItemAspectRatio: 123 / 130,
-      responsiveTextStylesFontSize: 16,
-      responsiveMenuItemWidth: scale(90)
-    };
-
-    Object.defineProperty(Platform, 'OS', {
-      value: 'android'
-    });
-
-    expect(responsiveStyles()).toEqual(output);
+describe('Check deviceWidth', () => {
+  it('should check for iPhone5s ', async () => {
+    deviceName = 'iPhone 5s';
+    const response = checkDeviceWidth(
+      '4%', '3%', '5%', '5%', '5%', deviceName
+    );
+    expect(response).toBe(30);
   });
-
-  test('test responsiveness on ios small screens', () => {
-    const output = {
-      ...defaultOutput,
-      responsiveMenuItemBorderRadius: 10,
-      responsiveMenuItemImageWidth: verticalScale(44),
-      responsiveTextStylesFontSize: 9,
-      responsiveTextStylesLineHeight: 12,
-      responsiveMenuItemWidth: scale(100),
-      responsiveMessagePadding: scale(18),
-      responsiveGreetingsTitleMarginBottom: scale(12)
-    };
-
-    Object.defineProperty(Dimensions, 'get', {
-      value: __value => ({ width: 320 })
-    });
-
-    Object.defineProperty(Platform, 'OS', {
-      value: 'ios'
-    });
-
-    expect(responsiveStyles()).toEqual(output);
-  });
-
-  test('test responsiveness on ios medium screens', () => {
-    const output = {
-      ...defaultOutput,
-      responsiveTextStylesFontSize: 12,
-      responsiveTextStylesLineHeight: 15,
-      responsiveMenuItemWidth: scale(123),
-      responsiveMessagePadding: scale(20),
-      responsiveGreetingsTitleMarginBottom: scale(20)
-    };
-
-    Object.defineProperty(Dimensions, 'get', {
-      value: __value => ({ width: 340 })
-    });
-
-    Object.defineProperty(Platform, 'OS', {
-      value: 'ios'
-    });
-
-    expect(responsiveStyles()).toEqual(output);
-  });
-
-  test('test responsiveness on android small screens', () => {
-    const output = {
-      ...defaultOutput,
-      responsiveMenuItemBorderRadius: 10,
-      responsiveMenuItemAspectRatio: 90 / 60,
-      responsiveMenuItemWidth: scale(110),
-      responsivemenuItemImageDisplay: 'none'
-    };
-
-    Object.defineProperty(Dimensions, 'get', {
-      value: __value => ({ width: 320, height: 427 })
-    });
-
-    Object.defineProperty(Platform, 'OS', {
-      value: 'android'
-    });
-
-    expect(responsiveStyles()).toEqual(output);
-  });
-
-  test('test responsiveness on android normal size screen', () => {
-    const output = {
-      ...defaultOutput,
-      responsiveMenuItemAspectRatio: 123 / 130
-    };
-
-    Object.defineProperty(Dimensions, 'get', {
-      value: __value => ({ width: 412, height: 775 })
-    });
-
-    Object.defineProperty(Platform, 'OS', {
-      value: 'android'
-    });
-
-    expect(responsiveStyles()).toEqual(output);
-  });
-
-  test('test responsiveness on android short normal screen size', () => {
-    const output = {
-      ...defaultOutput,
-      responsiveMenuItemBorderRadius: 10,
-      responsiveMenuItemAspectRatio: 123 / 130,
-      responsiveMenuItemImageWidth: verticalScale(44),
-      responsiveTextStylesFontSize: 10,
-      responsiveMenuItemWidth: 90,
-      responsiveMessagePadding: scale(10),
-      responsiveGreetingsTitleMarginBottom: scale(15),
-      responsiveMenuItemImageMarginBottom: scale(10)
-    };
-
-    Object.defineProperty(Dimensions, 'get', {
-      value: __value => ({ width: 320, height: 534 })
-    });
-
-    Object.defineProperty(Platform, 'OS', {
-      value: 'android'
-    });
-
-    expect(responsiveStyles()).toEqual(output);
-  });
-
-  test('test responsiveness on android short normal screen size', () => {
-    const output = {
-      ...defaultOutput,
-      responsiveMenuItemAspectRatio: 123 / 130,
-      responsiveMenuItemWidth: 120,
-      responsiveMenuItemImageWidth: verticalScale(44),
-      responsiveMessagePadding: scale(15),
-      responsiveGreetingsTitleMarginBottom: scale(15)
-    };
-
-    Object.defineProperty(Dimensions, 'get', {
-      value: __value => ({ width: 322, height: 534 })
-    });
-
-    Object.defineProperty(Platform, 'OS', {
-      value: 'android'
-    });
-
-    expect(responsiveStyles()).toEqual(output);
+  it('should check For Lesser Androids', async () => {
+    deviceName = 'android';
+    const response = checkDeviceWidth(
+      '4%', '3%', '5%', '5%', '5%', null, deviceName
+    );
+    expect(response).toBe(22.5);
   });
 });

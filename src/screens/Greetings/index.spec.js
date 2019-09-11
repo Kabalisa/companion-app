@@ -141,6 +141,11 @@ describe('test for dispatch actions', () => {
     mapDispatchToProps(dispatch).sendMessages();
     expect(dispatch.mock.calls[0][0]).toBeDefined();
   });
+  test('should dispatch sendEvents action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).sendEvents();
+    expect(dispatch.mock.calls[0][0]).toBeDefined();
+  });
 
   test('should dispatch sendHiddenMessage action', () => {
     const dispatch = jest.fn();
@@ -153,16 +158,14 @@ describe('test for dispatch actions', () => {
     mapDispatchToProps(dispatch).pinAttendees();
     expect(dispatch.mock.calls[0][0]).toBeDefined();
   });
-
+  test('should dispatch fetchCalendar action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).fetchCalendar();
+    expect(dispatch.mock.calls[0][0]).toBeDefined();
+  });
   test('should dispatch unpinAttendee action', () => {
     const dispatch = jest.fn();
     mapDispatchToProps(dispatch).unpinAttendee(item);
-    expect(dispatch.mock.calls[0][0]).toBeDefined();
-  });
-
-  test('should dispatch sendEvents action', () => {
-    const dispatch = jest.fn();
-    mapDispatchToProps(dispatch).sendEvents();
     expect(dispatch.mock.calls[0][0]).toBeDefined();
   });
 });
