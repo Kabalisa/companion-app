@@ -3,3 +3,12 @@ plugins:
     enabled: true
     config:
       config: .eslintrc
+exclude_patterns:
+- "config/"
+- "script/"
+- "**/spec/"
+- "**/__tests__/"
+- "**/vendor"
+- "**/*.d.ts"
+- "**/*.test.js"
+- "**/*.spec.js"
