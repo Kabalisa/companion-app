@@ -14,6 +14,7 @@ export const getAccessToken = async () => {
   const profileData = await fetch('https://www.googleapis.com/userinfo/v2/me', {
     headers: { Authorization: `Bearer ${response.accessToken}` }
   });
+
   let currentUser = {};
   if (profileData.ok) {
     currentUser = await profileData.json();
@@ -31,6 +32,7 @@ export const getJwtToken = async (accessToken) => {
   );
 
   const data = await response.json();
+
   switch (response.status) {
     case 200:
       return data;
@@ -41,9 +43,8 @@ export const getJwtToken = async (accessToken) => {
   }
 };
 
-export const signOut = async () => {
+export const signOut = async (accessToken) => {
   try {
-    const accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken) {
       const options = {
         token: accessToken,
@@ -58,27 +59,35 @@ export const signOut = async () => {
     throw new Error(error.message || 'Sign out failed');
   }
 };
-
-export const refreshAuth = async () => {
+const authState = async (accessToken, refreshToken, callback) => {
+  const jwtToken = await getJwtToken(accessToken);
+  if (accessToken && jwtToken) {
+    if (callback) {
+      callback({
+        accessToken,
+        refreshToken,
+        token: jwtToken
+      });
+    }
+    return true;
+  }
+  return false;
+};
+export const refreshAuth = async (
+  currentRefreshToken, currentAccessToken, callback
+) => {
   try {
-    const token = await AsyncStorage.getItem('refreshToken');
-    if (!token) {
-      await signOut();
+    if (!currentRefreshToken) {
+      await signOut(currentAccessToken);
       return false;
     }
-    const response = await Google.refreshAsync(googleConfig, token);
-    let authState;
-    if (response.accessToken) {
-      const { accessToken, refreshToken } = response;
-      await AsyncStorage.multiSet([
-        ['refreshToken', refreshToken || token],
-        ['accessToken', accessToken]
-      ]);
-      authState = true;
-    }
-    return authState;
+    const { accessToken, refreshToken } = await Google.refreshAsync(
+      googleConfig,
+      currentRefreshToken
+    );
+    return await authState(accessToken, refreshToken, callback);
   } catch (error) {
-    signOut();
+    signOut(currentAccessToken);
     return false;
   }
 };

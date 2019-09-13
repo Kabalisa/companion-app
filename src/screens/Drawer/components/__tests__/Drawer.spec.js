@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { AsyncStorage } from 'react-native';
 import * as Google from 'expo-app-auth';
 import Drawer from '../../index';
 
@@ -43,20 +42,5 @@ describe('Drawer', () => {
     const instance = mountedComponent.instance();
     await instance.logoutUser();
     expect(props.navigation.navigate.mock.calls.length).toEqual(1);
-  });
-
-  it('call AsyncStorage.get in #componentDidMount', () => {
-    const instance = mountedComponent.instance();
-    instance.componentDidMount();
-    expect(AsyncStorage.getItem).toHaveBeenCalled();
-  });
-
-  it('call AsyncStorage to return a token in #componentDidMount', () => {
-    const instance = mountedComponent.instance();
-    instance.componentDidMount();
-    return AsyncStorage.getItem('token').then((token) => {
-      instance.componentDidMount();
-      expect(token).toEqual('ThisIsMyAuthenticationToken');
-    });
   });
 });

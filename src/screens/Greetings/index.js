@@ -3,13 +3,11 @@ import React, { Component } from 'react';
 import {
   Platform,
   SafeAreaView,
-  AsyncStorage,
   TouchableWithoutFeedback,
   View
 } from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { GiftedChat } from 'react-native-gifted-chat';
-import jwtDecode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
@@ -34,6 +32,7 @@ import {
 import { getCalendarData } from '../../store/calendar/actions';
 import { getUserEmail as getAttendeeEmail } from '../../utils/helpers';
 import BotProcessing from './components/BotProcessing';
+import { store } from '../../store';
 
 export class GreetingsScreen extends Component {
   listViewProps = {
@@ -48,16 +47,18 @@ export class GreetingsScreen extends Component {
     this.getAttendeeEmail = getAttendeeEmail.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { navigation: { setParams } = {}, fetchCalendar } = this.props;
     this.fetchCalendarData(fetchCalendar);
-    AsyncStorage.getItem('token').then((token) => {
-      const decoded = jwtDecode(token);
-      const { UserInfo: { picture, email, firstName } } = decoded;
-      setParams({ picture });
-      this.setState({
-        userAvatar: picture, email, firstName, token
-      });
+    const {
+      auth: {
+        currentUser: { email, picture, given_name: firstName },
+        token
+      }
+    } = store.getState();
+    setParams({ picture });
+    this.setState({
+      userAvatar: picture, email, firstName, token
     });
   }
 
@@ -244,7 +245,9 @@ GreetingsScreen.propTypes = {
 };
 
 GreetingsScreen.defaultProps = {
-  navigation: { setParams: () => { } },
+  navigation: {
+    setParams: () => {}
+  },
   messages: [{}],
   fetchCalendar: () => { },
   unpinAttendee: () => { },
@@ -258,9 +261,9 @@ GreetingsScreen.defaultProps = {
 export const mapStateToProps = state => ({
   isBotProcessing: state.messages.isBotProcessing,
   messages: state.messages.messages,
-  ...state.attendees
+  ...state.attendees,
+  currentUser: state.auth.currentUser
 });
-
 export const mapDispatchToProps = dispatch => ({
   fetchCalendar: () => dispatch(getCalendarData()),
   sendMessages: message => dispatch(sendToDialogFlowDisplay(message)),

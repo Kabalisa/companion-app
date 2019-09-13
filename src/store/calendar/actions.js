@@ -1,4 +1,3 @@
-import { AsyncStorage } from 'react-native';
 import { flattenDeep, uniqBy } from 'lodash';
 import {
   starOfMonth,
@@ -23,12 +22,15 @@ import {
 
 const today = new Date().toISOString().split('T')[0];
 
-export const fetchCalendars = async (email, date = today, colorIndex = 0) => {
-  const accessToken = await AsyncStorage.getItem('accessToken');
+export const fetchCalendars = async (
+  email,
+  date = today,
+  colorIndex = 0,
+  accessToken
+) => {
   const currentEmail = await currentUserEmail();
   const timeMin = starOfMonth(date);
   const timeMax = endOfMonth(date);
-
   return request(
     `${G_CALENDAR_EVENTS(email)}&timeMin=${timeMin}&timeMax=${timeMax}`,
     {
@@ -49,15 +51,17 @@ export const fetchCalendars = async (email, date = today, colorIndex = 0) => {
   });
 };
 
-export const getCalendarData = (...args) => async (dispatch) => {
+export const getCalendarData = (...args) => async (dispatch, getState) => {
   const [date = today, emails = []] = args;
+  const state = getState();
+  const { accessToken } = state.auth;
   dispatch({
     type: FETCHING_EVENTS
   });
   try {
     const allEmails = ['primary', ...emails];
     const allData = await Promise.all(
-      allEmails.map((user, index) => fetchCalendars(user, date, index))
+      allEmails.map((user, index) => fetchCalendars(user, date, index, accessToken))
     );
 
     const eventsData = flattenDeep(allData.map(datum => datum.items));

@@ -8,18 +8,20 @@ import { persistStore, persistReducer } from 'redux-persist';
 import messages from './messages';
 import calendar from './calendar/reducers';
 import attendees from './attendees/reducers';
+import auth from './login/reducers';
 
 export const rootReducer = combineReducers({
   [messages.stateKey]: messages.messageReducer,
   calendar,
-  attendees
+  attendees,
+  auth
 });
 
 const persistConfig = {
   key: 'root',
-  storage: AsyncStorage
+  storage: AsyncStorage,
+  whitelist: ['auth']
 };
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const middleWare = [thunk];

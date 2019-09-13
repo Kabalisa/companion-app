@@ -26,7 +26,6 @@ const props = {
   isBotProcessing: true
 };
 
-
 const wrapper = shallow(<GreetingsScreen {...props} />);
 const wrapperInstance = wrapper.instance();
 
@@ -39,7 +38,10 @@ describe('Greetings screen', () => {
     const text = { text: 'hello companion' };
     const message = ['hello companion'];
     expect(wrapperInstance._onSend(text)).toMatchSnapshot();
-    wrapper.find('GiftedChat').props().onSend(message);
+    wrapper
+      .find('GiftedChat')
+      .props()
+      .onSend(message);
   });
 
   test('should render the input toolbar correctly', () => {
@@ -94,7 +96,6 @@ describe('Greetings screen', () => {
   });
 });
 
-
 describe('Add attendees to a meeting', () => {
   test('should match snapshot', () => {
     expect(wrapper).toMatchSnapshot();
@@ -132,7 +133,10 @@ describe('test for dispatch actions', () => {
       error: {},
       text: '',
       pinnedAttendees: [],
-      isLoading: false
+      isLoading: false,
+      auth: {
+        currentUser: {}
+      }
     };
     expect(mapStateToProps(initialState).messages).toEqual([]);
   });

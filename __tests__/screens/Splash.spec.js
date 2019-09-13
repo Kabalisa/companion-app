@@ -2,7 +2,7 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { Asset } from 'expo-asset';
 import { shallow } from 'enzyme';
-import Home from '../../src/screens/Home';
+import { Home } from '../../src/screens/Home';
 import navProps from '../helpers/navigationProps';
 
 jest.mock('expo-font');
@@ -18,7 +18,8 @@ const props = {
   navigation: {
     ...navProps.navigation,
     navigate
-  }
+  },
+  loginSuccess: jest.fn()
 };
 const component = shallow(<Home {...props} />);
 let AppLoading = component.find(`[testId="app-loading"]`);
@@ -40,11 +41,9 @@ describe('<App />', () => {
   });
 
   test('should check auth', async () => {
-    jest.spyOn(AsyncStorage, 'getItem');
     AppLoading = await component.find(`[testId="app-loading"]`);
     await AppLoading.props().startAsync();
     expect(instance.bootstrapAsync).toBeCalled();
-    expect(AsyncStorage.getItem).toBeCalledWith('accessToken');
     expect(navigate).toBeCalledWith('Auth');
   });
 

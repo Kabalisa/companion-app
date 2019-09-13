@@ -1,43 +1,23 @@
 import React, { Component } from 'react';
-import { View, AsyncStorage } from 'react-native';
-import jwtDecode from 'jwt-decode';
+import { connect } from 'react-redux';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
+import { store } from '../../store';
 import ProfileComponent from './components/ProfileComponent';
 import LogoutButton from './components/LogoutButton';
 import { signOut } from '../../services/AuthService';
 import styles from './styles';
 
 export default class Drawer extends Component {
-  state = {
-    email: '',
-    lastName: '',
-    firstName: '',
-    picture: ''
-  };
-
-  componentDidMount() {
-    AsyncStorage.getItem('token').then((token) => {
-      const decoded = jwtDecode(token);
-      const {
-        UserInfo: {
-          email, lastName, firstName, picture
-        }
-      } = decoded;
-      this.setState({
-        email,
-        lastName,
-        firstName,
-        picture
-      });
-    });
-  }
-
   logoutUser = async () => {
     const {
       navigation: { navigate }
     } = this.props;
     try {
-      await signOut();
+      const {
+        auth: { accessToken }
+      } = store.getState();
+      await signOut(accessToken);
       navigate('Login');
     } catch (error) {
       navigate('Login');
@@ -46,8 +26,11 @@ export default class Drawer extends Component {
 
   render() {
     const {
-      email, lastName, firstName, picture
-    } = this.state;
+      auth: { currentUser }
+    } = store.getState();
+    const {
+      email, family_name: lastName, given_name: firstName, picture
+    } = currentUser;
     return (
       <View style={styles.drawerContainer}>
         <ProfileComponent
@@ -75,3 +58,5 @@ Drawer.defaultProps = {
     navigate: () => {}
   }
 };
+
+export const connectedDrawer = connect()(Drawer);

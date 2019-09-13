@@ -2,42 +2,38 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AsyncStorage } from 'react-native';
 import Toast from 'react-native-easy-toast';
+import { connect } from 'react-redux';
+
 import Login from './components/Login';
-import { getJwtToken, getAccessToken } from '../../services/AuthService';
+import loginAction from '../../store/login/actions';
 import styles from './components/styles';
 
-export default class LoginContainer extends Component {
+export class LoginContainer extends Component {
   constructor(props) {
     super(props);
     this.state = { authenticating: false };
     this.toast = null;
   }
 
-  signInWithGoogle = async () => {
-    const { authenticating } = this.state;
-    if (authenticating) return;
+  componentWillReceiveProps(nextProps) {
+    const {
+      auth: { error, isLoading }
+    } = nextProps;
     this.setState({
-      authenticating: true
+      authenticating: isLoading
     });
-    try {
-      const { accessToken, refreshToken, currentUser } = await getAccessToken();
-      const { token } = await getJwtToken(accessToken);
-      const user = await JSON.stringify(currentUser);
-      await AsyncStorage.multiSet(
-        [
-          ['accessToken', accessToken],
-          ['refreshToken', refreshToken],
-          ['token', token],
-          ['currentUser', user]
-        ],
-        this.handleNavigate
-      );
-    } catch (error) {
-      this.setState({ authenticating: false });
-      let { message } = error;
-      if (message.includes('cancel')) message = 'You cancelled the login process.';
-      this.toast.show(message, 5000);
+    if (!isLoading && error.message) {
+      this.handleError(error.message);
     }
+  }
+
+  signInWithGoogle = async () => {
+    const { loginAction: handleLogin } = this.props;
+    await handleLogin(this.handleNavigate);
+  };
+
+  handleError = (message) => {
+    this.toast.show(message, 5000);
   };
 
   handleNavigate = async () => {
@@ -45,13 +41,11 @@ export default class LoginContainer extends Component {
       navigation: { navigate }
     } = this.props;
     const onBoarded = await AsyncStorage.getItem('onBoard');
-    this.setState({ authenticating: false });
     navigate(onBoarded ? 'Main' : 'OnBoarding');
   };
 
   render() {
     const { authenticating, error } = this.state;
-
     return (
       <Login
         handleLoginPress={this.signInWithGoogle}
@@ -74,7 +68,22 @@ export default class LoginContainer extends Component {
 }
 
 LoginContainer.propTypes = {
-  navigation: PropTypes.shape({ navigate: PropTypes.func }).isRequired
+  navigation: PropTypes.shape({ navigate: PropTypes.func }).isRequired,
+  auth: PropTypes.shape({
+    isLoading: PropTypes.bool,
+    error: PropTypes.shape({
+      message: PropTypes.string
+    })
+  }).isRequired,
+  loginAction: PropTypes.func.isRequired
 };
 
 LoginContainer.defaultProps = {};
+
+const mapStateToProps = ({ auth }) => ({
+  auth
+});
+export const ConnectedLoginScreen = connect(
+  mapStateToProps,
+  { loginAction }
+)(LoginContainer);

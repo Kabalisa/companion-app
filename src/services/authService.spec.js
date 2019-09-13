@@ -82,8 +82,7 @@ describe('Authentication Service', () => {
     test('should sign out and revoke accessToken', async () => {
       jest.spyOn(AsyncStorage, 'getItem').mockImplementation(() => accessToken);
       jest.spyOn(Google, 'revokeAsync').mockImplementation(() => true);
-      await AuthService.signOut();
-      expect(AsyncStorage.getItem).toBeCalledWith('accessToken');
+      await AuthService.signOut(accessToken);
       expect(Google.revokeAsync).toBeCalledWith(AuthService.googleConfig, {
         isClientIdProvided: true,
         token: accessToken
@@ -96,7 +95,7 @@ describe('Authentication Service', () => {
         throw new Error('Invalid token');
       });
       try {
-        await AuthService.signOut();
+        await AuthService.signOut(accessToken);
       } catch (error) {
         expect(error.message).toEqual('Invalid token');
       }
@@ -109,27 +108,25 @@ describe('Authentication Service', () => {
         throw err;
       });
       try {
-        await AuthService.signOut();
+        await AuthService.signOut(accessToken);
       } catch (error) {
         expect(error.message).toEqual('Sign out failed');
       }
     });
 
     test('should refresh token succeed', async () => {
-      jest.spyOn(AsyncStorage, 'getItem').mockImplementation(() => {
-        const res = refreshToken;
-        return res;
-      });
-      jest.spyOn(AsyncStorage, 'multiSet');
+      global.fetch = jest.fn().mockImplementation(() => ({
+        json: () => Promise.resolve({ token }),
+        ok: true,
+        status: 200
+      }));
       jest
         .spyOn(Google, 'refreshAsync')
         .mockImplementation(() => ({ accessToken, refreshToken }));
-      const isAuthenticated = await AuthService.refreshAuth();
-      expect(AsyncStorage.getItem).toBeCalledWith('refreshToken');
-      expect(AsyncStorage.multiSet).toBeCalledWith([
-        ['refreshToken', refreshToken],
-        ['accessToken', accessToken]
-      ]);
+      const isAuthenticated = await AuthService.refreshAuth(
+        refreshToken,
+        accessToken
+      );
       expect(isAuthenticated).toBeTruthy();
     });
   });

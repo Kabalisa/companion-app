@@ -15,18 +15,30 @@ const today = new Date().toISOString().split('T')[0];
 
 describe('Test calendar actions', () => {
   beforeEach(() => {
-    store = mockStore({});
+    store = mockStore({
+      auth: {
+        accessToken: 'some-access-token'
+      }
+    });
   });
-  it('should do test getCalendarData action success ', async () => {
-    store = mockStore({});
+  it('should do test getCalendarData action success ', () => {
+    store = mockStore({
+      auth: {
+        accessToken: 'some-access-token'
+      }
+    });
 
     return store.dispatch(getCalendarData()).then(() => {
       expect(store.getActions().length).toBeLessThanOrEqual(2);
     });
   });
 
-  it('should do test getCalendarData action success ', async () => {
-    store = mockStore({});
+  it('should do test getCalendarData action success ', () => {
+    store = mockStore({
+      auth: {
+        accessToken: 'some-access-token'
+      }
+    });
     jest.mock('react-native', () => ({
       AsyncStorage: {
         getItem: jest.fn(() => new Promise(resolve => resolve(null)))
@@ -40,7 +52,11 @@ describe('Test calendar actions', () => {
   });
 
   it('should do test getCalendarData action success ', async () => {
-    store = mockStore({});
+    store = mockStore({
+      auth: {
+        accessToken: 'some-access-token'
+      }
+    });
     const item = {
       username: 'caleb',
       email: 'caleb@email.com',

@@ -8,7 +8,7 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import { Constants } from 'expo';
 import { ConnectedGreetingsScreen } from '../screens/Greetings';
-import Login from '../screens/Login';
+import { ConnectedLoginScreen } from '../screens/Login';
 import DrawerScreen from '../screens/Drawer';
 import OnBoarding from '../screens/OnBoarding';
 import Loading from '../screens/Home';
@@ -65,7 +65,7 @@ const Drawer = createDrawerNavigator(
 
 const Auth = createStackNavigator(
   {
-    Login,
+    Login: ConnectedLoginScreen,
     OnBoarding
   },
   {

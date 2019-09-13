@@ -2,7 +2,7 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import * as Google from 'expo-app-auth';
 import { shallow } from 'enzyme';
-import LoginContainer from './index';
+import { LoginContainer } from './index';
 import navigationProps from '../../../__tests__/helpers/navigationProps';
 
 jest.useFakeTimers();
@@ -12,7 +12,8 @@ const accessToken = 'converge673companion25appa-kjahdfkjah-akjdfhakjfh';
 const props = {
   navigation: {
     ...navigationProps.navigation
-  }
+  },
+  loginAction: jest.fn()
 };
 
 const componentWrapper = shallow(<LoginContainer {...props} />);
@@ -54,41 +55,24 @@ describe('Login Container', () => {
   });
 
   test('should respond to Google auth button onPress', async () => {
-    Google.authAsync = jest.fn().mockImplementationOnce(() => ({
-      type: 'success',
-      accessToken,
-      status: 200,
-      refreshToken: accessToken
-    }));
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve({ token: accessToken }),
-      ok: true,
-      status: 200
-    }));
     jest.spyOn(instance, 'signInWithGoogle');
     instance.forceUpdate();
     expect(instance.state.authenticating).toBe(false);
     await componentWrapper.props().handleLoginPress();
     expect(instance.signInWithGoogle).toHaveBeenCalled();
-    expect(AsyncStorage.multiSet).toHaveBeenCalled();
-    expect(navigationProps.navigation.navigate).toBeCalled();
+    expect(props.loginAction).toBeCalled();
   });
 
-  test('should respond to Google auth button onPress', async () => {
-    Google.authAsync = jest.fn().mockImplementationOnce(() => ({
-      type: 'success',
-      accessToken
-    }));
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve({
-        error: 'Please make sure to use a valid Andela email'
-      }),
-      ok: false,
-      status: 401
-    }));
+  test('should respond to Google auth error', async () => {
+    componentWrapper.setProps({
+      auth: {
+        error: {
+          message: 'Please make sure to use a valid Andela email'
+        },
+        isLoading: false
+      }
+    });
 
-    expect(instance.state.authenticating).toBe(false);
-    await componentWrapper.props().handleLoginPress();
     expect(show).toBeCalledWith(
       'Please make sure to use a valid Andela email',
       5000

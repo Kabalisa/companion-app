@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import jwtDecode from 'jwt-decode';
 import UserAvatar from './Avatar';
 import MenuOptions from './MenuOptions';
 import ViewText from './ViewText';
+import { store } from '../../../store';
 import styles from './styles';
 
 export default class GreetingsMessage extends Component {
@@ -14,14 +14,12 @@ export default class GreetingsMessage extends Component {
 
   componentDidMount = async () => {
     const message = 'Welcome to the Converge Companion'
-    + 'App. What would you like to do?';
-    const token = await AsyncStorage.getItem('token');
-    const decoded = await jwtDecode(token);
+      + 'App. What would you like to do?';
     const {
-      UserInfo: { firstName }
-    } = decoded;
+      auth: { currentUser }
+    } = store.getState();
     const text = {
-      title: `Hi ${firstName}, ${message}`
+      title: `Hi ${currentUser.given_name}, ${message}`
     };
 
     this.setState({ text });
@@ -59,5 +57,5 @@ GreetingsMessage.defaultProps = {
   currentMessage: {
     text: ''
   },
-  onPress: () => {}
+  onPress: () => { }
 };
