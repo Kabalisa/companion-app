@@ -1,7 +1,6 @@
 import { Dialogflow_V2 as DialogFlow } from 'react-native-dialogflow-text';
-import config from '../../config';
-
-const { CLIENT_EMAIL, PRIVATE_KEY, PROJECT_ID } = config;
+import { CLIENT_EMAIL, PRIVATE_KEY, PROJECT_ID } from 'react-native-dotenv';
+import moment from 'moment-timezone';
 
 const DEFAULT_BASE_URL = 'https://dialogflow.googleapis.com/v2/projects/';
 DialogFlow.setConfiguration(
@@ -35,6 +34,7 @@ DialogFlow.requestQueryPayload = async (
         DialogFlow.permanentContexts
       ),
       sessionEntityTypes: [],
+      timeZone: moment.tz.guess(true),
       payload
     },
     queryInput: {
