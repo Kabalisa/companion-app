@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import moment from 'moment';
 import uuid from 'uuid/v4';
 import {
@@ -8,7 +9,7 @@ import { AsyncStorage, NetInfo } from 'react-native';
 import settings from '../constants/calendarSettings';
 import companionAppLogo from
   '../screens/Greetings/components/icons/companion-logo.png';
-import { messageConstants } from './constants';
+import { messageConstants, roomDirections, inviteAttendees } from './constants';
 
 const BOT_USER = { _id: 2, name: 'SmartBot', avatar: companionAppLogo };
 
@@ -255,4 +256,35 @@ export const handleConnectionChangeTest = (
     instance.handleConnectionChange(true);
     expect(instance.state.isConnected).toBeTruthy();
   });
+};
+
+export const handleHints = (botMessage) => {
+  let appendedBotMessage = {};
+  const msg = botMessage[0].text;
+
+  appendedBotMessage = msg.search('date') !== -1 ? {
+    ...botMessage[0],
+    text: `${msg} \n ie: 12 dec, 2019`
+  } : msg.search('time') !== -1 ? {
+    ...botMessage[0],
+    text: `${msg} \n ie: 2PM`
+  } : msg.search('title') !== -1 ? {
+    ...botMessage[0],
+    text: `${msg} \n ie: Andela-All meeting`
+  } : msg.search('agenda') !== -1 ? {
+    ...botMessage[0],
+    text: `${msg} \n ie: 
+     \n -topic 1 to discuss
+     \n -topic 2 to discuss 
+     \n -topic 3 to discuss`
+  } : msg === roomDirections.prompt1 || msg === roomDirections.prompt2
+  || msg === roomDirections.prompt3 || msg === roomDirections.prompt4 ? {
+      ...botMessage[0],
+      text: `${msg} \n ie: room-name`
+    } : msg === inviteAttendees.prompt1 || msg === inviteAttendees.prompt2 ? {
+      ...botMessage[0],
+      text: `${msg} \n ie: yes, yep that's ok, etc. OR no, nah I'm good, etc.`
+    } : botMessage[0];
+
+  return [appendedBotMessage];
 };

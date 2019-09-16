@@ -2,6 +2,7 @@ import companionAppLogo from '../../assets/icons/companion-logo.png';
 
 export default {
   isBotProcessing: false,
+  isHintActivated: true,
   messages: [
     {
       _id: 1,

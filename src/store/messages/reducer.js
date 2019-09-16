@@ -1,7 +1,8 @@
 import {
   DISPLAY_MESSAGE,
   SEND_DIALOGFLOW_REQUEST,
-  RESPONSE_DIALOGFLOW_FAILURE
+  RESPONSE_DIALOGFLOW_FAILURE,
+  HINT_ACTIVATION
 } from './actionTypes';
 import initialState from './state';
 
@@ -23,6 +24,11 @@ export default (state = initialState, actions) => {
       return {
         ...state,
         isBotProcessing: false
+      };
+    case HINT_ACTIVATION:
+      return {
+        ...state,
+        isHintActivated: !state.isHintActivated
       };
     default:
       return state;

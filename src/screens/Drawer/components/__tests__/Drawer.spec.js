@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import * as Google from 'expo-app-auth';
-import Drawer from '../../index';
+import { Drawer } from '../../index';
 
 jest.mock('jwt-decode');
 
@@ -42,5 +42,9 @@ describe('Drawer', () => {
     const instance = mountedComponent.instance();
     await instance.logoutUser();
     expect(props.navigation.navigate.mock.calls.length).toEqual(1);
+  });
+  it('calls the toogleSwitch function', () => {
+    const instance = mountedComponent.instance();
+    instance.toogleSwitch();
   });
 });

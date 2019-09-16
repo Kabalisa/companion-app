@@ -6,9 +6,11 @@ import { store } from '../../store';
 import ProfileComponent from './components/ProfileComponent';
 import LogoutButton from './components/LogoutButton';
 import { signOut } from '../../services/AuthService';
+import ToogleComponent from './components/ToogleComponent';
 import styles from './styles';
+import { hintActivation } from '../../store/messages/actions';
 
-export default class Drawer extends Component {
+export class Drawer extends Component {
   logoutUser = async () => {
     const {
       navigation: { navigate }
@@ -24,7 +26,13 @@ export default class Drawer extends Component {
     }
   };
 
+  toogleSwitch = () => {
+    const { hintActivate } = this.props;
+    hintActivate();
+  };
+
   render() {
+    const { isHintActivated } = this.props;
     const {
       auth: { currentUser }
     } = store.getState();
@@ -41,6 +49,10 @@ export default class Drawer extends Component {
             picture
           }}
         />
+        <ToogleComponent
+          toogleSwitch={this.toogleSwitch}
+          switchValue={isHintActivated}
+        />
         <LogoutButton onPress={this.logoutUser} />
       </View>
     );
@@ -50,13 +62,28 @@ export default class Drawer extends Component {
 Drawer.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func
-  })
+  }),
+  isHintActivated: PropTypes.bool,
+  hintActivate: PropTypes.func
 };
 
 Drawer.defaultProps = {
   navigation: {
     navigate: () => {}
-  }
+  },
+  isHintActivated: true,
+  hintActivate: () => {}
 };
 
-export const connectedDrawer = connect()(Drawer);
+export const mapStateToProps = state => ({
+  isHintActivated: state.messages.isHintActivated
+});
+
+export const mapDispatchToProps = dispatch => ({
+  hintActivate: () => dispatch(hintActivation())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Drawer);

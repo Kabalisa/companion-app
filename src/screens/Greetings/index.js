@@ -66,7 +66,7 @@ export class GreetingsScreen extends Component {
     const today = new Date().toLocaleDateString();
     const todayFormated = today.split('/').join('-');
     fetchCalendar(todayFormated, []);
-  }
+  };
 
   openAddAttendeesModal = () => {
     this.setState(state => ({ isModalVisible: !state.isModalVisible }));
@@ -83,16 +83,19 @@ export class GreetingsScreen extends Component {
     }
   };
 
-  _onSend = (message) => {
+  _onSend = (message, isHintActivated) => {
     const { sendMessages } = this.props;
     const { email, token } = this.state;
 
     const messageWithEmail = {
-      ...message, email, token, type: 'user'
+      ...message,
+      email,
+      token,
+      type: 'user'
     };
 
-    sendMessages(messageWithEmail);
-  }
+    sendMessages(messageWithEmail, isHintActivated);
+  };
 
   renderInputToolbar = props => <InputToolbar {...props} />;
 
@@ -118,7 +121,9 @@ export class GreetingsScreen extends Component {
     const { sendEvents, pinnedAttendees } = this.props;
     const attendees = pinnedAttendees;
     const attendeeWithEmail = {
-      attendees, email, type: 'user'
+      attendees,
+      email,
+      type: 'user'
     };
     sendEvents(attendeeWithEmail);
     this.openAddAttendeesModal();
@@ -131,7 +136,7 @@ export class GreetingsScreen extends Component {
   };
 
   renderMessage = (props) => {
-    const { sendHiddenMessage } = this.props;
+    const { sendHiddenMessage, isHintActivated } = this.props;
     const {
       userAvatar, firstName, token, email
     } = this.state;
@@ -161,7 +166,8 @@ export class GreetingsScreen extends Component {
           text,
           createdAt: new Date(),
           user: { _id: 1, name: firstName, avatar: userAvatar }
-        })
+        },
+        isHintActivated)
         }
         action={{
           openAttendeesModal: this.openAddAttendeesModal,
@@ -182,13 +188,13 @@ export class GreetingsScreen extends Component {
 
 
   giftedChatProps = () => {
-    const { messages } = this.props;
+    const { messages, isHintActivated } = this.props;
     const { userAvatar, firstName } = this.state;
 
     return {
       testID: 'GiftedChat',
       messages,
-      onSend: message => this._onSend(message[0]),
+      onSend: message => this._onSend(message[0], isHintActivated),
       renderMessage: this.renderMessage,
       renderInputToolbar: this.renderInputToolbar,
       renderSend: this.renderSend,
@@ -241,7 +247,8 @@ GreetingsScreen.propTypes = {
   sendMessages: PropTypes.func,
   sendEvents: PropTypes.func,
   isBotProcessing: PropTypes.bool,
-  sendHiddenMessage: PropTypes.func
+  sendHiddenMessage: PropTypes.func,
+  isHintActivated: PropTypes.bool
 };
 
 GreetingsScreen.defaultProps = {
@@ -256,17 +263,21 @@ GreetingsScreen.defaultProps = {
   sendHiddenMessage: () => { },
   sendEvents: () => { },
   pinnedAttendees: [{}],
-  isBotProcessing: false
+  isBotProcessing: false,
+  isHintActivated: true
 };
 export const mapStateToProps = state => ({
   isBotProcessing: state.messages.isBotProcessing,
+  isHintActivated: state.messages.isHintActivated,
   messages: state.messages.messages,
   ...state.attendees,
   currentUser: state.auth.currentUser
 });
 export const mapDispatchToProps = dispatch => ({
   fetchCalendar: () => dispatch(getCalendarData()),
-  sendMessages: message => dispatch(sendToDialogFlowDisplay(message)),
+  sendMessages: (message, isHintActivated) => dispatch(
+    sendToDialogFlowDisplay(message, isHintActivated)
+  ),
   sendHiddenMessage: message => dispatch(sendToDialogFlow(message)),
   pinAttendees: item => dispatch(pinAttendeesAction(item)),
   unpinAttendee: item => dispatch(unpinAttendeeAction(item.email)),

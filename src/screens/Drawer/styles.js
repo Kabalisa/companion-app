@@ -42,6 +42,15 @@ const styles = StyleSheet.create({
     color: 'rgb(200, 73, 104)',
     letterSpacing: 1.8,
     fontFamily: 'DINPro'
+  },
+  toogleContainer: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  toogleButtonText: {
+    color: 'rgb(57, 75, 89)',
+    fontFamily: 'DINPro',
+    marginBottom: 5
   }
 });
 

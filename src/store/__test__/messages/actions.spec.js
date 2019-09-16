@@ -17,6 +17,12 @@ describe('actions', () => {
     };
     expect(actions.displayMessage(message)).toEqual(expectedAction);
   });
+  it('should create an action for hint activation', () => {
+    const expectedAction = {
+      type: types.HINT_ACTIVATION
+    };
+    expect(actions.hintActivation()).toEqual(expectedAction);
+  });
 });
 
 

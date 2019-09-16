@@ -7,7 +7,8 @@ import {
   formatCalendarData,
   markDayEvents,
   getSelectedDayEvents,
-  getCurrentTime
+  getCurrentTime,
+  handleHints
 } from '../helpers';
 import calendarDate from '../../../__tests__/mock/calendar.json';
 import settings from '../../constants/calendarSettings';
@@ -102,5 +103,66 @@ describe('Helper Functions', () => {
       getMinutes: () => 0
     }));
     expect(getCurrentTime()).toEqual(17.0);
+  });
+  test('should add hints to date responses', () => {
+    const botMessage = [
+      {
+        text: 'specify the meeting date'
+      }
+    ];
+    const hintedResponce = handleHints(botMessage);
+    expect(hintedResponce[0].text).toEqual(
+      'specify the meeting date \n ie: 12 dec, 2019'
+    );
+  });
+  test('should add hints to time responses', () => {
+    const botMessage = [
+      {
+        text: 'at which time should this event be?'
+      }
+    ];
+    const hintedResponce = handleHints(botMessage);
+    expect(hintedResponce[0].text).toEqual(
+      'at which time should this event be? \n ie: 2PM'
+    );
+  });
+  test('should add hints to title responses', () => {
+    const botMessage = [
+      {
+        text: 'Enter in the meeting title'
+      }
+    ];
+    const hintedResponce = handleHints(botMessage);
+    expect(hintedResponce[0].text).toEqual(
+      'Enter in the meeting title \n ie: Andela-All meeting'
+    );
+  });
+  test('should add hints to agenda responses', () => {
+    const botMessage = [
+      {
+        text:
+          'I think it may help the attendees if you specified the meeting agenda.'
+      }
+    ];
+    handleHints(botMessage);
+  });
+  test('should add hints to directions responses', () => {
+    const botMessage = [
+      {
+        text: 'What room would you like directions to?'
+      }
+    ];
+    const hintedResponce = handleHints(botMessage);
+    expect(hintedResponce[0].text).toEqual(
+      'What room would you like directions to? \n ie: room-name'
+    );
+  });
+  test('should add hints to attendees responses', () => {
+    const botMessage = [
+      {
+        text: 'Who are you inviting?'
+      }
+    ];
+    handleHints(botMessage);
   });
 });

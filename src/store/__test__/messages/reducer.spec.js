@@ -17,6 +17,11 @@ describe('Message Reducer', () => {
     const newState = messageReducer(initialState, action);
     expect(newState.messages[0]).toEqual(messageObject);
   });
+  it('should activate or deactivate hints', () => {
+    const action = actions.hintActivation();
+    const newState = messageReducer(initialState, action);
+    expect(newState.isHintActivated).toEqual(false);
+  });
   it('Should Mock Dialogflow Request', () => {
     const isBotProcessing = true;
     const action = actions.dialogFlowRequest();

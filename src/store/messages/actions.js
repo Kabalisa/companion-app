@@ -1,4 +1,8 @@
-import { handleGoogleResponse, getAccessToken } from '../../utils/helpers';
+import {
+  handleGoogleResponse,
+  getAccessToken,
+  handleHints
+} from '../../utils/helpers';
 import * as types from './actionTypes';
 import DialogFlow from '../../DialogFlow';
 import { resetAttendeeAction } from '../attendees/action';
@@ -19,14 +23,25 @@ export const responseDialogFlowSuccess = () => ({
 export const responseDialogFlowFailure = () => ({
   type: types.RESPONSE_DIALOGFLOW_FAILURE
 });
+export const hintActivation = () => ({
+  type: types.HINT_ACTIVATION
+});
 
-export const successDisplay = response => async (dispatch) => {
+export const successDisplay = (response, isHintActivated) => async (dispatch) => {
   const botMessage = handleGoogleResponse(response);
+  if (!isHintActivated) {
+    return [
+      dispatch(responseDialogFlowSuccess()),
+      dispatch(displayMessage(botMessage))
+    ];
+  }
+  const appendedBotMessage = handleHints(botMessage);
   return [
     dispatch(responseDialogFlowSuccess()),
-    dispatch(displayMessage(botMessage))
+    dispatch(displayMessage(appendedBotMessage))
   ];
 };
+
 export const sendEventToDialogFlow = attendeesWithPayload => async (dispatch) => {
   const {
     attendees, email
@@ -51,7 +66,7 @@ export const sendEventToDialogFlow = attendeesWithPayload => async (dispatch) =>
   }
 };
 
-export const sendToDialogFlow = message => async (dispatch) => {
+export const sendToDialogFlow = (message, isHintActivated) => async (dispatch) => {
   try {
     dispatch(dialogFlowRequest());
     const {
@@ -62,14 +77,15 @@ export const sendToDialogFlow = message => async (dispatch) => {
       email, token, accessToken
     };
     DialogFlow.requestQueryPayload(text, payload, (response) => {
-      dispatch(successDisplay(response));
+      dispatch(successDisplay(response, isHintActivated));
     });
   } catch (error) {
     dispatch(responseDialogFlowFailure());
   }
 };
 
-export const sendToDialogFlowDisplay = message => async dispatch => [
+export const sendToDialogFlowDisplay = (message,
+  isHintActivated) => async dispatch => [
   dispatch(displayMessage([message])),
-  dispatch(sendToDialogFlow(message))
+  dispatch(sendToDialogFlow(message, isHintActivated))
 ];
